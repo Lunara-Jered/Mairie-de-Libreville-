@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mairie Libreville - Portail Citoyen Mobile</title>
+    <meta name="description" content="Portail citoyen mobile de la Mairie de Libreville - Services municipaux en ligne">
+    <meta name="theme-color" content="#0a3d62">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <!-- External Resources -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="theme-transition">
+    <!-- Header mobile avec hero intégré -->
+    <header class="mobile-header">
+        <div class="header-top-mobile">
+            <div class="header-top-content">
+                <div class="emergency-mobile">
+                    <div class="emergency-item" onclick="callEmergency('police')">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Police: 1300</span>
+                    </div>
+                    <div class="emergency-item" onclick="callEmergency('pompiers')">
+                        <i class="fas fa-fire-extinguisher"></i>
+                        <span>Pompiers: 18</span>
+                    </div>
+                    <div class="emergency-item" onclick="callEmergency('hopital')">
+                        <i class="fas fa-ambulance"></i>
+                        <span>Hôpital: 15</span>
+                    </div>
+                    <div class="emergency-item">
+                        <i class="fas fa-clock"></i>
+                        <span>Lun-Ven: 8h-17h</span>
+                    </div>
+                </div>
+                <div style="display: flex; gap: var(--space-sm);">
+                    <button class="theme-toggle" id="themeToggle" aria-label="Changer le thème">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <button class="theme-toggle" id="contrastToggle" aria-label="Mode haut contraste" style="font-size: var(--text-sm);">
+                        <i class="fas fa-adjust"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="header-main-mobile">
+            <div class="header-row">
+                <a href="#accueil" class="logo-mobile">
+                    <div class="logo-icon-mobile">VL</div>
+                    <div class="logo-text-mobile">
+                        <h1>Mairie Libreville</h1>
+                        <span>Portail Citoyen Mobile</span>
+                    </div>
+                </a>
+                
+                <button class="menu-toggle" id="menuToggle" aria-label="Ouvrir le menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+            
+            <div class="header-hero">
+                <h2 class="hero-title" id="personalizedGreeting">Libreville au service de ses citoyens</h2>
+                <p class="hero-subtitle" id="personalizedSubtitle">Services municipaux accessibles 24h/24</p>
+                <div class="search-container">
+                    <input type="text" class="search-input" id="globalSearch" placeholder="Rechercher un service, une actualité...">
+                </div>
+                <div class="hero-actions">
+                    <button class="btn btn-white btn-small" id="quickDemarche">
+                        <i class="fas fa-bolt"></i>
+                        <span>Démarche rapide</span>
+                    </button>
+                    <button class="btn btn-outline btn-small" style="color: white; border-color: white;" id="contactHero">
+                        <i class="fas fa-phone"></i>
+                        <span>Nous contacter</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation drawer -->
+    <div class="mobile-nav" id="mobileNav">
+        <div class="nav-header">
+            <div class="nav-title">Menu Principal</div>
+            <button class="close-nav" id="closeNav" aria-label="Fermer le menu">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="nav-user">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="user-details">
+                    <h3 id="navUserName">Citoyen Libreville</h3>
+                    <p id="navUserStatus">Connectez-vous pour vos démarches</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="nav-menu" id="navMenu">
+            <div class="nav-item">
+                <a href="#accueil" class="nav-link active" data-page="accueil">
+                    <i class="fas fa-home"></i>
+                    <span>Accueil</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="#demarches" class="nav-link" data-page="demarches">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Démarches en ligne</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="#espace" class="nav-link" data-page="espace">
+                    <i class="fas fa-user"></i>
+                    <span>Mon Espace</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="#actualites" class="nav-link" data-page="actualites">
+                    <i class="fas fa-newspaper"></i>
+                    <span>Actualités</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="#urgences" class="nav-link" data-page="urgences">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>Urgences</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="#mairie" class="nav-link" data-page="mairie">
+                    <i class="fas fa-landmark"></i>
+                    <span>La Mairie</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="#contact" class="nav-link" data-page="contact">
+                    <i class="fas fa-phone"></i>
+                    <span>Contact & Aide</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="#chat" class="nav-link" data-page="chat">
+                    <i class="fas fa-comments"></i>
+                    <span>Chat avec l'agent</span>
+                </a>
+            </div>
+        </div>
+        
+        <div class="nav-footer" style="padding: var(--space-md); border-top: 1px solid var(--border-color);">
+            <button class="btn btn-outline btn-small" id="navUrgence">
+                <i class="fas fa-exclamation-triangle"></i>
+                <span>Urgence Municipale</span>
+            </button>
+        </div>
+    </div>
+    
+    <div class="nav-overlay" id="navOverlay"></div>
+
+    <!-- Contenu principal -->
+    <main class="main-content">
+        <!-- Page d'accueil -->
+        <section id="accueil" class="page active">
+            <!-- Services rapides -->
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Services populaires</h2>
+                    <a href="#demarches" class="section-link" data-page="demarches">
+                        <span>Tout voir</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                
+                <div class="services-grid">
+                    <div class="service-card service-bg-naissance" data-demarche="naissance">
+                        <div class="service-icon">
+                            <i class="fas fa-baby"></i>
+                        </div>
+                        <h3 class="service-title">Acte de naissance</h3>
+                        <p class="service-desc">Demande en ligne</p>
+                        <span class="badge badge-success" style="background: rgba(255,255,255,0.2); color: white;">Rapide</span>
+                    </div>
+                    
+                    <div class="service-card service-bg-mariage" data-demarche="mariage">
+                        <div class="service-icon">
+                            <i class="fas fa-ring"></i>
+                        </div>
+                        <h3 class="service-title">Acte de mariage</h3>
+                        <p class="service-desc">Extrait en ligne</p>
+                        <span class="badge badge-success" style="background: rgba(255,255,255,0.2); color: white;">Rapide</span>
+                    </div>
+                    
+                    <div class="service-card service-bg-cni" data-demarche="cni">
+                        <div class="service-icon">
+                            <i class="fas fa-id-card"></i>
+                        </div>
+                        <h3 class="service-title">Carte d'identité</h3>
+                        <p class="service-desc">Renouvellement</p>
+                        <span class="badge badge-warning" style="background: rgba(255,255,255,0.2); color: white;">15 jours</span>
+                    </div>
+                    
+                    <div class="service-card service-bg-domicile" data-demarche="domicile">
+                        <div class="service-icon">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <h3 class="service-title">Attestation domicile</h3>
+                        <p class="service-desc">Justificatif de résidence</p>
+                        <span class="badge badge-success" style="background: rgba(255,255,255,0.2); color: white;">24h</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actualités carousel -->
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Actualités</h2>
+                    <a href="#actualites" class="section-link" data-page="actualites">
+                        <span>Toutes</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                
+                <div class="carousel-container" id="newsCarousel">
+                    <div class="carousel-track" id="carouselTrack">
+                        <!-- Les slides seront ajoutées dynamiquement -->
+                    </div>
+                    <div class="carousel-indicators" id="carouselIndicators">
+                        <!-- Les indicateurs seront ajoutés dynamiquement -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alertes importantes -->
+            <div class="section">
+                <div class="card" style="border-left: 4px solid var(--warning-yellow);">
+                    <div style="display: flex; align-items: center; gap: var(--space-md); margin-bottom: var(--space-md);">
+                        <div style="width: 48px; height: 48px; background: var(--warning-yellow); border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; color: white; font-size: var(--text-lg);">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div>
+                            <h3 style="font-weight: 600; margin-bottom: var(--space-xs);">Alerte travaux</h3>
+                            <p style="color: var(--text-secondary); font-size: var(--text-sm);">Centre-ville jusqu'au 30 juin</p>
+                        </div>
+                    </div>
+                    <p style="margin-bottom: var(--space-md);">Réaménagement de la Place de l'Indépendance. Circulation modifiée.</p>
+                    <button class="btn btn-outline btn-small">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Plus d'informations</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Connexion rapide -->
+            <div class="section">
+                <div class="card" style="background: var(--gradient-primary); color: white;">
+                    <div style="text-align: center; padding: var(--space-md);">
+                        <div style="width: 64px; height: 64px; background: rgba(255,255,255,0.2); border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; font-size: var(--text-2xl); margin: 0 auto var(--space-md);">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <h3 style="margin-bottom: var(--space-sm);">Accédez à votre espace</h3>
+                        <p style="opacity: 0.9; margin-bottom: var(--space-lg);">Suivez vos démarches en temps réel</p>
+                        <button class="btn btn-white" id="mobileLogin">
+                            <i class="fas fa-sign-in-alt"></i>
+                            <span>Se connecter</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page Démarches -->
+        <section id="demarches" class="page">
+            <div class="section">
+                <h2 class="section-title" style="padding:  var(--space-md); margin-bottom: var(--space-lg);">Démarches en ligne</h2>
+                
+                <!-- Onglets -->
+                <div class="tabs" id="demarcheTabs">
+                    <button class="tab active" data-category="all">Toutes</button>
+                    <button class="tab" data-category="etat-civil">État civil</button>
+                    <button class="tab" data-category="urbanisme">Urbanisme</button>
+                    <button class="tab" data-category="divers">Divers</button>
+                </div>
+                
+                <!-- Liste des démarches -->
+                <div class="demarche-list" id="demarcheList">
+                    <!-- Les démarches seront chargées dynamiquement -->
+                </div>
+                
+                <!-- Aide -->
+                <div class="card" style="margin: var(--space-lg) var(--space-md); background: var(--light-bg);">
+                    <div style="display: flex; align-items: center; gap: var(--space-md); margin-bottom: var(--space-md);">
+                        <div style="width: 48px; height: 48px; background: var(--primary-blue); border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; color: white; font-size: var(--text-lg);">
+                            <i class="fas fa-question-circle"></i>
+                        </div>
+                        <div>
+                            <h3 style="font-weight: 600; margin-bottom: var(--space-xs);">Besoin d'aide ?</h3>
+                            <p style="color: var(--text-secondary); font-size: var(--text-sm);">Nous sommes là pour vous</p>
+                        </div>
+                    </div>
+                    <button class="btn btn-outline" onclick="showPage('chat'); updateActiveNav('chat');">
+                        <i class="fas fa-comments"></i>
+                        <span>Contacter le support</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page Mon Espace -->
+        <section id="espace" class="page">
+            <div class="container">
+                <!-- État non connecté -->
+                <div id="loginSection">
+                    <div style="padding: var(--space-xl) 0;">
+                        <div class="card">
+                            <div style="text-align: center; margin-bottom: var(--space-xl);">
+                                <div style="width: 80px; height: 80px; background: var(--gradient-primary); border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; color: white; font-size: var(--text-2xl); margin: 0 auto var(--space-lg);">
+                                    <i class="fas fa-user-circle"></i>
+                                </div>
+                                <h2 style="font-size: var(--text-xl); font-weight: 700; margin-bottom: var(--space-sm);">Mon Espace Citoyen</h2>
+                                <p style="color: var(--text-secondary);">Connectez-vous pour gérer vos démarches</p>
+                            </div>
+                            
+                            <form id="loginForm">
+                                <div class="form-group">
+                                    <label>Email ou téléphone</label>
+                                    <input type="text" placeholder="votre@email.com" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Mot de passe</label>
+                                    <input type="password" placeholder="Votre mot de passe" required>
+                                    <div style="text-align: right; margin-top: var(--space-xs);">
+                                        <a href="#" style="font-size: var(--text-sm); color: var(--primary-blue);">Mot de passe oublié ?</a>
+                                    </div>
+                                </div>
+                                
+                                <div style="margin-bottom: var(--space-lg);">
+                                    <label style="display: flex; align-items: center; gap: var(--space-sm);">
+                                        <input type="checkbox">
+                                        <span>Se souvenir de moi</span>
+                                    </label>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-sign-in-alt"></i>
+                                    <span>Se connecter</span>
+                                </button>
+                            </form>
+                            
+                            <div style="text-align: center; margin-top: var(--space-xl); padding-top: var(--space-lg); border-top: 1px solid var(--border-color);">
+                                <p style="margin-bottom: var(--space-md); color: var(--text-secondary);">Pas encore de compte ?</p>
+                                <button class="btn btn-outline" id="showRegister">
+                                    <i class="fas fa-user-plus"></i>
+                                    <span>Créer un compte citoyen</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tableau de bord connecté -->
+                <div id="dashboardSection" style="display: none;">
+                    <!-- En-tête profil -->
+                    <div style="background: var(--gradient-primary); padding: var(--space-xl) var(--space-md); color: white; border-radius: var(--radius-md); margin-bottom: var(--space-lg);">
+                        <div style="display: flex; align-items: center; gap: var(--space-md); margin-bottom: var(--space-lg);">
+                            <div style="width: 64px; height: 64px; background: rgba(255,255,255,0.2); border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; font-size: var(--text-2xl);">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div>
+                                <h2 id="userName" style="font-size: var(--text-xl); margin-bottom: var(--space-xs);">Jean Librevillois</h2>
+                                <p style="opacity: 0.9; font-size: var(--text-sm);">Citoyen depuis 2021</p>
+                            </div>
+                        </div>
+                        
+                        <button class="btn btn-white" id="newRequest">
+                            <i class="fas fa-plus"></i>
+                            <span>Nouvelle demande</span>
+                        </button>
+                    </div>
+                    
+                    <!-- Statistiques -->
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-md); margin-bottom: var(--space-xl);">
+                        <div class="card" style="text-align: center; border-top: 4px solid var(--accent-orange);">
+                            <div class="stat-number" style="font-size: var(--text-2xl); font-weight: 700; color: var(--accent-orange); margin-bottom: var(--space-xs);">3</div>
+                            <div class="stat-label" style="font-size: var(--text-sm); color: var(--text-secondary);">En cours</div>
+                        </div>
+                        <div class="card" style="text-align: center; border-top: 4px solid var(--accent-green);">
+                            <div class="stat-number" style="font-size: var(--text-2xl); font-weight: 700; color: var(--accent-green); margin-bottom: var(--space-xs);">5</div>
+                            <div class="stat-label" style="font-size: var(--text-sm); color: var(--text-secondary);">Terminées</div>
+                        </div>
+                        <div class="card" style="text-align: center; border-top: 4px solid var(--danger-red);">
+                            <div class="stat-number" style="font-size: var(--text-2xl); font-weight: 700; color: var(--danger-red); margin-bottom: var(--space-xs);">1</div>
+                            <div class="stat-label" style="font-size: var(--text-sm); color: var(--text-secondary);">À corriger</div>
+                        </div>
+                        <div class="card" style="text-align: center; border-top: 4px solid var(--primary-blue);">
+                            <div class="stat-number" style="font-size: var(--text-2xl); font-weight: 700; color: var(--primary-blue); margin-bottom: var(--space-xs);">9</div>
+                            <div class="stat-label" style="font-size: var(--text-sm); color: var(--text-secondary);">Total</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Sections dynamiques pour les nouvelles fonctionnalités -->
+                    <div id="dashboardPersonalStats"></div>
+                    <div id="dashboardDeadlines"></div>
+                    <div id="dashboardDocuments"></div>
+                    <div id="dashboardMessages"></div>
+                    <div id="dashboardQuickActions"></div>
+                    
+                    <!-- Demandes récentes -->
+                    <div class="section">
+                        <div class="section-header">
+                            <h2 class="section-title">Mes demandes</h2>
+                        </div>
+                        
+                        <div id="userRequests">
+                            <!-- Les demandes seront chargées dynamiquement -->
+                        </div>
+                    </div>
+                    
+                    <!-- Déconnexion -->
+                    <div style="padding: var(--space-xl) var(--space-md); text-align: center;">
+                        <button class="btn btn-outline" id="logoutBtn">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Se déconnecter</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Inscription -->
+                <div id="registerSection" style="display: none;">
+                    <div style="padding: var(--space-xl) 0;">
+                        <div class="card">
+                            <div style="text-align: center; margin-bottom: var(--space-xl);">
+                                <div style="width: 80px; height: 80px; background: var(--gradient-accent); border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; color: white; font-size: var(--text-2xl); margin: 0 auto var(--space-lg);">
+                                    <i class="fas fa-user-plus"></i>
+                                </div>
+                                <h2 style="font-size: var(--text-xl); font-weight: 700; margin-bottom: var(--space-sm);">Créer un compte citoyen</h2>
+                                <p style="color: var(--text-secondary);">Rejoignez la communauté citoyenne</p>
+                            </div>
+                            
+                            <form id="registerForm">
+                                <div class="form-group">
+                                    <label>Nom complet *</label>
+                                    <input type="text" placeholder="Votre nom et prénom" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Date de naissance *</label>
+                                    <input type="date" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Lieu de naissance *</label>
+                                    <input type="text" placeholder="Ville de naissance" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Ville de résidence *</label>
+                                    <select required>
+                                        <option value="">Sélectionnez votre ville</option>
+                                        <option value="libreville">Libreville</option>
+                                        <option value="owendo">Owendo</option>
+                                        <option value="akanda">Akanda</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Arrondissement *</label>
+                                    <select required>
+                                        <option value="">Sélectionnez votre arrondissement</option>
+                                        <option value="1">1er Arrondissement</option>
+                                        <option value="2">2ème Arrondissement</option>
+                                        <option value="3">3ème Arrondissement</option>
+                                        <option value="4">4ème Arrondissement</option>
+                                        <option value="5">5ème Arrondissement</option>
+                                        <option value="6">6ème Arrondissement</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Quartier *</label>
+                                    <input type="text" placeholder="Votre quartier" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Email *</label>
+                                    <input type="email" placeholder="votre@email.com" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Téléphone *</label>
+                                    <input type="tel" placeholder="01 23 45 67 89" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Mot de passe *</label>
+                                    <input type="password" placeholder="Minimum 8 caractères" required minlength="8">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Confirmer le mot de passe *</label>
+                                    <input type="password" placeholder="Répétez le mot de passe" required minlength="8">
+                                </div>
+                                
+                                <div style="margin-bottom: var(--space-lg);">
+                                    <label style="display: flex; align-items: flex-start; gap: var(--space-sm); font-size: var(--text-sm);">
+                                        <input type="checkbox" required style="margin-top: 2px;">
+                                        <span>J'accepte les <a href="#" style="color: var(--primary-blue);">conditions d'utilisation</a> et la <a href="#" style="color: var(--primary-blue);">politique de confidentialité</a></span>
+                                    </label>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-secondary">
+                                    <i class="fas fa-user-plus"></i>
+                                    <span>Créer mon compte</span>
+                                </button>
+                            </form>
+                            
+                            <div style="text-align: center; margin-top: var(--space-xl); padding-top: var(--space-lg); border-top: 1px solid var(--border-color);">
+                                <button class="btn btn-outline" id="showLogin">
+                                    <i class="fas fa-arrow-left"></i>
+                                    <span>Retour à la connexion</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page Actualités -->
+        <section id="actualites" class="page">
+            <div class="section">
+                <h2 class="section-title" style="padding: 0 var(--space-md); margin-bottom: var(--space-lg);">Actualités municipales</h2>
+                
+                <!-- Filtres -->
+                <div class="tabs">
+                    <button class="tab active" data-filter="all">Toutes</button>
+                    <button class="tab" data-filter="communique">Communiqués</button>
+                    <button class="tab" data-filter="travaux">Travaux</button>
+                    <button class="tab" data-filter="evenement">Événements</button>
+                </div>
+                
+                <!-- Liste des actualités -->
+                <div id="actualitesList" style="padding: 0 var(--space-md);">
+                    <!-- Les actualités seront chargées dynamiquement -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Page Urgences -->
+        <section id="urgences" class="page">
+            <div class="section">
+                <h2 class="section-title" style="padding: 0 var(--space-md); margin-bottom: var(--space-lg);">Numéros d'urgence</h2>
+                
+                <div class="emergency-grid">
+                    <div class="emergency-card police" onclick="callEmergency('police')">
+                        <div style="width: 64px; height: 64px; background: #3498db; border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; color: white; font-size: var(--text-xl); margin: 0 auto var(--space-md);">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3 style="margin-bottom: var(--space-xs);">Police</h3>
+                        <div style="font-size: var(--text-2xl); font-weight: 700; color: #3498db; margin-bottom: var(--space-sm);">1300</div>
+                        <p style="color: var(--text-secondary); font-size: var(--text-sm);">Sécurité publique</p>
+                    </div>
+                    
+                    <div class="emergency-card fire" onclick="callEmergency('pompiers')">
+                        <div style="width: 64px; height: 64px; background: #e74c3c; border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; color: white; font-size: var(--text-xl); margin: 0 auto var(--space-md);">
+                            <i class="fas fa-fire-extinguisher"></i>
+                        </div>
+                        <h3 style="margin-bottom: var(--space-xs);">Pompiers</h3>
+                        <div style="font-size: var(--text-2xl); font-weight: 700; color: #e74c3c; margin-bottom: var(--space-sm);">18</div>
+                        <p style="color: var(--text-secondary); font-size: var(--text-sm);">Incendies et secours</p>
+                    </div>
+                    
+                    <div class="emergency-card hospital" onclick="callEmergency('hopital')">
+                        <div style="width: 64px; height: 64px; background: #2ecc71; border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; color: white; font-size: var(--text-xl); margin: 0 auto var(--space-md);">
+                            <i class="fas fa-ambulance"></i>
+                        </div>
+                        <h3 style="margin-bottom: var(--space-xs);">Hôpital</h3>
+                        <div style="font-size: var(--text-2xl); font-weight: 700; color: #2ecc71; margin-bottom: var(--space-sm);">15</div>
+                        <p style="color: var(--text-secondary); font-size: var(--text-sm);">Urgences médicales</p>
+                    </div>
+                </div>
+                
+                <!-- Autres numéros utiles -->
+                <div class="card" style="margin: var(--space-xl) var(--space-md);">
+                    <h3 style="margin-bottom: var(--space-lg);">Autres numéros utiles</h3>
+                    <div style="display: grid; gap: var(--space-md);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: var(--space-sm); border-bottom: 1px solid var(--border-color);">
+                            <div style="display: flex; align-items: center; gap: var(--space-md);">
+                                <div style="width: 36px; height: 36px; background: var(--light-bg); border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; color: var(--primary-blue);">
+                                    <i class="fas fa-phone"></i>
+                                </div>
+                                <div>
+                                    <div style="font-weight: 500;">Urgence municipale</div>
+                                    <div style="font-size: var(--text-sm); color: var(--text-secondary);">Problèmes techniques</div>
+                                </div>
+                            </div>
+                            <div style="font-weight: 600; color: var(--primary-blue);">01 72 34 56</div>
+                        </div>
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: var(--space-sm); border-bottom: 1px solid var(--border-color);">
+                            <div style="display: flex; align-items: center; gap: var(--space-md);">
+                                <div style="width: 36px; height: 36px; background: var(--light-bg); border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; color: var(--accent-green);">
+                                    <i class="fas fa-info-circle"></i>
+                                </div>
+                                <div>
+                                    <div style="font-weight: 500;">Informations générales</div>
+                                    <div style="font-size: var(--text-sm); color: var(--text-secondary);">Mairie de Libreville</div>
+                                </div>
+                            </div>
+                            <div style="font-weight: 600; color: var(--accent-green);">01 73 45 67</div>
+                        </div>
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div style="display: flex; align-items: center; gap: var(--space-md);">
+                                <div style="width: 36px; height: 36px; background: var(--light-bg); border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; color: var(--warning-yellow);">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </div>
+                                <div>
+                                    <div style="font-weight: 500;">Défense civile</div>
+                                    <div style="font-size: var(--text-sm); color: var(--text-secondary);">Catastrophes naturelles</div>
+                                </div>
+                            </div>
+                            <div style="font-weight: 600; color: var(--warning-yellow);">01 74 56 78</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Conseils d'urgence -->
+                <div class="card" style="margin: 0 var(--space-md); background: var(--light-bg);">
+                    <h3 style="margin-bottom: var(--space-lg); color: var(--danger-red);">
+                        <i class="fas fa-lightbulb"></i> Conseils d'urgence
+                    </h3>
+                    <div style="display: grid; gap: var(--space-md);">
+                        <div style="display: flex; gap: var(--space-md);">
+                            <div style="color: var(--danger-red); font-size: var(--text-lg);">1</div>
+                            <div>
+                                <div style="font-weight: 500; margin-bottom: var(--space-xs);">Restez calme</div>
+                                <div style="font-size: var(--text-sm); color: var(--text-secondary);">Parlez clairement au téléphone</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: var(--space-md);">
+                            <div style="color: var(--danger-red); font-size: var(--text-lg);">2</div>
+                            <div>
+                                <div style="font-weight: 500; margin-bottom: var(--space-xs);">Donnez votre localisation</div>
+                                <div style="font-size: var(--text-sm); color: var(--text-secondary);">Adresse précise ou points de repère</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: var(--space-md);">
+                            <div style="color: var(--danger-red); font-size: var(--text-lg);">3</div>
+                            <div>
+                                <div style="font-weight: 500; margin-bottom: var(--space-xs);">Décrivez la situation</div>
+                                <div style="font-size: var(--text-sm); color: var(--text-secondary);">Nombre de personnes, type d'urgence</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page La Mairie -->
+        <section id="mairie" class="page">
+            <div class="mairie-bg">
+                <div style="width: 80px; height: 80px; background: rgba(255,255,255,0.2); border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; font-size: var(--text-2xl); margin: 0 auto var(--space-lg);">
+                    <i class="fas fa-landmark"></i>
+                </div>
+                <h2 style="font-size: var(--text-xl); font-weight: 700; margin-bottom: var(--space-sm);">Mairie de Libreville</h2>
+                <p style="opacity: 0.9;">Service public de proximité et d'excellence</p>
+            </div>
+            
+            <!-- Accordéon d'informations -->
+            <div style="padding: 0 var(--space-md);">
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <div class="accordion-title">Le Maire et son équipe</div>
+                        <i class="fas fa-chevron-down accordion-icon"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <div style="padding: var(--space-md) 0;">
+                            <p style="margin-bottom: var(--space-md);">Découvrez les élus municipaux et leurs responsabilités au service des Librevillois.</p>
+                            <button class="btn btn-outline btn-small">
+                                <i class="fas fa-users"></i>
+                                <span>Voir l'équipe</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <div class="accordion-title">Services municipaux</div>
+                        <i class="fas fa-chevron-down accordion-icon"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <div style="padding: var(--space-md) 0;">
+                            <p style="margin-bottom: var(--space-md);">Tous les services à votre disposition pour faciliter votre vie quotidienne.</p>
+                            <button class="btn btn-outline btn-small">
+                                <i class="fas fa-list"></i>
+                                <span>Consulter les services</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <div class="accordion-title">Projets en cours</div>
+                        <i class="fas fa-chevron-down accordion-icon"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <div style="padding: var(--space-md) 0;">
+                            <p style="margin-bottom: var(--space-md);">Les projets de développement et d'amélioration de la ville.</p>
+                            <button class="btn btn-outline btn-small">
+                                <i class="fas fa-project-diagram"></i>
+                                <span>Découvrir les projets</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Horaires -->
+            <div class="card" style="margin: var(--space-xl) var(--space-md);">
+                <h3 style="margin-bottom: var(--space-lg); text-align: center;">Horaires d'ouverture</h3>
+                <div style="display: grid; gap: var(--space-md);">
+                    <div style="display: flex; justify-content: space-between; padding-bottom: var(--space-sm); border-bottom: 1px solid var(--border-color);">
+                        <span style="font-weight: 500;">Lundi - Vendredi</span>
+                        <span>8h - 17h</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding-bottom: var(--space-sm); border-bottom: 1px solid var(--border-color);">
+                        <span style="font-weight: 500;">Samedi</span>
+                        <span>9h - 12h</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span style="font-weight: 500;">Dimanche</span>
+                        <span style="color: var(--text-secondary);">Fermé</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page Contact -->
+        <section id="contact" class="page">
+            <div class="contact-bg">
+                <div style="text-align: center;">
+                    <div style="width: 80px; height: 80px; background: rgba(255,255,255,0.2); border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; font-size: var(--text-2xl); margin: 0 auto var(--space-lg);">
+                        <i class="fas fa-phone-alt"></i>
+                    </div>
+                    <h2 style="font-size: var(--text-xl); font-weight: 700; margin-bottom: var(--space-sm);">Contactez-nous</h2>
+                    <p style="opacity: 0.9;">Plusieurs moyens pour nous joindre</p>
+                </div>
+            </div>
+            
+            <!-- Options de contact -->
+            <div style="padding: 0 var(--space-md);">
+                <div class="card" style="margin-bottom: var(--space-md);">
+                    <div style="display: flex; align-items: center; gap: var(--space-md); margin-bottom: var(--space-lg);">
+                        <div style="width: 48px; height: 48px; background: var(--gradient-primary); border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; color: white; font-size: var(--text-lg);">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div>
+                            <h3 style="font-weight: 600; margin-bottom: var(--space-xs);">Par téléphone</h3>
+                            <p style="color: var(--text-secondary); font-size: var(--text-sm);">Du lundi au vendredi, 8h-17h</p>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="callContact('01 72 34 56')">
+                        <i class="fas fa-phone-alt"></i>
+                        <span>Appeler le 01 72 34 56</span>
+                    </button>
+                </div>
+                
+                <div class="card" style="margin-bottom: var(--space-md);">
+                    <div style="display: flex; align-items: center; gap: var(--space-md); margin-bottom: var(--space-lg);">
+                        <div style="width: 48px; height: 48px; background: var(--gradient-accent); border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; color: white; font-size: var(--text-lg);">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div>
+                            <h3 style="font-weight: 600; margin-bottom: var(--space-xs);">Par email</h3>
+                            <p style="color: var(--text-secondary); font-size: var(--text-sm);">Réponse sous 48h</p>
+                        </div>
+                    </div>
+                    <button class="btn btn-outline" onclick="sendEmail()">
+                        <i class="fas fa-paper-plane"></i>
+                        <span>Écrire un message</span>
+                    </button>
+                </div>
+                
+                <div class="card">
+                    <div style="display: flex; align-items: center; gap: var(--space-md); margin-bottom: var(--space-lg);">
+                        <div style="width: 48px; height: 48px; background: var(--warning-yellow); border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; color: white; font-size: var(--text-lg);">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div>
+                            <h3 style="font-weight: 600; margin-bottom: var(--space-xs);">Sur place</h3>
+                            <p style="color: var(--text-secondary); font-size: var(--text-sm);">Place de l'Indépendance</p>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: var(--space-md);">
+                        <p style="font-weight: 500; margin-bottom: var(--space-sm);">Horaires :</p>
+                        <div style="display: grid; gap: var(--space-sm);">
+                            <div style="display: flex; justify-content: space-between;">
+                                <span style="color: var(--text-secondary);">Lun-Ven</span>
+                                <span>8h-17h</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span style="color: var(--text-secondary);">Samedi</span>
+                                <span>9h-12h</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-outline" onclick="openDirections()">
+                        <i class="fas fa-directions"></i>
+                        <span>Itinéraire</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page de Chat -->
+        <section id="chat" class="page">
+            <div class="chat-page">
+                <!-- En-tête du chat -->
+                <div class="chat-header">
+                    <div class="chat-agent-info">
+                        <div class="chat-agent-avatar">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <div class="chat-agent-details">
+                            <h3>Agent Municipal</h3>
+                            <p>Service d'assistance en ligne</p>
+                        </div>
+                    </div>
+                    <div class="chat-status online">
+                        En ligne • Réponse instantanée
+                    </div>
+                </div>
+                
+                <!-- Messages -->
+                <div class="chat-messages-container" id="chatMessagesContainer">
+                    <!-- Messages seront chargés dynamiquement -->
+                    <div class="chat-message received">
+                        <div class="message-bubble">
+                            Bonjour ! Je suis l'agent municipal. Comment puis-je vous aider aujourd'hui ?
+                        </div>
+                        <div class="message-time">14:30</div>
+                    </div>
+                </div>
+                
+                <!-- Input et actions -->
+                <div class="chat-input-container">
+                    <div class="chat-input-wrapper">
+                        <button class="chat-attachment-btn" id="attachmentBtn">
+                            <i class="fas fa-paperclip"></i>
+                        </button>
+                        <textarea class="chat-text-input" id="chatTextInput" 
+                                  placeholder="Tapez votre message..." 
+                                  rows="1"></textarea>
+                        <button class="chat-voice-btn" id="voiceBtn">
+                            <i class="fas fa-microphone"></i>
+                        </button>
+                    </div>
+                    <button class="chat-send-btn" id="sendBtn">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+                
+                <!-- Menu des pièces jointes -->
+                <div class="chat-attachment-menu" id="attachmentMenu">
+                    <button class="attachment-menu-item" onclick="attachFile('image')">
+                        <i class="fas fa-image"></i>
+                        <span>Image</span>
+                    </button>
+                    <button class="attachment-menu-item" onclick="attachFile('document')">
+                        <i class="fas fa-file"></i>
+                        <span>Document</span>
+                    </button>
+                    <button class="attachment-menu-item" onclick="attachFile('camera')">
+                        <i class="fas fa-camera"></i>
+                        <span>Prendre une photo</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Indicateur d'enregistrement audio -->
+            <div class="recording-indicator" id="recordingIndicator">
+                <div class="recording-dot">
+                    <i class="fas fa-microphone"></i>
+                </div>
+                <div class="recording-timer" id="recordingTimer">00:00</div>
+                <div class="recording-hint">Relâchez pour envoyer, glissez pour annuler</div>
+            </div>
+        </section>
+    </main>
+
+    <!-- BOTTOM BAR FIXÉE -->
+    <nav class="bottom-nav">
+        <div class="bottom-nav-items">
+            <button class="nav-button active" data-page="accueil">
+                <i class="fas fa-home"></i>
+                <span>Accueil</span>
+            </button>
+            <button class="nav-button" data-page="demarches">
+                <i class="fas fa-file-alt"></i>
+                <span>Démarches</span>
+            </button>
+            <button class="nav-button" data-page="espace">
+                <i class="fas fa-user"></i>
+                <span>Espace</span>
+            </button>
+            <button class="nav-button" data-page="urgences">
+                <i class="fas fa-exclamation-triangle"></i>
+                <span>Urgences</span>
+            </button>
+            <button class="nav-button" data-page="mairie">
+                <i class="fas fa-ellipsis-h"></i>
+                <span>Plus</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Bouton flottant pour ouvrir le chat -->
+    <button class="floating-chat-button" onclick="showPage('chat'); updateActiveNav('chat');">
+        <i class="fas fa-comments"></i>
+    </button>
+
+    <!-- Modal pour les démarches -->
+    <div class="modal" id="demarcheModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Détails</h3>
+                <button class="modal-close" id="closeModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Contenu dynamique -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Main JavaScript -->
+    <script src="scripts.js"></script>
+</body>
+</html>
