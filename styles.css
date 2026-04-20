@@ -2974,3 +2974,570 @@ input:checked + .slider:before {
         transition-duration: 0.01ms !important;
     }
 }
+/* ============================================ */
+/* VERSION ORDINATEUR - STYLES AJOUTÉS */
+/* ============================================ */
+@media (min-width: 1024px) {
+    :root {
+        --text-base: 16px;
+        --text-lg: 18px;
+        --text-xl: 24px;
+        --text-2xl: 32px;
+        --text-3xl: 40px;
+        --space-xl: 32px;
+        --space-xxl: 48px;
+    }
+
+    body {
+        padding-bottom: 0;
+        background: #f0f2f5;
+    }
+
+    /* Container principal */
+    .main-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: var(--space-xl) var(--space-lg);
+    }
+
+    /* Header - transformation pour desktop */
+    .mobile-header {
+        min-height: 300px;
+        background-attachment: fixed;
+        position: relative;
+    }
+
+    .header-top-mobile {
+        padding: var(--space-sm) 0;
+        position: relative;
+        z-index: 101;
+    }
+
+    .header-top-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 var(--space-lg);
+    }
+
+    .emergency-mobile {
+        gap: var(--space-xl);
+    }
+
+    .emergency-item {
+        font-size: var(--text-base);
+        padding: var(--space-sm) var(--space-md);
+        border-radius: var(--radius-md);
+        transition: background 0.3s ease;
+    }
+
+    .emergency-item:hover {
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .header-main-mobile {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: var(--space-xl) var(--space-lg);
+        width: 100%;
+    }
+
+    .header-row {
+        margin-bottom: var(--space-xl);
+    }
+
+    .logo-mobile {
+        gap: var(--space-lg);
+    }
+
+    .logo-icon-mobile {
+        width: 64px;
+        height: 64px;
+        font-size: var(--text-2xl);
+    }
+
+    .logo-text-mobile h1 {
+        font-size: var(--text-2xl);
+    }
+
+    .logo-text-mobile span {
+        font-size: var(--text-base);
+    }
+
+    /* Cacher le menu hamburger sur desktop */
+    .menu-toggle {
+        display: none;
+    }
+
+    /* Hero desktop */
+    .header-hero {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: var(--space-xxl) 0;
+    }
+
+    .hero-title {
+        font-size: var(--text-3xl);
+        margin-bottom: var(--space-md);
+    }
+
+    .hero-subtitle {
+        font-size: var(--text-lg);
+        margin-bottom: var(--space-xl);
+    }
+
+    .search-container {
+        max-width: 600px;
+        margin: 0 auto var(--space-lg);
+        padding: 0;
+    }
+
+    .search-input {
+        padding: var(--space-xl);
+        font-size: var(--text-lg);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .hero-actions {
+        gap: var(--space-lg);
+    }
+
+    .hero-actions .btn {
+        width: auto;
+        min-width: 200px;
+        padding: var(--space-lg) var(--space-xl);
+        font-size: var(--text-base);
+    }
+
+    /* Cacher le drawer mobile et afficher une navigation desktop */
+    .mobile-nav,
+    .nav-overlay {
+        display: none;
+    }
+
+    /* Bottom bar - transformation en APPBAR horizontale desktop */
+    .bottom-nav {
+        position: sticky;
+        top: 0;
+        bottom: auto;
+        left: 0;
+        right: 0;
+        background: var(--card-bg);
+        box-shadow: var(--shadow-md);
+        padding: 0;
+        z-index: 1000;
+        border-bottom: 1px solid var(--border-color);
+        border-top: none;
+    }
+
+    .bottom-nav-items {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 var(--space-lg);
+        justify-content: flex-start;
+        gap: var(--space-xs);
+        display: flex;
+    }
+
+    .nav-button {
+        flex: 0 1 auto;
+        min-height: 64px;
+        padding: 0 var(--space-xl);
+        flex-direction: row;
+        gap: var(--space-md);
+        font-size: var(--text-base);
+        font-weight: 500;
+        border-bottom: 3px solid transparent;
+        transition: all 0.3s ease;
+        color: var(--text-primary);
+        position: relative;
+    }
+
+    .nav-button i {
+        font-size: var(--text-lg);
+    }
+
+    .nav-button span {
+        display: inline-block;
+    }
+
+    .nav-button.active {
+        border-bottom-color: var(--primary-blue);
+        color: var(--primary-blue);
+        background: transparent;
+    }
+
+    .nav-button:hover {
+        background: var(--light-bg);
+        color: var(--primary-blue);
+        border-bottom-color: var(--primary-blue);
+    }
+
+    /* Effet de hover avancé */
+    .nav-button::after {
+        content: '';
+        position: absolute;
+        bottom: -1px;
+        left: 50%;
+        width: 0;
+        height: 3px;
+        background: var(--primary-blue);
+        transition: all 0.3s ease;
+        transform: translateX(-50%);
+    }
+
+    .nav-button:hover::after {
+        width: 100%;
+    }
+
+    .nav-button.active::after {
+        width: 100%;
+    }
+
+    /* Layout desktop */
+    .section {
+        margin-bottom: var(--space-xxl);
+    }
+
+    .section-header {
+        padding: 0;
+        margin-bottom: var(--space-xl);
+    }
+
+    .section-title {
+        font-size: var(--text-2xl);
+    }
+
+    .section-link {
+        font-size: var(--text-base);
+    }
+
+    /* Services grid desktop */
+    .services-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: var(--space-xl);
+        padding: 0;
+    }
+
+    .service-card {
+        min-height: 200px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        cursor: pointer;
+    }
+
+    .service-card:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .service-icon {
+        width: 72px;
+        height: 72px;
+        font-size: var(--text-2xl);
+    }
+
+    .service-title {
+        font-size: var(--text-xl);
+    }
+
+    .service-desc {
+        font-size: var(--text-base);
+    }
+
+    /* Carousel desktop */
+    .carousel-container {
+        margin: 0;
+    }
+
+    .carousel-slide {
+        flex: 0 0 33.333%;
+    }
+
+    /* Cards desktop */
+    .card {
+        padding: var(--space-xl);
+        border-radius: var(--radius-lg);
+        transition: box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+        box-shadow: var(--shadow-lg);
+    }
+
+    /* Boutons desktop */
+    .btn {
+        width: auto;
+        min-width: 160px;
+        transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+    }
+
+    /* Onglets desktop */
+    .tabs {
+        padding: 0;
+        gap: var(--space-md);
+    }
+
+    .tab {
+        padding: var(--space-md) var(--space-xl);
+        font-size: var(--text-base);
+        transition: all 0.3s ease;
+    }
+
+    .tab:hover {
+        background: var(--light-bg);
+    }
+
+    /* Liste des démarches desktop */
+    .demarche-list {
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-xl);
+    }
+
+    .demarche-item {
+        margin-bottom: 0;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .demarche-item:hover {
+        transform: translateX(8px);
+        box-shadow: var(--shadow-md);
+        border-color: var(--primary-blue);
+    }
+
+    /* Page layouts desktop */
+    .page {
+        animation: fadeIn 0.4s ease;
+    }
+
+    /* Mairie et Contact backgrounds */
+    .mairie-bg,
+    .contact-bg {
+        max-width: 1200px;
+        margin: 0 auto var(--space-xl);
+        padding: var(--space-xxl);
+    }
+
+    .mairie-bg h2,
+    .contact-bg h2 {
+        font-size: var(--text-3xl);
+    }
+
+    /* Accordéon desktop */
+    .accordion-header {
+        padding: var(--space-xl);
+        transition: background 0.3s ease;
+    }
+
+    .accordion-header:hover {
+        background: var(--light-bg);
+    }
+
+    .accordion-title {
+        font-size: var(--text-lg);
+    }
+
+    /* Formulaire desktop */
+    .form-container {
+        max-width: 800px;
+        margin: 0 auto var(--space-xxl);
+        padding: var(--space-xxl);
+    }
+
+    .form-group {
+        margin-bottom: var(--space-xxl);
+    }
+
+    .form-actions {
+        gap: var(--space-xl);
+    }
+
+    /* Chat desktop */
+    .chat-page {
+        max-width: 1000px;
+        margin: 0 auto;
+        height: 600px;
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        box-shadow: var(--shadow-lg);
+    }
+
+    .chat-header {
+        padding: var(--space-xl);
+    }
+
+    .chat-messages-container {
+        padding: var(--space-xl);
+    }
+
+    .chat-message {
+        max-width: 60%;
+    }
+
+    /* Bouton flottant chat - ajustement de position */
+    .floating-chat-button {
+        bottom: var(--space-xl);
+        right: var(--space-xl);
+        width: 64px;
+        height: 64px;
+        font-size: var(--text-xl);
+        transition: all 0.3s ease;
+    }
+
+    .floating-chat-button:hover {
+        transform: scale(1.1);
+        box-shadow: var(--shadow-lg);
+    }
+
+    /* Modal desktop */
+    .modal-content {
+        max-width: 700px;
+    }
+
+    /* Emergency grid desktop */
+    .emergency-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--space-xl);
+        padding: 0;
+    }
+
+    .emergency-card {
+        text-align: center;
+        padding: var(--space-xl);
+        background: var(--card-bg);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-sm);
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .emergency-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-lg);
+    }
+
+    /* Dashboard desktop */
+    #dashboardSection {
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    /* Grille statistiques */
+    #dashboardSection > div:first-of-type {
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: var(--space-xl);
+    }
+
+    /* News cards desktop */
+    .news-card {
+        min-height: 250px;
+        transition: transform 0.3s ease;
+    }
+
+    .news-card:hover {
+        transform: scale(1.02);
+    }
+
+    .news-title {
+        font-size: var(--text-xl);
+    }
+
+    /* Cache certains éléments mobiles */
+    .emergency-mobile::-webkit-scrollbar {
+        display: block;
+        width: 6px;
+        height: 6px;
+    }
+
+    .emergency-mobile::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 3px;
+    }
+
+    /* Ajustement du padding du body pour compenser l'appbar sticky */
+    body {
+        padding-top: 0;
+    }
+
+    /* Animation de l'appbar au scroll */
+    @supports (backdrop-filter: blur(10px)) {
+        .bottom-nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        
+        .dark-mode .bottom-nav {
+            background: rgba(30, 30, 30, 0.95);
+            backdrop-filter: blur(10px);
+        }
+    }
+}
+
+/* Très grands écrans */
+@media (min-width: 1440px) {
+    .main-content {
+        max-width: 1400px;
+    }
+
+    .header-top-content,
+    .header-main-mobile,
+    .bottom-nav-items {
+        max-width: 1400px;
+    }
+
+    .services-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: var(--space-xxl);
+    }
+
+    .carousel-slide {
+        flex: 0 0 25%;
+    }
+
+    .demarche-list {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Mode paysage */
+@media (orientation: landscape) and (max-height: 500px) {
+    .mobile-header {
+        min-height: 160px;
+    }
+    
+    .nav-button span {
+        display: none;
+    }
+    
+    .hero-title {
+        font-size: var(--text-xl);
+    }
+    
+    .hero-subtitle {
+        font-size: var(--text-sm);
+    }
+}
+
+/* Améliorations iOS */
+@supports (-webkit-touch-callout: none) {
+    .service-card,
+    .news-card {
+        -webkit-touch-callout: none;
+    }
+}
+
+/* Mode réduit animation */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}
