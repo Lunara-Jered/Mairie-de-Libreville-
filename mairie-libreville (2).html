@@ -1,0 +1,1611 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Mairie de Libreville — Portail Citoyen</title>
+<meta name="description" content="Services municipaux en ligne — Mairie de Libreville, Gabon">
+<meta name="theme-color" content="#0B3D6B">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --navy:#0B3D6B;
+  --navy-dark:#082D52;
+  --navy-light:#1A5494;
+  --gold:#C9A84C;
+  --gold-light:#E8C96A;
+  --white:#FFFFFF;
+  --slate:#F5F7FA;
+  --slate-dark:#E8ECF2;
+  --ink:#1A2332;
+  --ink-mid:#4A5568;
+  --ink-light:#8A96A8;
+  --success:#1E8A5E;
+  --success-bg:#E8F5EE;
+  --danger:#C0392B;
+  --danger-bg:#FDF0EF;
+  --warning:#B7791F;
+  --warning-bg:#FEF3D9;
+  --border:#DDE3ED;
+  --radius:12px;
+  --radius-sm:8px;
+  --radius-full:999px;
+  --shadow-sm:0 1px 3px rgba(0,0,0,0.08),0 1px 2px rgba(0,0,0,0.06);
+  --shadow-md:0 4px 12px rgba(0,0,0,0.10),0 2px 4px rgba(0,0,0,0.06);
+  --shadow-lg:0 12px 32px rgba(0,0,0,0.14);
+  --font-display:'Nunito',system-ui,sans-serif;
+  --font-body:'Inter',system-ui,sans-serif;
+  --bottom-bar-h:68px;
+}
+html{font-size:16px;-webkit-text-size-adjust:100%;-webkit-font-smoothing:antialiased}
+body{
+  font-family:var(--font-body);
+  font-size:15px;
+  line-height:1.6;
+  color:var(--ink);
+  background:var(--slate);
+  overflow-x:hidden;
+  padding-bottom:calc(var(--bottom-bar-h) + env(safe-area-inset-bottom,0px));
+  min-height:100vh;
+}
+
+/* ── BARRE URGENCES FIXÉE ── */
+.emergency-bar{
+  position:sticky;
+  top:0;
+  z-index:900;
+  background:var(--navy-dark);
+  padding:8px 16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+}
+.emergency-links{display:flex;gap:16px;flex:1}
+.emergency-link{
+  display:flex;align-items:center;gap:6px;
+  color:var(--white);font-size:13px;font-weight:600;
+  text-decoration:none;opacity:.9;
+  font-family:var(--font-body);
+  white-space:nowrap;
+}
+.emergency-link .dot{
+  width:7px;height:7px;border-radius:50%;flex-shrink:0;
+}
+.dot-red{background:#F87171}
+.dot-amber{background:#FBBF24}
+.emergency-link:hover{opacity:1}
+.emergency-actions{display:flex;gap:10px;align-items:center}
+.btn-icon{
+  background:rgba(255,255,255,.12);border:none;
+  color:var(--white);width:32px;height:32px;border-radius:var(--radius-sm);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:14px;transition:background .2s;
+}
+.btn-icon:hover{background:rgba(255,255,255,.22)}
+
+/* ── HEADER ── */
+.site-header{
+  background:linear-gradient(160deg,var(--navy) 0%,var(--navy-light) 100%);
+  padding:20px 16px 24px;
+  color:var(--white);
+  position:relative;
+  overflow:hidden;
+}
+.site-header::after{
+  content:'';position:absolute;
+  right:-40px;top:-40px;
+  width:200px;height:200px;
+  background:rgba(255,255,255,.05);
+  border-radius:50%;pointer-events:none;
+}
+.header-top{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.logo-badge{
+  width:50px;height:50px;flex-shrink:0;
+  background:var(--white);border-radius:var(--radius-sm);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:var(--shadow-md);
+}
+.logo-badge svg{width:30px;height:30px}
+.header-brand h1{
+  font-family:var(--font-display);
+  font-size:20px;font-weight:800;line-height:1.1;
+  letter-spacing:-.3px;
+}
+.header-brand span{
+  font-size:12px;font-weight:500;
+  opacity:.75;letter-spacing:.3px;
+  display:block;margin-top:2px;
+}
+.hero-text h2{
+  font-family:var(--font-display);
+  font-size:26px;font-weight:800;
+  line-height:1.2;margin-bottom:6px;
+  letter-spacing:-.5px;
+}
+.hero-text p{font-size:14px;opacity:.82;margin-bottom:18px}
+.header-chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{
+  background:rgba(255,255,255,.15);
+  color:var(--white);font-size:12px;font-weight:600;
+  padding:5px 12px;border-radius:var(--radius-full);
+  border:1px solid rgba(255,255,255,.2);
+  white-space:nowrap;
+}
+.chip.chip-gold{background:var(--gold);border-color:var(--gold);color:var(--navy-dark)}
+
+/* ── RECHERCHE ── */
+.search-wrap{padding:12px 16px 0;position:relative}
+.search-field{
+  width:100%;padding:13px 16px 13px 44px;
+  background:var(--white);border:1.5px solid var(--border);
+  border-radius:var(--radius);font-family:var(--font-body);
+  font-size:14px;color:var(--ink);outline:none;
+  box-shadow:var(--shadow-sm);
+  transition:border-color .2s,box-shadow .2s;
+}
+.search-field:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(11,61,107,.12)}
+.search-icon{
+  position:absolute;left:30px;top:50%;transform:translateY(-50%);
+  color:var(--ink-light);font-size:15px;pointer-events:none;
+}
+.search-results{
+  display:none;
+  background:var(--white);border:1.5px solid var(--border);
+  border-radius:var(--radius);margin-top:6px;
+  box-shadow:var(--shadow-md);overflow:hidden;
+}
+.search-results.visible{display:block}
+.search-result-item{
+  padding:12px 16px;display:flex;align-items:center;gap:12px;
+  border-bottom:1px solid var(--border);cursor:pointer;
+  transition:background .15s;
+}
+.search-result-item:last-child{border-bottom:none}
+.search-result-item:hover{background:var(--slate)}
+.sri-icon{
+  width:32px;height:32px;border-radius:var(--radius-sm);
+  background:var(--slate);display:flex;align-items:center;
+  justify-content:center;color:var(--navy);font-size:13px;flex-shrink:0;
+}
+.sri-text{font-size:13px;font-weight:500}
+.sri-cat{font-size:11px;color:var(--ink-light)}
+
+/* ── MAIN / PAGES ── */
+.main{padding:16px 0 8px}
+.page{display:none;animation:fadeIn .22s ease}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── SECTIONS ── */
+.section{margin-bottom:24px}
+.section-head{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:0 16px;margin-bottom:12px;
+}
+.section-title{
+  font-family:var(--font-display);
+  font-size:18px;font-weight:800;color:var(--ink);
+  letter-spacing:-.3px;
+}
+.section-link{
+  font-size:13px;color:var(--navy);font-weight:600;
+  text-decoration:none;display:flex;align-items:center;gap:4px;
+  background:none;border:none;cursor:pointer;
+  font-family:var(--font-body);
+}
+.section-link:hover{text-decoration:underline}
+
+/* ── SERVICE CARDS (accueil) ── */
+.services-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);
+  gap:10px;padding:0 16px;
+}
+.service-card{
+  background:var(--white);border:1.5px solid var(--border);
+  border-radius:var(--radius);padding:16px 12px;
+  display:flex;flex-direction:column;align-items:center;
+  text-align:center;gap:8px;cursor:pointer;
+  transition:border-color .2s,box-shadow .2s,transform .15s;
+  box-shadow:var(--shadow-sm);
+}
+.service-card:hover,.service-card:active{
+  border-color:var(--navy);box-shadow:var(--shadow-md);
+  transform:translateY(-2px);
+}
+.service-icon-wrap{
+  width:52px;height:52px;border-radius:var(--radius-sm);
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;margin-bottom:2px;flex-shrink:0;
+}
+.ic-blue{background:#EBF3FB;color:var(--navy)}
+.ic-gold{background:#FDF6E3;color:#8A6014}
+.ic-green{background:#E8F5EE;color:#1E6A45}
+.ic-purple{background:#F0EBFD;color:#5B35A8}
+.ic-red{background:#FEF0EE;color:#B83020}
+.ic-teal{background:#E8F7F4;color:#1A7A63}
+.service-name{font-weight:700;font-size:13px;color:var(--ink);line-height:1.3;font-family:var(--font-display)}
+.service-sub{font-size:11px;color:var(--ink-light)}
+
+/* ── ACTUALITÉS CARROUSEL ── */
+.news-scroll{
+  display:flex;gap:12px;overflow-x:auto;
+  padding:0 16px;scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;scrollbar-width:none;
+}
+.news-scroll::-webkit-scrollbar{display:none}
+.news-slide{
+  flex:0 0 82%;scroll-snap-align:start;
+  border-radius:var(--radius);overflow:hidden;
+  box-shadow:var(--shadow-sm);background:var(--white);
+  border:1.5px solid var(--border);
+}
+.news-img{
+  height:130px;background-size:cover;background-position:center;
+  position:relative;
+}
+.news-img-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,.45) 0%,transparent 60%);
+}
+.news-badge{
+  position:absolute;top:10px;left:10px;
+  background:rgba(11,61,107,.85);color:var(--white);
+  font-size:10px;font-weight:700;padding:4px 10px;
+  border-radius:var(--radius-full);backdrop-filter:blur(4px);
+  letter-spacing:.3px;text-transform:uppercase;
+}
+.news-body{padding:12px 14px 14px}
+.news-date{font-size:11px;color:var(--ink-light);margin-bottom:4px;display:flex;align-items:center;gap:4px}
+.news-title{font-family:var(--font-display);font-size:15px;font-weight:700;color:var(--ink);line-height:1.3;margin-bottom:6px}
+.news-desc{font-size:12px;color:var(--ink-mid);line-height:1.5}
+
+/* ── DÉMARCHES LIST ── */
+.tabs-wrap{display:flex;gap:6px;padding:0 16px;margin-bottom:14px;overflow-x:auto;scrollbar-width:none}
+.tabs-wrap::-webkit-scrollbar{display:none}
+.tab{
+  padding:7px 16px;background:var(--white);
+  border:1.5px solid var(--border);border-radius:var(--radius-full);
+  font-size:13px;font-weight:600;white-space:nowrap;
+  cursor:pointer;transition:all .2s;
+  font-family:var(--font-body);color:var(--ink-mid);
+}
+.tab.active{background:var(--navy);color:var(--white);border-color:var(--navy)}
+
+.demarches-list{padding:0 16px;display:flex;flex-direction:column;gap:8px}
+.demarche-card{
+  background:var(--white);border:1.5px solid var(--border);
+  border-radius:var(--radius);padding:14px;
+  display:flex;align-items:center;gap:12px;
+  cursor:pointer;transition:border-color .2s,box-shadow .2s;
+  box-shadow:var(--shadow-sm);
+}
+.demarche-card:hover,.demarche-card:active{
+  border-color:var(--navy);box-shadow:var(--shadow-md);
+}
+.d-icon{
+  width:44px;height:44px;border-radius:var(--radius-sm);
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;flex-shrink:0;
+}
+.d-body{flex:1;min-width:0}
+.d-title{font-weight:600;font-size:14px;margin-bottom:3px;font-family:var(--font-display)}
+.d-meta{display:flex;gap:12px;font-size:12px;color:var(--ink-light);align-items:center}
+.d-meta span{display:flex;align-items:center;gap:4px}
+.d-arrow{color:var(--ink-light);font-size:12px;flex-shrink:0}
+.d-tag{
+  font-size:10px;font-weight:700;padding:3px 8px;
+  border-radius:var(--radius-full);letter-spacing:.2px;
+  white-space:nowrap;
+}
+.tag-free{background:var(--success-bg);color:var(--success)}
+.tag-paid{background:var(--warning-bg);color:var(--warning)}
+
+/* ── ACTUALITÉS PLEINE PAGE ── */
+.actu-card{
+  background:var(--white);border:1.5px solid var(--border);
+  border-radius:var(--radius);overflow:hidden;
+  box-shadow:var(--shadow-sm);margin:0 16px 12px;
+}
+.actu-img{height:160px;background-size:cover;background-position:center;position:relative}
+.actu-img-badge{
+  position:absolute;top:12px;left:12px;
+  background:var(--navy);color:var(--white);
+  font-size:10px;font-weight:700;padding:4px 12px;
+  border-radius:var(--radius-full);letter-spacing:.3px;text-transform:uppercase;
+}
+.actu-body{padding:14px}
+.actu-date{font-size:11px;color:var(--ink-light);margin-bottom:5px;display:flex;align-items:center;gap:4px}
+.actu-title{font-family:var(--font-display);font-size:16px;font-weight:800;color:var(--ink);line-height:1.3;margin-bottom:6px}
+.actu-desc{font-size:13px;color:var(--ink-mid);line-height:1.6;margin-bottom:12px}
+.actu-actions{display:flex;gap:8px}
+.btn-sm{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:8px 14px;border-radius:var(--radius-sm);
+  font-size:12px;font-weight:600;border:none;cursor:pointer;
+  font-family:var(--font-body);transition:all .2s;
+}
+.btn-primary{background:var(--navy);color:var(--white)}
+.btn-primary:hover{background:var(--navy-dark)}
+.btn-outline{background:none;border:1.5px solid var(--border);color:var(--ink-mid)}
+.btn-outline:hover{border-color:var(--navy);color:var(--navy)}
+.btn-gold{background:var(--gold);color:var(--navy-dark)}
+.btn-gold:hover{background:var(--gold-light)}
+
+/* ── PAGE MAIRIE ── */
+.mairie-hero{
+  background:linear-gradient(160deg,var(--navy) 0%,var(--navy-light) 100%);
+  margin:0 16px;border-radius:var(--radius);padding:24px 20px;
+  color:var(--white);margin-bottom:20px;position:relative;overflow:hidden;
+}
+.mairie-hero::before{
+  content:'';position:absolute;right:-20px;bottom:-20px;
+  width:120px;height:120px;background:rgba(255,255,255,.06);
+  border-radius:50%;pointer-events:none;
+}
+.mairie-hero h2{font-family:var(--font-display);font-size:22px;font-weight:800;margin-bottom:6px}
+.mairie-hero p{font-size:13px;opacity:.82}
+.mairie-gold-line{
+  width:40px;height:3px;background:var(--gold);
+  border-radius:2px;margin:10px 0;
+}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:0 16px;margin-bottom:20px}
+.stat-card{
+  background:var(--white);border:1.5px solid var(--border);
+  border-radius:var(--radius);padding:14px 10px;text-align:center;
+  box-shadow:var(--shadow-sm);
+}
+.stat-num{
+  font-family:var(--font-display);font-size:22px;font-weight:800;
+  color:var(--navy);line-height:1;margin-bottom:4px;
+}
+.stat-lbl{font-size:10px;color:var(--ink-light);font-weight:500;line-height:1.3}
+
+.accordion{display:flex;flex-direction:column;gap:8px;padding:0 16px;margin-bottom:20px}
+.acc-item{
+  background:var(--white);border:1.5px solid var(--border);
+  border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-sm);
+}
+.acc-head{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:14px 16px;cursor:pointer;
+  transition:background .15s;
+}
+.acc-head:hover{background:var(--slate)}
+.acc-head h4{font-family:var(--font-display);font-size:15px;font-weight:700;color:var(--ink)}
+.acc-head i{color:var(--ink-light);font-size:13px;transition:transform .3s}
+.acc-item.open .acc-head i{transform:rotate(180deg)}
+.acc-body{
+  max-height:0;overflow:hidden;transition:max-height .35s ease;
+  font-size:13px;color:var(--ink-mid);line-height:1.7;
+}
+.acc-item.open .acc-body{max-height:600px}
+.acc-inner{padding:0 16px 16px}
+.horaire-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;
+}
+.horaire-row:last-child{border-bottom:none}
+.horaire-row strong{font-weight:600;color:var(--ink)}
+.horaire-row span{color:var(--ink-mid)}
+
+/* ── PAGE CONTACT ── */
+.contact-hero{
+  background:var(--navy);
+  margin:0 16px 20px;border-radius:var(--radius);
+  padding:22px 20px;color:var(--white);
+}
+.contact-hero h2{font-family:var(--font-display);font-size:20px;font-weight:800;margin-bottom:6px}
+.contact-hero p{font-size:13px;opacity:.82}
+.contact-actions{padding:0 16px;display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
+.contact-btn{
+  display:flex;align-items:center;gap:14px;
+  background:var(--white);border:1.5px solid var(--border);
+  border-radius:var(--radius);padding:15px 16px;
+  cursor:pointer;transition:border-color .2s,box-shadow .2s;
+  text-decoration:none;color:var(--ink);box-shadow:var(--shadow-sm);
+}
+.contact-btn:hover{border-color:var(--navy);box-shadow:var(--shadow-md)}
+.contact-btn-icon{
+  width:40px;height:40px;border-radius:var(--radius-sm);
+  display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;
+}
+.contact-btn-text strong{display:block;font-size:14px;font-weight:600;margin-bottom:2px;font-family:var(--font-display)}
+.contact-btn-text span{font-size:12px;color:var(--ink-light)}
+.contact-btn-arrow{margin-left:auto;color:var(--ink-light);font-size:12px}
+.contact-info{padding:0 16px;margin-bottom:20px}
+.info-card{
+  background:var(--white);border:1.5px solid var(--border);
+  border-radius:var(--radius);padding:16px;box-shadow:var(--shadow-sm);
+}
+.info-card h3{font-family:var(--font-display);font-size:15px;font-weight:700;margin-bottom:12px;color:var(--ink)}
+.info-row{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:8px 0;border-bottom:1px solid var(--border);
+  font-size:13px;color:var(--ink-mid);
+}
+.info-row:last-child{border-bottom:none}
+.info-row i{color:var(--navy);font-size:14px;margin-top:2px;flex-shrink:0;width:16px;text-align:center}
+.map-placeholder{
+  height:160px;background:var(--slate);border-radius:var(--radius);
+  border:1.5px solid var(--border);display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:8px;margin:0 16px;
+  color:var(--ink-mid);cursor:pointer;transition:background .2s;
+}
+.map-placeholder:hover{background:var(--slate-dark)}
+.map-placeholder i{font-size:28px;color:var(--navy);opacity:.7}
+.map-placeholder span{font-size:13px;font-weight:600;color:var(--navy)}
+
+/* ── BOTTOM NAV ── */
+.bottom-nav{
+  position:fixed;bottom:0;left:0;right:0;
+  background:var(--white);border-top:1.5px solid var(--border);
+  z-index:800;box-shadow:0 -4px 16px rgba(0,0,0,.08);
+  padding:0;
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+.bottom-items{display:flex;justify-content:space-around;height:var(--bottom-bar-h)}
+.nav-btn{
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:3px;flex:1;
+  background:none;border:none;cursor:pointer;
+  color:var(--ink-light);transition:color .2s;
+  min-height:56px;padding:0 4px;
+  font-family:var(--font-body);
+}
+.nav-btn i{font-size:20px;transition:transform .2s}
+.nav-btn span{font-size:10px;font-weight:600;letter-spacing:.2px}
+.nav-btn.active{color:var(--navy)}
+.nav-btn.active i{transform:translateY(-2px)}
+.nav-btn.center-btn{
+  position:relative;
+  color:var(--white);
+}
+.center-blob{
+  width:50px;height:50px;border-radius:50%;
+  background:var(--navy);
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:2px;box-shadow:var(--shadow-md);
+  font-size:20px;
+}
+.center-blob i{color:var(--white)}
+
+/* ── MODAL ── */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.5);
+  z-index:2000;display:none;align-items:flex-end;justify-content:center;
+  backdrop-filter:blur(3px);
+}
+.modal-overlay.open{display:flex}
+.modal-sheet{
+  background:var(--white);width:100%;max-width:500px;
+  border-radius:20px 20px 0 0;max-height:88vh;
+  overflow-y:auto;animation:slideUp .28s ease;
+  padding-bottom:env(safe-area-inset-bottom,16px);
+}
+@keyframes slideUp{from{transform:translateY(40px);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal-handle{width:40px;height:4px;background:var(--border);border-radius:2px;margin:12px auto 0}
+.modal-head{
+  padding:16px 20px;border-bottom:1.5px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.modal-head h3{font-family:var(--font-display);font-size:18px;font-weight:800;color:var(--ink)}
+.modal-close{
+  width:32px;height:32px;border-radius:var(--radius-full);
+  background:var(--slate);border:none;color:var(--ink-mid);
+  font-size:16px;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;
+}
+.modal-body-content{padding:20px}
+.modal-icon-header{
+  display:flex;align-items:center;gap:14px;margin-bottom:16px;
+  padding-bottom:16px;border-bottom:1.5px solid var(--border);
+}
+.modal-big-icon{
+  width:56px;height:56px;border-radius:var(--radius);
+  display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;
+}
+.modal-desc{font-size:14px;color:var(--ink-mid);line-height:1.7;margin-bottom:16px}
+.modal-info-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:10px;margin-bottom:16px;
+}
+.modal-info-cell{
+  background:var(--slate);border-radius:var(--radius-sm);
+  padding:12px;text-align:center;
+}
+.mic-label{font-size:10px;color:var(--ink-light);font-weight:600;margin-bottom:3px;text-transform:uppercase;letter-spacing:.3px}
+.mic-val{font-family:var(--font-display);font-size:15px;font-weight:700;color:var(--navy)}
+.modal-docs h4{font-size:13px;font-weight:600;margin-bottom:8px;color:var(--ink)}
+.doc-item{
+  display:flex;align-items:center;gap:10px;padding:8px 0;
+  border-bottom:1px solid var(--border);font-size:13px;color:var(--ink-mid);
+}
+.doc-item:last-child{border-bottom:none}
+.doc-item i{color:var(--navy);font-size:14px;width:16px;text-align:center}
+.modal-cta{margin-top:18px;display:flex;flex-direction:column;gap:8px}
+.btn-full{
+  width:100%;padding:14px;border-radius:var(--radius);
+  font-size:15px;font-weight:700;border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  font-family:var(--font-display);transition:all .2s;
+}
+.btn-full-primary{background:var(--navy);color:var(--white)}
+.btn-full-primary:hover{background:var(--navy-dark)}
+.btn-full-outline{background:none;border:1.5px solid var(--border);color:var(--ink-mid)}
+.btn-full-outline:hover{border-color:var(--navy);color:var(--navy)}
+
+/* ── TOAST ── */
+.toast{
+  position:fixed;bottom:calc(var(--bottom-bar-h) + 12px);left:16px;right:16px;
+  background:var(--ink);color:var(--white);border-radius:var(--radius);
+  padding:13px 16px;font-size:14px;font-weight:500;
+  display:flex;align-items:center;gap:10px;
+  z-index:3000;transform:translateY(20px);opacity:0;
+  transition:all .3s ease;pointer-events:none;
+  box-shadow:var(--shadow-lg);
+}
+.toast.show{transform:translateY(0);opacity:1}
+.toast i{font-size:16px}
+.toast.success i{color:#4ADE80}
+
+/* ── AUTH MODAL ── */
+.auth-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.55);
+  z-index:4000;display:none;align-items:flex-end;justify-content:center;
+  backdrop-filter:blur(4px);
+}
+.auth-overlay.open{display:flex}
+.auth-sheet{
+  background:var(--white);width:100%;max-width:500px;
+  border-radius:20px 20px 0 0;max-height:92vh;
+  overflow-y:auto;animation:slideUp .28s ease;
+  padding-bottom:env(safe-area-inset-bottom,20px);
+}
+.auth-handle{width:40px;height:4px;background:var(--border);border-radius:2px;margin:12px auto 0}
+.auth-head{
+  padding:16px 20px 14px;border-bottom:1.5px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.auth-head h3{font-family:var(--font-display);font-size:18px;font-weight:800;color:var(--ink)}
+.auth-close{
+  width:32px;height:32px;border-radius:var(--radius-full);
+  background:var(--slate);border:none;color:var(--ink-mid);
+  font-size:18px;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;line-height:1;
+}
+.auth-tabs{display:flex;border-bottom:1.5px solid var(--border)}
+.auth-tab{
+  flex:1;padding:12px;text-align:center;font-size:14px;font-weight:700;
+  font-family:var(--font-display);border:none;background:none;
+  color:var(--ink-light);cursor:pointer;border-bottom:2.5px solid transparent;
+  margin-bottom:-1.5px;transition:all .2s;
+}
+.auth-tab.active{color:var(--navy);border-bottom-color:var(--navy)}
+.auth-body{padding:20px}
+.auth-panel{display:none}
+.auth-panel.active{display:block}
+.auth-field{margin-bottom:14px}
+.auth-field label{
+  display:block;font-size:12px;font-weight:600;color:var(--ink-mid);
+  margin-bottom:5px;letter-spacing:.2px;text-transform:uppercase;
+}
+.auth-field input,.auth-field select{
+  width:100%;padding:12px 14px;border:1.5px solid var(--border);
+  border-radius:var(--radius-sm);font-family:var(--font-body);
+  font-size:14px;color:var(--ink);background:var(--white);outline:none;
+  transition:border-color .2s,box-shadow .2s;
+  -webkit-appearance:none;
+}
+.auth-field input:focus,.auth-field select:focus{
+  border-color:var(--navy);box-shadow:0 0 0 3px rgba(11,61,107,.10);
+}
+.auth-field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.auth-photo-wrap{
+  border:2px dashed var(--border);border-radius:var(--radius-sm);
+  padding:18px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;
+  position:relative;overflow:hidden;
+}
+.auth-photo-wrap:hover{border-color:var(--navy);background:var(--slate)}
+.auth-photo-wrap input[type=file]{
+  position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;
+}
+.auth-photo-wrap i{font-size:26px;color:var(--navy-light);margin-bottom:6px;display:block}
+.auth-photo-wrap p{font-size:12px;color:var(--ink-light)}
+.auth-photo-wrap .photo-preview{
+  width:70px;height:70px;border-radius:50%;object-fit:cover;
+  margin:0 auto 6px;display:none;border:2px solid var(--navy);
+}
+.auth-photo-wrap.has-photo .photo-preview{display:block}
+.auth-photo-wrap.has-photo i{display:none}
+.auth-btn{
+  width:100%;padding:14px;border-radius:var(--radius);
+  font-size:15px;font-weight:700;border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  font-family:var(--font-display);transition:all .2s;
+  background:var(--navy);color:var(--white);margin-top:6px;
+}
+.auth-btn:hover{background:var(--navy-dark)}
+.auth-divider{
+  text-align:center;font-size:12px;color:var(--ink-light);
+  margin:14px 0;position:relative;
+}
+.auth-divider::before,.auth-divider::after{
+  content:'';position:absolute;top:50%;width:42%;height:1px;
+  background:var(--border);
+}
+.auth-divider::before{left:0}
+.auth-divider::after{right:0}
+.auth-switch{
+  text-align:center;font-size:13px;color:var(--ink-mid);margin-top:12px;
+}
+.auth-switch button{
+  background:none;border:none;color:var(--navy);font-weight:700;
+  cursor:pointer;font-family:var(--font-body);font-size:13px;
+  text-decoration:underline;
+}
+.auth-error{
+  background:var(--danger-bg);color:var(--danger);
+  border:1px solid #F5C6C2;border-radius:var(--radius-sm);
+  padding:10px 12px;font-size:13px;margin-bottom:12px;display:none;
+  display:flex;align-items:center;gap:8px;
+}
+.auth-error.show{display:flex}
+/* Espace citoyen connecté */
+.espace-hero{
+  background:linear-gradient(135deg,var(--navy),var(--navy-light));
+  border-radius:var(--radius);padding:20px;color:var(--white);
+  margin-bottom:14px;
+}
+.espace-avatar{
+  width:56px;height:56px;border-radius:50%;border:2px solid var(--gold);
+  object-fit:cover;margin-bottom:10px;background:var(--navy-light);
+  display:flex;align-items:center;justify-content:center;font-size:24px;
+}
+.espace-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.espace-name{font-family:var(--font-display);font-size:18px;font-weight:800;margin-bottom:2px}
+.espace-meta{font-size:12px;opacity:.8}
+.espace-logout{
+  background:rgba(255,255,255,.15);border:none;color:var(--white);
+  font-size:12px;font-weight:600;padding:7px 14px;border-radius:var(--radius-full);
+  cursor:pointer;margin-top:12px;font-family:var(--font-body);
+  display:inline-flex;align-items:center;gap:6px;transition:background .2s;
+}
+.espace-logout:hover{background:rgba(255,255,255,.25)}
+.espace-info-card{
+  background:var(--white);border:1.5px solid var(--border);
+  border-radius:var(--radius);padding:16px;box-shadow:var(--shadow-sm);margin-bottom:12px;
+}
+.espace-info-card h4{font-family:var(--font-display);font-size:14px;font-weight:700;color:var(--ink);margin-bottom:10px}
+.espace-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:7px 0;border-bottom:1px solid var(--border);font-size:13px;
+}
+.espace-row:last-child{border-bottom:none}
+.espace-row span:first-child{color:var(--ink-light)}
+.espace-row span:last-child{font-weight:600;color:var(--ink)}
+
+/* ── DARK MODE ── */
+.dark-mode{
+  --white:#1C2333;
+  --slate:#151B27;
+  --slate-dark:#1C2333;
+  --ink:#F0F4FB;
+  --ink-mid:#A8B4C8;
+  --ink-light:#64748B;
+  --border:#2D3748;
+  --navy-light:#2563EB;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.3);
+  --shadow-md:0 4px 12px rgba(0,0,0,.4);
+}
+.dark-mode .site-header{background:linear-gradient(160deg,#0A2D52,#143A6B)}
+.dark-mode .emergency-bar{background:#0A1929}
+.dark-mode .search-field{background:#1C2333;color:var(--ink)}
+</style>
+</head>
+<body>
+
+<!-- BARRE URGENCES -->
+<div class="emergency-bar">
+  <div class="emergency-links">
+    <a class="emergency-link" href="tel:1300">
+      <span class="dot dot-red"></span>Urgences — 1300
+    </a>
+    <a class="emergency-link" href="tel:1722">
+      <span class="dot dot-amber"></span>Police — 1722
+    </a>
+  </div>
+  <div class="emergency-actions">
+    <button class="btn-icon" onclick="toggleDark()" aria-label="Mode sombre" title="Mode sombre">
+      <i class="fa-solid fa-moon" id="themeIcon"></i>
+    </button>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="header-top">
+    <div class="logo-badge">
+      <svg viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="30" height="30" rx="4" fill="#0B3D6B"/>
+        <text x="15" y="21" text-anchor="middle" fill="#C9A84C" font-size="11" font-weight="900" font-family="Nunito,sans-serif">LBV</text>
+      </svg>
+    </div>
+    <div class="header-brand">
+      <h1>Mairie de Libreville</h1>
+      <span>Portail Citoyen · République Gabonaise</span>
+    </div>
+  </div>
+  <div class="hero-text">
+    <h2>Votre mairie,<br>dans la poche.</h2>
+    <p>Effectuez vos démarches en ligne, 24h/24 et 7j/7.</p>
+    <div class="header-chips">
+      <span class="chip chip-gold"><i class="fa-solid fa-circle-check" style="margin-right:4px"></i>Service officiel</span>
+      <span class="chip">Sécurisé</span>
+      <span class="chip">Gratuit</span>
+    </div>
+  </div>
+</header>
+
+<!-- RECHERCHE -->
+<div class="search-wrap">
+  <i class="fa-solid fa-magnifying-glass search-icon"></i>
+  <input class="search-field" type="text" id="searchField" placeholder="Rechercher une démarche ou un service…" autocomplete="off" aria-label="Recherche">
+  <div class="search-results" id="searchResults"></div>
+</div>
+
+<!-- CONTENU PRINCIPAL -->
+<main class="main">
+
+  <!-- PAGE ACCUEIL -->
+  <section class="page active" id="page-accueil">
+
+    <div class="section">
+      <div class="section-head">
+        <h2 class="section-title">Démarches fréquentes</h2>
+        <button class="section-link" onclick="goTo('services')">Tout voir <i class="fa-solid fa-arrow-right"></i></button>
+      </div>
+      <div class="services-grid">
+        <div class="service-card" onclick="openModal('naissance')">
+          <div class="service-icon-wrap ic-blue"><i class="fa-solid fa-baby"></i></div>
+          <span class="service-name">Naissance</span>
+          <span class="service-sub">Acte · déclaration</span>
+        </div>
+        <div class="service-card" onclick="openModal('mariage')">
+          <div class="service-icon-wrap ic-gold"><i class="fa-solid fa-ring"></i></div>
+          <span class="service-name">Mariage</span>
+          <span class="service-sub">Dossier civil</span>
+        </div>
+        <div class="service-card" onclick="openModal('cni')">
+          <div class="service-icon-wrap ic-purple"><i class="fa-solid fa-id-card"></i></div>
+          <span class="service-name">CNI</span>
+          <span class="service-sub">Prise de RDV</span>
+        </div>
+        <div class="service-card" onclick="openModal('urbanisme')">
+          <div class="service-icon-wrap ic-teal"><i class="fa-solid fa-compass-drafting"></i></div>
+          <span class="service-name">Permis</span>
+          <span class="service-sub">Construire · travaux</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <h2 class="section-title">À la une</h2>
+        <button class="section-link" onclick="goTo('actualites')">Plus d'actus <i class="fa-solid fa-arrow-right"></i></button>
+      </div>
+      <div class="news-scroll" id="homeNews"></div>
+    </div>
+
+    <div class="section" style="padding:0 16px">
+      <div style="background:linear-gradient(135deg,#0B3D6B,#1A5494);border-radius:var(--radius);padding:18px;color:#fff;display:flex;align-items:center;gap:14px">
+        <div style="background:rgba(255,255,255,.15);border-radius:var(--radius-sm);width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">
+          <i class="fa-solid fa-user-shield"></i>
+        </div>
+        <div style="flex:1">
+          <p style="font-family:var(--font-display);font-size:15px;font-weight:800;margin-bottom:3px">Mon espace citoyen</p>
+          <p style="font-size:12px;opacity:.8">Suivez vos dossiers, téléchargez vos actes</p>
+        </div>
+        <button class="btn-sm btn-gold" id="btnEspaceCitoyen" onclick="openAuth()" style="flex-shrink:0">Accéder</button>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- PAGE DÉMARCHES -->
+  <section class="page" id="page-services">
+    <div class="section">
+      <div class="section-head">
+        <h2 class="section-title">Toutes les démarches</h2>
+      </div>
+      <div class="tabs-wrap">
+        <button class="tab active" onclick="filterTab('all',this)">Toutes</button>
+        <button class="tab" onclick="filterTab('etat-civil',this)">État civil</button>
+        <button class="tab" onclick="filterTab('urbanisme',this)">Urbanisme</button>
+        <button class="tab" onclick="filterTab('vie-locale',this)">Vie locale</button>
+      </div>
+      <div class="demarches-list" id="demarchesList"></div>
+    </div>
+  </section>
+
+  <!-- PAGE ACTUALITÉS -->
+  <section class="page" id="page-actualites">
+    <div class="section">
+      <div class="section-head">
+        <h2 class="section-title">Actualités locales</h2>
+      </div>
+      <div id="actualitesList"></div>
+    </div>
+  </section>
+
+  <!-- PAGE MAIRIE -->
+  <section class="page" id="page-mairie">
+    <div class="section">
+      <div class="mairie-hero">
+        <p style="font-size:11px;opacity:.7;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:6px">Hôtel de Ville</p>
+        <h2>Votre conseil municipal</h2>
+        <div class="mairie-gold-line"></div>
+        <p>Découvrez l'équipe administrative et les grands projets de modernisation urbaine en cours à Libreville.</p>
+      </div>
+      <div class="stats-row">
+        <div class="stat-card"><div class="stat-num">9</div><div class="stat-lbl">Arrondis&shy;sements</div></div>
+        <div class="stat-card"><div class="stat-num">42</div><div class="stat-lbl">Services munic.</div></div>
+        <div class="stat-card"><div class="stat-num">24/7</div><div class="stat-lbl">Portail en ligne</div></div>
+      </div>
+      <div class="accordion" id="accordionMairie">
+        <div class="acc-item">
+          <div class="acc-head" onclick="toggleAcc(this)">
+            <h4><i class="fa-solid fa-user-tie" style="color:var(--navy);margin-right:8px"></i>Mot du Maire</h4>
+            <i class="fa-solid fa-chevron-down"></i>
+          </div>
+          <div class="acc-body"><div class="acc-inner">
+            <p>Chers concitoyens, bienvenue sur votre portail municipal numérique. Notre ambition est de placer Libreville parmi les capitales africaines les plus modernes en matière de services publics digitaux. Ce portail vous permet d'effectuer vos démarches administratives rapidement, en toute sécurité et sans vous déplacer. Ensemble, construisons une ville plus fluide et plus accessible pour tous.</p>
+          </div></div>
+        </div>
+        <div class="acc-item">
+          <div class="acc-head" onclick="toggleAcc(this)">
+            <h4><i class="fa-solid fa-clock" style="color:var(--navy);margin-right:8px"></i>Horaires d'ouverture</h4>
+            <i class="fa-solid fa-chevron-down"></i>
+          </div>
+          <div class="acc-body"><div class="acc-inner">
+            <div class="horaire-row"><strong>Lun – Ven</strong><span>7h30 – 15h30</span></div>
+            <div class="horaire-row"><strong>Samedi (État civil)</strong><span>9h00 – 12h00</span></div>
+            <div class="horaire-row"><strong>Dimanche & jours fériés</strong><span>Fermé</span></div>
+          </div></div>
+        </div>
+        <div class="acc-item">
+          <div class="acc-head" onclick="toggleAcc(this)">
+            <h4><i class="fa-solid fa-city" style="color:var(--navy);margin-right:8px"></i>Projets urbains 2026</h4>
+            <i class="fa-solid fa-chevron-down"></i>
+          </div>
+          <div class="acc-body"><div class="acc-inner">
+            <p style="margin-bottom:10px">Plusieurs chantiers majeurs sont en cours pour transformer la capitale :</p>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div style="display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--ink-mid)"><i class="fa-solid fa-road" style="color:var(--gold);margin-top:2px;width:16px;text-align:center"></i><span>Réhabilitation des axes secondaires et éclairage LED dans 4 arrondissements</span></div>
+              <div style="display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--ink-mid)"><i class="fa-solid fa-leaf" style="color:var(--success);margin-top:2px;width:16px;text-align:center"></i><span>Création de 3 nouveaux parcs urbains et espaces verts</span></div>
+              <div style="display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--ink-mid)"><i class="fa-solid fa-wifi" style="color:var(--navy-light);margin-top:2px;width:16px;text-align:center"></i><span>Déploiement du WiFi public gratuit dans les espaces municipaux</span></div>
+            </div>
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGE CONTACT -->
+  <section class="page" id="page-contact">
+    <div class="section">
+      <div class="contact-hero">
+        <h2>Contactez-nous</h2>
+        <div class="mairie-gold-line"></div>
+        <p>Une question, un signalement ou un problème technique ? Notre équipe est disponible pour vous aider.</p>
+      </div>
+      <div class="contact-actions">
+        <a class="contact-btn" href="mailto:mairie@libreville.gab">
+          <div class="contact-btn-icon ic-blue"><i class="fa-solid fa-envelope"></i></div>
+          <div class="contact-btn-text">
+            <strong>Envoyer un e-mail</strong>
+            <span>mairie@libreville.gab</span>
+          </div>
+          <i class="fa-solid fa-chevron-right contact-btn-arrow"></i>
+        </a>
+        <a class="contact-btn" href="tel:+24101XXXXXX">
+          <div class="contact-btn-icon ic-green"><i class="fa-solid fa-phone"></i></div>
+          <div class="contact-btn-text">
+            <strong>Appeler le standard</strong>
+            <span>+241 01 XX XX XX · Lun–Ven 7h30–15h30</span>
+          </div>
+          <i class="fa-solid fa-chevron-right contact-btn-arrow"></i>
+        </a>
+        <div class="contact-btn" onclick="openMaps()">
+          <div class="contact-btn-icon ic-gold"><i class="fa-solid fa-map-location-dot"></i></div>
+          <div class="contact-btn-text">
+            <strong>Itinéraire Google Maps</strong>
+            <span>Place de l'Indépendance, Libreville</span>
+          </div>
+          <i class="fa-solid fa-chevron-right contact-btn-arrow"></i>
+        </div>
+      </div>
+      <div class="contact-info">
+        <div class="info-card">
+          <h3><i class="fa-solid fa-location-dot" style="color:var(--navy);margin-right:6px"></i>Informations pratiques</h3>
+          <div class="info-row"><i class="fa-solid fa-building"></i><span>Hôtel de Ville — Place de l'Indépendance, Libreville, Gabon</span></div>
+          <div class="info-row"><i class="fa-solid fa-clock"></i><span>Lun–Ven : 7h30–15h30 · Sam (état civil) : 9h00–12h00</span></div>
+          <div class="info-row"><i class="fa-solid fa-circle-info"></i><span>Guichet numérique ouvert 24h/24 via ce portail</span></div>
+        </div>
+      </div>
+      <div class="map-placeholder" onclick="openMaps()">
+        <i class="fa-solid fa-map"></i>
+        <span>Voir sur Google Maps</span>
+        <span style="font-size:11px;color:var(--ink-light)">Place de l'Indépendance · Libreville</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav" aria-label="Navigation principale">
+  <div class="bottom-items">
+    <button class="nav-btn active" data-page="accueil" onclick="goTo('accueil',this)">
+      <i class="fa-solid fa-house"></i><span>Accueil</span>
+    </button>
+    <button class="nav-btn" data-page="services" onclick="goTo('services',this)">
+      <i class="fa-solid fa-file-lines"></i><span>Démarches</span>
+    </button>
+    <button class="nav-btn center-btn" data-page="actualites" onclick="goTo('actualites',this)">
+      <div class="center-blob"><i class="fa-solid fa-newspaper"></i></div>
+      <span style="color:var(--ink-light)">Actus</span>
+    </button>
+    <button class="nav-btn" data-page="mairie" onclick="goTo('mairie',this)">
+      <i class="fa-solid fa-landmark"></i><span>Mairie</span>
+    </button>
+    <button class="nav-btn" data-page="contact" onclick="goTo('contact',this)">
+      <i class="fa-solid fa-address-book"></i><span>Contact</span>
+    </button>
+  </div>
+</nav>
+
+<!-- MODAL DÉMARCHE -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal-sheet" id="modalSheet">
+    <div class="modal-handle"></div>
+    <div class="modal-head">
+      <h3 id="modalTitle">Détail</h3>
+      <button class="modal-close" onclick="closeModal()" aria-label="Fermer">×</button>
+    </div>
+    <div class="modal-body-content" id="modalBody"></div>
+  </div>
+</div>
+
+
+<!-- AUTH MODAL -->
+<div class="auth-overlay" id="authOverlay">
+  <div class="auth-sheet" id="authSheet">
+    <div class="auth-handle"></div>
+    <div class="auth-head">
+      <h3 id="authTitle">Mon espace citoyen</h3>
+      <button class="auth-close" onclick="closeAuth()">×</button>
+    </div>
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tabConnexion" onclick="switchAuthTab('connexion')">Connexion</button>
+      <button class="auth-tab" id="tabInscription" onclick="switchAuthTab('inscription')">Inscription</button>
+    </div>
+    <div class="auth-body">
+      <!-- CONNEXION -->
+      <div class="auth-panel active" id="panelConnexion">
+        <div class="auth-error" id="loginError"><i class="fa-solid fa-circle-exclamation"></i><span id="loginErrorMsg"></span></div>
+        <div class="auth-field">
+          <label>Adresse e-mail</label>
+          <input type="email" id="loginEmail" placeholder="votre@email.com" autocomplete="email">
+        </div>
+        <div class="auth-field">
+          <label>Mot de passe</label>
+          <input type="password" id="loginPwd" placeholder="Votre mot de passe">
+        </div>
+        <button class="auth-btn" onclick="doLogin()">
+          <i class="fa-solid fa-arrow-right-to-bracket"></i> Se connecter
+        </button>
+        <div class="auth-switch">Pas encore de compte ? <button onclick="switchAuthTab('inscription')">S'inscrire</button></div>
+      </div>
+
+      <!-- INSCRIPTION -->
+      <div class="auth-panel" id="panelInscription">
+        <div class="auth-error" id="regError"><i class="fa-solid fa-circle-exclamation"></i><span id="regErrorMsg"></span></div>
+        <div class="auth-field-row">
+          <div class="auth-field">
+            <label>Nom(s)</label>
+            <input type="text" id="regNom" placeholder="NDONG" autocomplete="family-name">
+          </div>
+          <div class="auth-field">
+            <label>Prénom(s)</label>
+            <input type="text" id="regPrenom" placeholder="Jean" autocomplete="given-name">
+          </div>
+        </div>
+        <div class="auth-field-row">
+          <div class="auth-field">
+            <label>Date de naissance</label>
+            <input type="date" id="regDateNaiss">
+          </div>
+          <div class="auth-field">
+            <label>Lieu de naissance</label>
+            <input type="text" id="regLieuNaiss" placeholder="Libreville">
+          </div>
+        </div>
+        <div class="auth-field">
+          <label>Arrondissement de résidence</label>
+          <select id="regArrond">
+            <option value="">-- Sélectionner --</option>
+            <option>1er Arrondissement</option>
+            <option>2e Arrondissement</option>
+            <option>3e Arrondissement</option>
+            <option>4e Arrondissement</option>
+            <option>5e Arrondissement</option>
+            <option>6e Arrondissement</option>
+            <option>7e Arrondissement</option>
+            <option>8e Arrondissement</option>
+            <option>9e Arrondissement</option>
+          </select>
+        </div>
+        <div class="auth-field">
+          <label>Adresse e-mail</label>
+          <input type="email" id="regEmail" placeholder="votre@email.com" autocomplete="email">
+        </div>
+        <div class="auth-field">
+          <label>Mot de passe</label>
+          <input type="password" id="regPwd" placeholder="Minimum 6 caractères">
+        </div>
+        <div class="auth-field">
+          <label>Photo d'identité</label>
+          <div class="auth-photo-wrap" id="photoWrap">
+            <input type="file" id="regPhoto" accept="image/*" onchange="previewPhoto(this)">
+            <img class="photo-preview" id="photoPreview" src="" alt="Photo">
+            <i class="fa-solid fa-camera"></i>
+            <p>Appuyez pour ajouter une photo<br><span style="font-size:11px;opacity:.7">JPG, PNG · Max 2 Mo</span></p>
+          </div>
+        </div>
+        <button class="auth-btn" onclick="doRegister()">
+          <i class="fa-solid fa-user-plus"></i> Créer mon compte
+        </button>
+        <div class="auth-switch">Déjà un compte ? <button onclick="switchAuthTab('connexion')">Se connecter</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ESPACE CITOYEN CONNECTÉ -->
+<div class="auth-overlay" id="espaceOverlay">
+  <div class="auth-sheet" id="espaceSheet">
+    <div class="auth-handle"></div>
+    <div class="auth-head">
+      <h3>Mon espace citoyen</h3>
+      <button class="auth-close" onclick="closeEspace()">×</button>
+    </div>
+    <div class="auth-body">
+      <div class="espace-hero">
+        <div class="espace-avatar" id="espaceAvatar">
+          <i class="fa-solid fa-user"></i>
+        </div>
+        <div class="espace-name" id="espaceName"></div>
+        <div class="espace-meta" id="espaceMeta"></div>
+        <button class="espace-logout" onclick="doLogout()">
+          <i class="fa-solid fa-right-from-bracket"></i> Se déconnecter
+        </button>
+      </div>
+      <div class="espace-info-card">
+        <h4><i class="fa-solid fa-id-card" style="color:var(--navy);margin-right:6px"></i>Informations personnelles</h4>
+        <div class="espace-row"><span>Nom & Prénom</span><span id="ei-nom"></span></div>
+        <div class="espace-row"><span>Date de naissance</span><span id="ei-dob"></span></div>
+        <div class="espace-row"><span>Lieu de naissance</span><span id="ei-lieu"></span></div>
+        <div class="espace-row"><span>Arrondissement</span><span id="ei-arrond"></span></div>
+        <div class="espace-row"><span>E-mail</span><span id="ei-email"></span></div>
+      </div>
+      <div class="espace-info-card">
+        <h4><i class="fa-solid fa-folder-open" style="color:var(--navy);margin-right:6px"></i>Mes dossiers en cours</h4>
+        <div style="text-align:center;padding:16px 0;color:var(--ink-light);font-size:13px">
+          <i class="fa-solid fa-inbox" style="font-size:24px;margin-bottom:8px;display:block;opacity:.4"></i>
+          Aucun dossier en cours pour le moment.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+
+<div class="toast" id="toast"><i class="fa-solid fa-circle-check"></i><span id="toastMsg"></span></div>
+
+<script>
+const DATA = {
+  demarches: [
+    {
+      id:'naissance',cat:'etat-civil',
+      title:'Acte de naissance',icon:'fa-baby',iconCls:'ic-blue',
+      time:'48 h',cost:'Gratuit',tag:'tag-free',
+      desc:'Demande de copie intégrale ou d\'extrait d\'acte de naissance pour toute personne née à Libreville. La démarche peut être initiée en ligne ; le document est remis sur place ou envoyé par courrier recommandé.',
+      docs:['Pièce d\'identité du demandeur','Référence de l\'acte (si connue)','Justificatif de lien de parenté (si acte d\'un tiers)']
+    },
+    {
+      id:'mariage',cat:'etat-civil',
+      title:'Dossier de mariage',icon:'fa-ring',iconCls:'ic-gold',
+      time:'4 semaines',cost:'Frais fixes',tag:'tag-paid',
+      desc:'Constitution et dépôt du dossier pour l\'organisation du mariage civil à l\'Hôtel de Ville. Un rendez-vous préalable est obligatoire. La cérémonie est planifiée en concertation avec l\'officier d\'état civil.',
+      docs:['CNI ou passeport des deux époux','Extrait d\'acte de naissance (moins de 3 mois)','Justificatif de domicile','Acte de mariage antérieur dissous (si applicable)','2 témoins majeurs avec leurs pièces d\'identité']
+    },
+    {
+      id:'cni',cat:'etat-civil',
+      title:'Carte nationale d\'identité',icon:'fa-id-card',iconCls:'ic-purple',
+      time:'2 semaines',cost:'Tarif national',tag:'tag-paid',
+      desc:'Prise de rendez-vous pour le dépôt biométrique de votre dossier d\'identité. La capture d\'empreintes et la photo sont réalisées sur place. La carte est à retirer en mairie sous présentation du récépissé.',
+      docs:['Extrait d\'acte de naissance','Certificat de nationalité gabonaise','Justificatif de résidence à Libreville','1 photo d\'identité récente','Ancienne CNI (si renouvellement)']
+    },
+    {
+      id:'urbanisme',cat:'urbanisme',
+      title:'Permis de construire',icon:'fa-compass-drafting',iconCls:'ic-teal',
+      time:'2 mois',cost:'Sur étude',tag:'tag-paid',
+      desc:'Dépôt de dossier pour toute construction neuve ou extension sur le territoire de Libreville. Le service urbanisme instruit le dossier après inspection du terrain et des plans fournis par un architecte agréé.',
+      docs:['Plans de masse signés par un architecte','Titre foncier ou bail emphytéotique','Étude d\'impact environnemental','Formulaire de demande de permis (fourni en mairie)']
+    },
+    {
+      id:'travaux',cat:'urbanisme',
+      title:'Autorisation de travaux',icon:'fa-trowel-bricks',iconCls:'ic-teal',
+      time:'15 jours',cost:'Gratuit',tag:'tag-free',
+      desc:'Déclaration préalable pour travaux mineurs : ravalement de façade, installation de clôture, modification d\'ouverture ou extension inférieure à 20 m². Ne dispense pas du respect des règles locales d\'urbanisme.',
+      docs:['Formulaire de déclaration préalable','Plan de situation du terrain','Photos de l\'état actuel','Description sommaire des travaux']
+    },
+    {
+      id:'deces',cat:'etat-civil',
+      title:'Acte de décès',icon:'fa-file-medical',iconCls:'ic-red',
+      time:'24 h',cost:'Gratuit',tag:'tag-free',
+      desc:'Déclaration de décès ou demande de copie d\'acte de décès. La déclaration doit être effectuée dans les 24 heures suivant le décès par un proche ou le responsable de l\'établissement de santé. Copie disponible sur demande.',
+      docs:['Certificat de décès signé par le médecin','Pièce d\'identité du défunt','Livret de famille (si disponible)','Pièce d\'identité du déclarant']
+    },
+    {
+      id:'signalement',cat:'vie-locale',
+      title:'Signalement citoyen',icon:'fa-triangle-exclamation',iconCls:'ic-gold',
+      time:'5 jours ouvrés',cost:'Gratuit',tag:'tag-free',
+      desc:'Signalez un problème sur l\'espace public : nid-de-poule, éclairage défaillant, dépôt sauvage, espace vert dégradé. Votre signalement est transmis au service compétent et suivi jusqu\'à résolution.',
+      docs:['Photo du problème (recommandé)','Adresse précise du signalement','Vos coordonnées pour le suivi']
+    },
+    {
+      id:'salubrite',cat:'vie-locale',
+      title:'Enlèvement d\'encombrants',icon:'fa-trash-can',iconCls:'ic-green',
+      time:'3 à 5 jours',cost:'Gratuit',tag:'tag-free',
+      desc:'Demande d\'enlèvement d\'objets encombrants (meubles, électroménager, gravats légers) devant votre domicile. Le ramassage est planifié par la brigade de salubrité urbaine de la Mairie de Libreville.',
+      docs:['Adresse de collecte','Nature des objets','Date souhaitée']
+    }
+  ],
+  actualites: [
+    {
+      id:1,cat:'Salubrité',
+      title:'Grande campagne de nettoyage urbain — Samedi 28 juin',
+      date:'01 juin 2026',
+      img:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80',
+      desc:'La Mairie de Libreville organise une journée citoyenne de nettoyage dans les 9 arrondissements. Chaque habitant est invité à participer dès 7h du matin. Matériel fourni sur place.'
+    },
+    {
+      id:2,cat:'Numérique',
+      title:'Modernisation de l\'état civil : actes disponibles en ligne',
+      date:'28 mai 2026',
+      img:'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&q=80',
+      desc:'Le nouveau système d\'état civil numérique permet désormais de demander vos actes de naissance, mariage et décès directement depuis ce portail, sans déplacement. Traitement sous 48 heures.'
+    },
+    {
+      id:3,cat:'Travaux',
+      title:'Réhabilitation des voies secondaires : le chantier débute',
+      date:'15 mai 2026',
+      img:'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&q=80',
+      desc:'Quatre arrondissements bénéficieront de la réhabilitation des axes secondaires et du déploiement d\'un éclairage public LED économe en énergie. Les travaux s\'étalent sur 6 mois.'
+    },
+    {
+      id:4,cat:'Social',
+      title:'Ouverture du guichet social unique — Arrondissement 3',
+      date:'05 mai 2026',
+      img:'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&q=80',
+      desc:'Un guichet unique pour l\'accès aux aides sociales, logement et emploi ouvre ses portes dans le 3e arrondissement. Accueil du lundi au vendredi de 8h à 14h.'
+    }
+  ]
+};
+
+// ── NAVIGATION ──
+function goTo(page, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const target = document.getElementById('page-'+page);
+  if(target) target.classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  if(el) el.classList.add('active');
+  else {
+    const btn = document.querySelector(`.nav-btn[data-page="${page}"]`);
+    if(btn) btn.classList.add('active');
+  }
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ── RENDER ACCUEIL NEWS ──
+function renderHomeNews() {
+  const el = document.getElementById('homeNews');
+  if(!el) return;
+  el.innerHTML = DATA.actualites.slice(0,3).map(n => `
+    <div class="news-slide">
+      <div class="news-img" style="background-image:url('${n.img}')">
+        <div class="news-img-overlay"></div>
+        <span class="news-badge">${n.cat}</span>
+      </div>
+      <div class="news-body">
+        <p class="news-date"><i class="fa-regular fa-calendar"></i> ${n.date}</p>
+        <h3 class="news-title">${n.title}</h3>
+        <p class="news-desc">${n.desc.substring(0,80)}…</p>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ── RENDER DÉMARCHES ──
+function renderDemarches(cat) {
+  const el = document.getElementById('demarchesList');
+  if(!el) return;
+  const list = cat === 'all' ? DATA.demarches : DATA.demarches.filter(d => d.cat === cat);
+  el.innerHTML = list.map(d => `
+    <div class="demarche-card" onclick="openModal('${d.id}')">
+      <div class="d-icon ${d.iconCls}"><i class="fa-solid ${d.icon}"></i></div>
+      <div class="d-body">
+        <p class="d-title">${d.title}</p>
+        <div class="d-meta">
+          <span><i class="fa-regular fa-clock"></i> ${d.time}</span>
+          <span class="d-tag ${d.tag}">${d.cost}</span>
+        </div>
+      </div>
+      <i class="fa-solid fa-chevron-right d-arrow"></i>
+    </div>
+  `).join('');
+}
+
+function filterTab(cat, btn) {
+  document.querySelectorAll('.tabs-wrap .tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  renderDemarches(cat);
+}
+
+// ── RENDER ACTUALITÉS ──
+function renderActualites() {
+  const el = document.getElementById('actualitesList');
+  if(!el) return;
+  el.innerHTML = DATA.actualites.map(n => `
+    <div class="actu-card">
+      <div class="actu-img" style="background-image:url('${n.img}')">
+        <span class="actu-img-badge">${n.cat}</span>
+      </div>
+      <div class="actu-body">
+        <p class="actu-date"><i class="fa-regular fa-calendar"></i> ${n.date}</p>
+        <h3 class="actu-title">${n.title}</h3>
+        <p class="actu-desc">${n.desc}</p>
+        <div class="actu-actions">
+          <button class="btn-sm btn-primary" onclick="shareActu(${n.id})">
+            <i class="fa-solid fa-share-nodes"></i> Partager
+          </button>
+          <button class="btn-sm btn-outline">En savoir plus</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ── MODAL ──
+function openModal(id) {
+  const d = DATA.demarches.find(x => x.id === id);
+  if(!d) return;
+  document.getElementById('modalTitle').textContent = d.title;
+  document.getElementById('modalBody').innerHTML = `
+    <div class="modal-icon-header">
+      <div class="modal-big-icon ${d.iconCls}"><i class="fa-solid ${d.icon}"></i></div>
+      <div>
+        <p style="font-family:var(--font-display);font-weight:800;font-size:17px;margin-bottom:3px">${d.title}</p>
+        <p style="font-size:12px;color:var(--ink-light)">Service : ${d.cat === 'etat-civil' ? 'État civil' : d.cat === 'urbanisme' ? 'Urbanisme' : 'Vie locale'}</p>
+      </div>
+    </div>
+    <p class="modal-desc">${d.desc}</p>
+    <div class="modal-info-grid">
+      <div class="modal-info-cell">
+        <p class="mic-label">Délai</p>
+        <p class="mic-val">${d.time}</p>
+      </div>
+      <div class="modal-info-cell">
+        <p class="mic-label">Coût</p>
+        <p class="mic-val">${d.cost}</p>
+      </div>
+    </div>
+    <div class="modal-docs">
+      <h4><i class="fa-solid fa-paperclip" style="color:var(--navy);margin-right:6px"></i>Pièces à fournir</h4>
+      ${d.docs.map(doc => `<div class="doc-item"><i class="fa-solid fa-circle-check"></i><span>${doc}</span></div>`).join('')}
+    </div>
+    <div class="modal-cta">
+      <button class="btn-full btn-full-primary" onclick="startDemarche('${d.id}')">
+        <i class="fa-solid fa-arrow-right-to-bracket"></i> Commencer la démarche en ligne
+      </button>
+      <button class="btn-full btn-full-outline" onclick="closeModal()">
+        Retour à la liste
+      </button>
+    </div>
+  `;
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(evt) {
+  if(evt && evt.target !== document.getElementById('modalOverlay')) return;
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function startDemarche(id) {
+  closeModal();
+  showToast('Démarche initialisée — Connexion sécurisée en cours…');
+}
+
+// ── ACCORDION ──
+function toggleAcc(head) {
+  const item = head.closest('.acc-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.acc-item.open').forEach(i => i.classList.remove('open'));
+  if(!isOpen) item.classList.add('open');
+}
+
+// ── RECHERCHE ──
+function initSearch() {
+  const field = document.getElementById('searchField');
+  const results = document.getElementById('searchResults');
+  field.addEventListener('input', () => {
+    const q = field.value.trim().toLowerCase();
+    if(q.length < 2) { results.classList.remove('visible'); return; }
+    const matches = DATA.demarches.filter(d =>
+      d.title.toLowerCase().includes(q) || d.desc.toLowerCase().includes(q)
+    ).slice(0,4);
+    if(!matches.length) { results.classList.remove('visible'); return; }
+    results.innerHTML = matches.map(d => `
+      <div class="search-result-item" onclick="goToAndOpen('${d.id}')">
+        <div class="sri-icon ${d.iconCls}"><i class="fa-solid ${d.icon}"></i></div>
+        <div>
+          <p class="sri-text">${d.title}</p>
+          <p class="sri-cat">${d.cat === 'etat-civil' ? 'État civil' : d.cat === 'urbanisme' ? 'Urbanisme' : 'Vie locale'} · ${d.time}</p>
+        </div>
+      </div>
+    `).join('');
+    results.classList.add('visible');
+  });
+  document.addEventListener('click', e => {
+    if(!field.contains(e.target) && !results.contains(e.target)) results.classList.remove('visible');
+  });
+}
+
+function goToAndOpen(id) {
+  document.getElementById('searchField').value = '';
+  document.getElementById('searchResults').classList.remove('visible');
+  goTo('services');
+  setTimeout(() => openModal(id), 200);
+}
+
+// ── THÈME ──
+function toggleDark() {
+  document.body.classList.toggle('dark-mode');
+  const icon = document.getElementById('themeIcon');
+  icon.className = document.body.classList.contains('dark-mode') ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+}
+
+// ── TOAST ──
+function showToast(msg, type) {
+  const t = document.getElementById('toast');
+  const m = document.getElementById('toastMsg');
+  m.textContent = msg;
+  t.className = 'toast show' + (type === 'info' ? '' : ' success');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ── PARTAGE ──
+function shareActu(id) {
+  const n = DATA.actualites.find(x => x.id === id);
+  if(!n) return;
+  if(navigator.share) {
+    navigator.share({title: n.title, text: n.desc, url: window.location.href}).catch(()=>{});
+  } else {
+    showToast('Lien copié dans le presse-papier !');
+  }
+}
+
+// ── GOOGLE MAPS ──
+function openMaps() {
+  const url = 'https://maps.google.com/?q=' + encodeURIComponent('Place de l\'Indépendance, Libreville, Gabon');
+  window.open(url, '_blank');
+}
+
+
+// ── AUTH SYSTEM ──
+const AUTH_KEY = 'lbv_users';
+const SESSION_KEY = 'lbv_session';
+
+function getUsers() {
+  try { return JSON.parse(localStorage.getItem(AUTH_KEY) || '[]'); } catch(e) { return []; }
+}
+function saveUsers(users) {
+  localStorage.setItem(AUTH_KEY, JSON.stringify(users));
+}
+function getSession() {
+  try { return JSON.parse(sessionStorage.getItem(SESSION_KEY) || 'null'); } catch(e) { return null; }
+}
+function saveSession(user) {
+  sessionStorage.setItem(SESSION_KEY, JSON.stringify(user));
+}
+function clearSession() {
+  sessionStorage.removeItem(SESSION_KEY);
+}
+
+function openAuth() {
+  const session = getSession();
+  if (session) { openEspace(); return; }
+  document.getElementById('authOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeAuth() {
+  document.getElementById('authOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function openEspace() {
+  const u = getSession();
+  if (!u) return;
+  document.getElementById('espaceName').textContent = u.prenom + ' ' + u.nom;
+  document.getElementById('espaceMeta').textContent = u.email + ' · ' + u.arrond;
+  document.getElementById('ei-nom').textContent = u.prenom + ' ' + u.nom;
+  document.getElementById('ei-dob').textContent = u.dateNaiss ? new Date(u.dateNaiss).toLocaleDateString('fr-FR') : '—';
+  document.getElementById('ei-lieu').textContent = u.lieuNaiss || '—';
+  document.getElementById('ei-arrond').textContent = u.arrond || '—';
+  document.getElementById('ei-email').textContent = u.email;
+  const av = document.getElementById('espaceAvatar');
+  if (u.photo) {
+    av.innerHTML = `<img src="${u.photo}" alt="Photo">`;
+  } else {
+    av.innerHTML = '<i class="fa-solid fa-user"></i>';
+  }
+  document.getElementById('espaceOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeEspace() {
+  document.getElementById('espaceOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function switchAuthTab(tab) {
+  document.getElementById('panelConnexion').classList.toggle('active', tab === 'connexion');
+  document.getElementById('panelInscription').classList.toggle('active', tab === 'inscription');
+  document.getElementById('tabConnexion').classList.toggle('active', tab === 'connexion');
+  document.getElementById('tabInscription').classList.toggle('active', tab === 'inscription');
+  document.getElementById('loginError').classList.remove('show');
+  document.getElementById('regError').classList.remove('show');
+}
+
+function showAuthError(id, msg) {
+  const el = document.getElementById(id);
+  document.getElementById(id + 'Msg').textContent = msg;
+  el.classList.add('show');
+}
+
+function doLogin() {
+  const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+  const pwd = document.getElementById('loginPwd').value;
+  document.getElementById('loginError').classList.remove('show');
+  if (!email || !pwd) { showAuthError('loginError', 'Veuillez remplir tous les champs.'); return; }
+  const users = getUsers();
+  const user = users.find(u => u.email === email && u.pwd === btoa(pwd));
+  if (!user) { showAuthError('loginError', 'Identifiants incorrects. Vérifiez votre e-mail et mot de passe.'); return; }
+  saveSession(user);
+  closeAuth();
+  updateNavConnexion(user);
+  showToast('Bienvenue, ' + user.prenom + ' !');
+  openEspace();
+}
+
+function doRegister() {
+  const nom = document.getElementById('regNom').value.trim();
+  const prenom = document.getElementById('regPrenom').value.trim();
+  const dateNaiss = document.getElementById('regDateNaiss').value;
+  const lieuNaiss = document.getElementById('regLieuNaiss').value.trim();
+  const arrond = document.getElementById('regArrond').value;
+  const email = document.getElementById('regEmail').value.trim().toLowerCase();
+  const pwd = document.getElementById('regPwd').value;
+  const photo = document.getElementById('photoPreview').src;
+  document.getElementById('regError').classList.remove('show');
+  if (!nom || !prenom || !dateNaiss || !lieuNaiss || !arrond || !email || !pwd) {
+    showAuthError('regError', 'Veuillez remplir tous les champs obligatoires.'); return;
+  }
+  if (pwd.length < 6) { showAuthError('regError', 'Le mot de passe doit comporter au moins 6 caractères.'); return; }
+  const users = getUsers();
+  if (users.find(u => u.email === email)) {
+    showAuthError('regError', 'Un compte existe déjà avec cet e-mail.'); return;
+  }
+  const newUser = {
+    nom: nom.toUpperCase(), prenom, dateNaiss, lieuNaiss, arrond, email,
+    pwd: btoa(pwd),
+    photo: (photo && photo !== window.location.href) ? photo : null
+  };
+  users.push(newUser);
+  saveUsers(users);
+  saveSession(newUser);
+  closeAuth();
+  updateNavConnexion(newUser);
+  showToast('Compte créé ! Bienvenue, ' + prenom + ' 🎉');
+  openEspace();
+}
+
+function doLogout() {
+  clearSession();
+  closeEspace();
+  updateNavConnexion(null);
+  showToast('Vous êtes déconnecté(e).');
+}
+
+function previewPhoto(input) {
+  const file = input.files[0];
+  if (!file) return;
+  if (file.size > 2 * 1024 * 1024) { showAuthError('regError', 'La photo ne doit pas dépasser 2 Mo.'); return; }
+  const reader = new FileReader();
+  reader.onload = e => {
+    const preview = document.getElementById('photoPreview');
+    preview.src = e.target.result;
+    document.getElementById('photoWrap').classList.add('has-photo');
+  };
+  reader.readAsDataURL(file);
+}
+
+function updateNavConnexion(user) {
+  const btn = document.getElementById('btnEspaceCitoyen');
+  if (!btn) return;
+  if (user) {
+    btn.textContent = user.prenom;
+    btn.innerHTML = '<i class="fa-solid fa-user-check" style="margin-right:4px"></i>' + user.prenom;
+  } else {
+    btn.innerHTML = 'Accéder';
+  }
+}
+
+// Close auth overlays on outside click
+document.addEventListener('click', e => {
+  if (e.target === document.getElementById('authOverlay')) closeAuth();
+  if (e.target === document.getElementById('espaceOverlay')) closeEspace();
+});
+
+// ── EXPOSE GLOBALS (for inline onclick handlers) ──
+window.openAuth = openAuth;
+window.closeAuth = closeAuth;
+window.openEspace = openEspace;
+window.closeEspace = closeEspace;
+window.switchAuthTab = switchAuthTab;
+window.doLogin = doLogin;
+window.doRegister = doRegister;
+window.doLogout = doLogout;
+window.previewPhoto = previewPhoto;
+window.goTo = goTo;
+window.openModal = openModal;
+window.closeModal = closeModal;
+window.startDemarche = startDemarche;
+window.filterTab = filterTab;
+window.toggleAcc = toggleAcc;
+window.toggleDark = toggleDark;
+window.shareActu = shareActu;
+window.openMaps = openMaps;
+window.goToAndOpen = goToAndOpen;
+
+// ── INIT ──
+document.addEventListener('DOMContentLoaded', () => {
+  renderHomeNews();
+  renderDemarches('all');
+  renderActualites();
+  initSearch();
+  const session = getSession();
+  if (session) updateNavConnexion(session);
+});
+</script>
+</body>
+</html>
