@@ -1,0 +1,2006 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Mairie de Libreville — Portail Citoyen</title>
+<meta name="theme-color" content="#0B3D6B">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --navy:#0B3D6B;--navy-dark:#082D52;--navy-light:#1A5494;
+  --gold:#C9A84C;--gold-light:#E8C96A;
+  --white:#FFFFFF;--slate:#F5F7FA;--slate-dark:#E8ECF2;
+  --ink:#1A2332;--ink-mid:#4A5568;--ink-light:#8A96A8;
+  --success:#1E8A5E;--success-bg:#E8F5EE;
+  --danger:#C0392B;--danger-bg:#FDF0EF;
+  --warning:#B7791F;--warning-bg:#FEF3D9;
+  --border:#DDE3ED;
+  --radius:12px;--radius-sm:8px;--radius-full:999px;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.06);
+  --shadow-md:0 4px 12px rgba(0,0,0,.10),0 2px 4px rgba(0,0,0,.06);
+  --shadow-lg:0 12px 32px rgba(0,0,0,.14);
+  --font-d:'Nunito',system-ui,sans-serif;
+  --font-b:'Inter',system-ui,sans-serif;
+  --bbar:68px;
+}
+html{font-size:16px;-webkit-text-size-adjust:100%;-webkit-font-smoothing:antialiased}
+body{font-family:var(--font-b);font-size:15px;line-height:1.6;color:var(--ink);background:var(--slate);overflow-x:hidden;min-height:100vh}
+body.app-ready{padding-bottom:calc(var(--bbar) + env(safe-area-inset-bottom,0px))}
+
+/* ════════════════════════════════
+   AUTH SCREENS  (login / register)
+   ════════════════════════════════ */
+#auth-screen{
+  min-height:100vh;display:flex;flex-direction:column;
+  background:var(--slate);
+}
+.auth-hero{
+  background:linear-gradient(160deg,var(--navy) 0%,var(--navy-light) 100%);
+  padding:48px 24px 40px;color:var(--white);text-align:center;
+  position:relative;overflow:hidden;
+}
+.auth-hero::after{content:'';position:absolute;right:-60px;top:-60px;width:220px;height:220px;background:rgba(255,255,255,.05);border-radius:50%}
+.auth-logo{
+  width:68px;height:68px;background:var(--white);border-radius:16px;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 16px;box-shadow:var(--shadow-md);
+}
+.auth-logo svg{width:42px;height:42px}
+.auth-hero h1{font-family:var(--font-d);font-size:22px;font-weight:800;margin-bottom:4px}
+.auth-hero p{font-size:13px;opacity:.8}
+.auth-tabs{display:flex;background:rgba(0,0,0,.2);border-radius:var(--radius-sm);margin:20px 24px 0;padding:3px}
+.auth-tab{
+  flex:1;padding:9px;border:none;background:none;
+  color:rgba(255,255,255,.7);font-size:14px;font-weight:600;
+  border-radius:var(--radius-sm);cursor:pointer;transition:all .2s;
+  font-family:var(--font-b);
+}
+.auth-tab.active{background:var(--white);color:var(--navy)}
+
+.auth-body{padding:24px;flex:1}
+
+/* Login form */
+#login-panel,#register-panel{display:none}
+#login-panel.visible,#register-panel.visible{display:block}
+
+.form-group{margin-bottom:18px}
+.form-label{
+  display:block;font-size:13px;font-weight:600;
+  color:var(--ink);margin-bottom:6px;
+}
+.form-label span{color:var(--danger)}
+.input-wrap{position:relative}
+.input-wrap i.pre{
+  position:absolute;left:14px;top:50%;transform:translateY(-50%);
+  color:var(--ink-light);font-size:15px;pointer-events:none;
+}
+.input-wrap i.suf{
+  position:absolute;right:14px;top:50%;transform:translateY(-50%);
+  color:var(--ink-light);font-size:15px;cursor:pointer;
+}
+.f-input{
+  width:100%;padding:13px 14px 13px 42px;
+  background:var(--white);border:1.5px solid var(--border);
+  border-radius:var(--radius);font-family:var(--font-b);
+  font-size:14px;color:var(--ink);outline:none;
+  transition:border-color .2s,box-shadow .2s;
+}
+.f-input.no-icon{padding-left:14px}
+.f-input:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(11,61,107,.1)}
+.f-input.error{border-color:var(--danger)}
+.f-input.ok{border-color:var(--success)}
+.field-error{font-size:11px;color:var(--danger);margin-top:4px;display:none}
+.field-error.show{display:block}
+select.f-input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238A96A8' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
+
+.btn-main{
+  width:100%;padding:14px;border-radius:var(--radius);
+  background:var(--navy);color:var(--white);
+  font-family:var(--font-d);font-size:16px;font-weight:800;
+  border:none;cursor:pointer;transition:background .2s;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.btn-main:hover{background:var(--navy-dark)}
+.btn-main:disabled{opacity:.6;cursor:not-allowed}
+.btn-main.gold{background:var(--gold);color:var(--navy-dark)}
+.btn-main.gold:hover{background:var(--gold-light)}
+
+.divider{display:flex;align-items:center;gap:12px;margin:20px 0;color:var(--ink-light);font-size:12px}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* Register steps */
+.step-indicator{display:flex;align-items:center;justify-content:center;gap:0;margin-bottom:24px}
+.step-dot{
+  width:28px;height:28px;border-radius:50%;
+  background:var(--slate-dark);color:var(--ink-light);
+  font-size:12px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-d);flex-shrink:0;transition:all .3s;
+}
+.step-dot.active{background:var(--navy);color:var(--white)}
+.step-dot.done{background:var(--success);color:var(--white)}
+.step-line{width:32px;height:2px;background:var(--slate-dark);transition:background .3s}
+.step-line.done{background:var(--success)}
+
+.step-panel{display:none}
+.step-panel.visible{display:block;animation:fadeIn .22s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+.step-title{font-family:var(--font-d);font-size:18px;font-weight:800;color:var(--ink);margin-bottom:4px}
+.step-sub{font-size:13px;color:var(--ink-light);margin-bottom:20px}
+
+/* Photo upload */
+.photo-upload{
+  width:100%;border:2px dashed var(--border);border-radius:var(--radius);
+  padding:24px;text-align:center;cursor:pointer;transition:all .2s;
+  background:var(--white);
+}
+.photo-upload:hover{border-color:var(--navy);background:rgba(11,61,107,.02)}
+.photo-preview{
+  width:100px;height:100px;border-radius:50%;
+  object-fit:cover;margin:0 auto 12px;display:none;border:3px solid var(--navy);
+}
+.photo-icon{font-size:36px;color:var(--ink-light);margin-bottom:8px}
+.photo-label{font-size:13px;color:var(--ink-mid);margin-bottom:4px;font-weight:500}
+.photo-hint{font-size:11px;color:var(--ink-light)}
+
+/* Password strength */
+.pw-strength{margin-top:8px}
+.pw-bars{display:flex;gap:4px;margin-bottom:4px}
+.pw-bar{flex:1;height:3px;border-radius:2px;background:var(--slate-dark);transition:background .3s}
+.pw-bar.weak{background:var(--danger)}
+.pw-bar.medium{background:var(--warning)}
+.pw-bar.strong{background:var(--success)}
+.pw-text{font-size:11px;color:var(--ink-light)}
+
+.step-nav{display:flex;gap:10px;margin-top:20px}
+.btn-back{
+  flex:1;padding:13px;border-radius:var(--radius);
+  background:none;border:1.5px solid var(--border);
+  color:var(--ink-mid);font-family:var(--font-d);font-size:15px;font-weight:700;
+  cursor:pointer;transition:all .2s;
+}
+.btn-back:hover{border-color:var(--navy);color:var(--navy)}
+.btn-next{flex:2;padding:13px;border-radius:var(--radius);background:var(--navy);color:var(--white);font-family:var(--font-d);font-size:15px;font-weight:800;border:none;cursor:pointer;transition:background .2s}
+.btn-next:hover{background:var(--navy-dark)}
+
+/* Success screen */
+#register-success{display:none;text-align:center;padding:32px 24px}
+#register-success.visible{display:block;animation:fadeIn .4s ease}
+.success-anim{width:80px;height:80px;background:var(--success-bg);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:36px;color:var(--success)}
+
+/* ════════════════════════════════
+   APP (après connexion)
+   ════════════════════════════════ */
+#app-screen{display:none}
+#app-screen.visible{display:block}
+
+/* Urgences */
+.emergency-bar{position:sticky;top:0;z-index:900;background:var(--navy-dark);padding:8px 16px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.emergency-links{display:flex;gap:16px;flex:1}
+.emergency-link{display:flex;align-items:center;gap:6px;color:var(--white);font-size:13px;font-weight:600;text-decoration:none;opacity:.9;white-space:nowrap}
+.emergency-link .dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.dot-red{background:#F87171}.dot-amber{background:#FBBF24}
+.emergency-actions{display:flex;gap:8px;align-items:center}
+.btn-icon{background:rgba(255,255,255,.12);border:none;color:var(--white);width:32px;height:32px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;transition:background .2s}
+.btn-icon:hover{background:rgba(255,255,255,.22)}
+
+/* Header */
+.site-header{background:linear-gradient(160deg,var(--navy) 0%,var(--navy-light) 100%);padding:16px 16px 20px;color:var(--white);position:relative;overflow:hidden}
+.site-header::after{content:'';position:absolute;right:-40px;top:-40px;width:180px;height:180px;background:rgba(255,255,255,.05);border-radius:50%;pointer-events:none}
+.header-row{display:flex;align-items:center;gap:12px}
+.logo-sm{width:40px;height:40px;background:var(--white);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:var(--shadow-sm)}
+.logo-sm svg{width:26px;height:26px}
+.header-brand h1{font-family:var(--font-d);font-size:17px;font-weight:800;line-height:1.1}
+.header-brand span{font-size:11px;opacity:.7;display:block}
+.header-user{margin-left:auto;display:flex;align-items:center;gap:8px;cursor:pointer}
+.user-avatar-sm{width:36px;height:36px;border-radius:50%;border:2px solid rgba(255,255,255,.5);object-fit:cover;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.15);font-size:14px;font-weight:700;color:var(--white);flex-shrink:0;overflow:hidden}
+.user-avatar-sm img{width:100%;height:100%;object-fit:cover}
+
+/* Bandeau citoyen */
+.citizen-banner{
+  background:linear-gradient(135deg,var(--navy),var(--navy-light));
+  margin:0;padding:14px 16px;color:var(--white);
+  display:flex;align-items:center;gap:12px;
+}
+.cb-avatar{width:48px;height:48px;border-radius:50%;border:2.5px solid rgba(255,255,255,.4);object-fit:cover;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.15);font-size:18px;font-weight:800;color:var(--white);flex-shrink:0;overflow:hidden;font-family:var(--font-d)}
+.cb-avatar img{width:100%;height:100%;object-fit:cover}
+.cb-text p{font-size:12px;opacity:.8;margin-bottom:2px}
+.cb-text strong{font-family:var(--font-d);font-size:16px;font-weight:800;display:block}
+.cb-badge{margin-left:auto;background:var(--gold);color:var(--navy-dark);font-size:10px;font-weight:700;padding:4px 10px;border-radius:var(--radius-full);white-space:nowrap;flex-shrink:0}
+
+/* Search */
+.search-wrap{padding:12px 16px 0;position:relative}
+.search-field{width:100%;padding:12px 16px 12px 42px;background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);font-family:var(--font-b);font-size:14px;color:var(--ink);outline:none;box-shadow:var(--shadow-sm);transition:border-color .2s}
+.search-field:focus{border-color:var(--navy)}
+.search-icon{position:absolute;left:30px;top:50%;transform:translateY(-50%);color:var(--ink-light);font-size:15px;pointer-events:none}
+.search-results{display:none;background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);margin-top:6px;box-shadow:var(--shadow-md);overflow:hidden}
+.search-results.visible{display:block}
+.search-result-item{padding:11px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s}
+.search-result-item:last-child{border-bottom:none}
+.search-result-item:hover{background:var(--slate)}
+.sri-icon{width:30px;height:30px;border-radius:var(--radius-sm);background:var(--slate);display:flex;align-items:center;justify-content:center;color:var(--navy);font-size:13px;flex-shrink:0}
+.sri-text{font-size:13px;font-weight:500}
+.sri-cat{font-size:11px;color:var(--ink-light)}
+
+/* Pages */
+.main{padding:16px 0 8px}
+.page{display:none;animation:fadeIn .22s ease}
+.page.active{display:block}
+
+/* Sections */
+.section{margin-bottom:24px}
+.section-head{display:flex;justify-content:space-between;align-items:center;padding:0 16px;margin-bottom:12px}
+.section-title{font-family:var(--font-d);font-size:18px;font-weight:800;color:var(--ink);letter-spacing:-.3px}
+.section-link{font-size:13px;color:var(--navy);font-weight:600;text-decoration:none;display:flex;align-items:center;gap:4px;background:none;border:none;cursor:pointer;font-family:var(--font-b)}
+
+/* Service cards */
+.services-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:0 16px}
+.service-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:16px 12px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;cursor:pointer;transition:border-color .2s,box-shadow .2s,transform .15s;box-shadow:var(--shadow-sm)}
+.service-card:hover,.service-card:active{border-color:var(--navy);box-shadow:var(--shadow-md);transform:translateY(-2px)}
+.service-icon-wrap{width:52px;height:52px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:2px;flex-shrink:0}
+.ic-blue{background:#EBF3FB;color:var(--navy)}
+.ic-gold{background:#FDF6E3;color:#8A6014}
+.ic-green{background:#E8F5EE;color:#1E6A45}
+.ic-purple{background:#F0EBFD;color:#5B35A8}
+.ic-red{background:#FEF0EE;color:#B83020}
+.ic-teal{background:#E8F7F4;color:#1A7A63}
+.service-name{font-weight:700;font-size:13px;color:var(--ink);line-height:1.3;font-family:var(--font-d)}
+.service-sub{font-size:11px;color:var(--ink-light)}
+
+/* Mon dossier (espace citoyen) */
+.dossier-section{padding:0 16px;margin-bottom:24px}
+.dossier-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-sm)}
+.dossier-head{background:linear-gradient(135deg,var(--navy),var(--navy-light));padding:14px 16px;color:var(--white)}
+.dossier-head h3{font-family:var(--font-d);font-size:16px;font-weight:800}
+.dossier-head p{font-size:12px;opacity:.8}
+.dossier-item{display:flex;align-items:center;gap:12px;padding:13px 16px;border-bottom:1px solid var(--border)}
+.dossier-item:last-child{border-bottom:none}
+.di-icon{width:38px;height:38px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.di-body{flex:1}
+.di-title{font-weight:600;font-size:13px;margin-bottom:2px;font-family:var(--font-d)}
+.di-date{font-size:11px;color:var(--ink-light)}
+.di-status{font-size:11px;font-weight:700;padding:3px 8px;border-radius:var(--radius-full)}
+.status-ok{background:var(--success-bg);color:var(--success)}
+.status-pending{background:var(--warning-bg);color:var(--warning)}
+.status-progress{background:#EBF3FB;color:var(--navy)}
+
+/* Profil page */
+.profil-header{
+  background:linear-gradient(160deg,var(--navy),var(--navy-light));
+  padding:24px 16px;color:var(--white);text-align:center;
+}
+.profil-avatar{
+  width:90px;height:90px;border-radius:50%;
+  border:3px solid rgba(255,255,255,.5);
+  margin:0 auto 12px;object-fit:cover;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,.15);font-size:32px;font-weight:800;
+  color:var(--white);font-family:var(--font-d);overflow:hidden;
+}
+.profil-avatar img{width:100%;height:100%;object-fit:cover}
+.profil-name{font-family:var(--font-d);font-size:20px;font-weight:800;margin-bottom:4px}
+.profil-badge{background:var(--gold);color:var(--navy-dark);font-size:11px;font-weight:700;padding:4px 14px;border-radius:var(--radius-full);display:inline-block}
+.profil-info{padding:16px;display:flex;flex-direction:column;gap:8px}
+.info-row-p{display:flex;align-items:flex-start;gap:10px;padding:11px 14px;background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);font-size:13px}
+.info-row-p i{color:var(--navy);font-size:14px;margin-top:1px;flex-shrink:0;width:16px;text-align:center}
+.info-row-p .irp-label{font-size:11px;color:var(--ink-light);margin-bottom:2px}
+.info-row-p .irp-val{font-weight:600;color:var(--ink)}
+.btn-logout{margin:0 16px 24px;width:calc(100% - 32px);padding:13px;border-radius:var(--radius);background:none;border:1.5px solid var(--danger);color:var(--danger);font-family:var(--font-d);font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s}
+.btn-logout:hover{background:var(--danger-bg)}
+
+/* News carousel */
+.news-scroll{display:flex;gap:12px;overflow-x:auto;padding:0 16px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.news-scroll::-webkit-scrollbar{display:none}
+.news-slide{flex:0 0 82%;scroll-snap-align:start;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-sm);background:var(--white);border:1.5px solid var(--border)}
+.news-img{height:130px;background-size:cover;background-position:center;position:relative}
+.news-img-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.45) 0%,transparent 60%)}
+.news-badge{position:absolute;top:10px;left:10px;background:rgba(11,61,107,.85);color:var(--white);font-size:10px;font-weight:700;padding:4px 10px;border-radius:var(--radius-full);letter-spacing:.3px;text-transform:uppercase}
+.news-body{padding:12px 14px 14px}
+.news-date{font-size:11px;color:var(--ink-light);margin-bottom:4px;display:flex;align-items:center;gap:4px}
+.news-title{font-family:var(--font-d);font-size:15px;font-weight:700;color:var(--ink);line-height:1.3;margin-bottom:6px}
+.news-desc{font-size:12px;color:var(--ink-mid);line-height:1.5}
+
+/* Tabs */
+.tabs-wrap{display:flex;gap:6px;padding:0 16px;margin-bottom:14px;overflow-x:auto;scrollbar-width:none}
+.tabs-wrap::-webkit-scrollbar{display:none}
+.tab{padding:7px 16px;background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius-full);font-size:13px;font-weight:600;white-space:nowrap;cursor:pointer;transition:all .2s;font-family:var(--font-b);color:var(--ink-mid)}
+.tab.active{background:var(--navy);color:var(--white);border-color:var(--navy)}
+
+/* Démarches */
+.demarches-list{padding:0 16px;display:flex;flex-direction:column;gap:8px}
+.demarche-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:14px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:border-color .2s,box-shadow .2s;box-shadow:var(--shadow-sm)}
+.demarche-card:hover{border-color:var(--navy);box-shadow:var(--shadow-md)}
+.d-icon{width:44px;height:44px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.d-body{flex:1;min-width:0}
+.d-title{font-weight:600;font-size:14px;margin-bottom:3px;font-family:var(--font-d)}
+.d-meta{display:flex;gap:12px;font-size:12px;color:var(--ink-light);align-items:center;flex-wrap:wrap}
+.d-arrow{color:var(--ink-light);font-size:12px;flex-shrink:0}
+.d-tag{font-size:10px;font-weight:700;padding:3px 8px;border-radius:var(--radius-full);white-space:nowrap}
+.tag-free{background:var(--success-bg);color:var(--success)}
+.tag-paid{background:var(--warning-bg);color:var(--warning)}
+
+/* Actualités */
+.actu-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-sm);margin:0 16px 12px}
+.actu-img{height:160px;background-size:cover;background-position:center;position:relative}
+.actu-img-badge{position:absolute;top:12px;left:12px;background:var(--navy);color:var(--white);font-size:10px;font-weight:700;padding:4px 12px;border-radius:var(--radius-full);text-transform:uppercase}
+.actu-body{padding:14px}
+.actu-date{font-size:11px;color:var(--ink-light);margin-bottom:5px;display:flex;align-items:center;gap:4px}
+.actu-title{font-family:var(--font-d);font-size:16px;font-weight:800;color:var(--ink);line-height:1.3;margin-bottom:6px}
+.actu-desc{font-size:13px;color:var(--ink-mid);line-height:1.6;margin-bottom:12px}
+.actu-actions{display:flex;gap:8px}
+.btn-sm{display:inline-flex;align-items:center;gap:5px;padding:8px 14px;border-radius:var(--radius-sm);font-size:12px;font-weight:600;border:none;cursor:pointer;font-family:var(--font-b);transition:all .2s}
+.btn-primary-sm{background:var(--navy);color:var(--white)}
+.btn-outline-sm{background:none;border:1.5px solid var(--border);color:var(--ink-mid)}
+
+/* Mairie page */
+.mairie-hero{background:linear-gradient(160deg,var(--navy),var(--navy-light));margin:0 16px;border-radius:var(--radius);padding:24px 20px;color:var(--white);margin-bottom:20px;position:relative;overflow:hidden}
+.mairie-hero::before{content:'';position:absolute;right:-20px;bottom:-20px;width:120px;height:120px;background:rgba(255,255,255,.06);border-radius:50%}
+.mairie-hero h2{font-family:var(--font-d);font-size:22px;font-weight:800;margin-bottom:6px}
+.mairie-hero p{font-size:13px;opacity:.82}
+.gold-line{width:40px;height:3px;background:var(--gold);border-radius:2px;margin:10px 0}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:0 16px;margin-bottom:20px}
+.stat-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:14px 10px;text-align:center;box-shadow:var(--shadow-sm)}
+.stat-num{font-family:var(--font-d);font-size:22px;font-weight:800;color:var(--navy);line-height:1;margin-bottom:4px}
+.stat-lbl{font-size:10px;color:var(--ink-light);font-weight:500;line-height:1.3}
+.accordion{display:flex;flex-direction:column;gap:8px;padding:0 16px;margin-bottom:20px}
+.acc-item{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-sm)}
+.acc-head{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;cursor:pointer;transition:background .15s}
+.acc-head:hover{background:var(--slate)}
+.acc-head h4{font-family:var(--font-d);font-size:15px;font-weight:700;color:var(--ink)}
+.acc-head i.arr{color:var(--ink-light);font-size:13px;transition:transform .3s;flex-shrink:0}
+.acc-item.open .acc-head i.arr{transform:rotate(180deg)}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .35s ease;font-size:13px;color:var(--ink-mid);line-height:1.7}
+.acc-item.open .acc-body{max-height:600px}
+.acc-inner{padding:0 16px 16px}
+.horaire-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px}
+.horaire-row:last-child{border-bottom:none}
+
+/* Contact page */
+.contact-hero{background:var(--navy);margin:0 16px 20px;border-radius:var(--radius);padding:22px 20px;color:var(--white)}
+.contact-hero h2{font-family:var(--font-d);font-size:20px;font-weight:800;margin-bottom:6px}
+.contact-hero p{font-size:13px;opacity:.82}
+.contact-actions{padding:0 16px;display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
+.contact-btn{display:flex;align-items:center;gap:14px;background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:15px 16px;cursor:pointer;transition:border-color .2s;text-decoration:none;color:var(--ink);box-shadow:var(--shadow-sm)}
+.contact-btn:hover{border-color:var(--navy)}
+.cbi{width:40px;height:40px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.cbt strong{display:block;font-size:14px;font-weight:600;margin-bottom:2px;font-family:var(--font-d)}
+.cbt span{font-size:12px;color:var(--ink-light)}
+.cbar{margin-left:auto;color:var(--ink-light);font-size:12px}
+.info-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow-sm);margin:0 16px 16px}
+.info-card h3{font-family:var(--font-d);font-size:15px;font-weight:700;margin-bottom:12px;color:var(--ink)}
+.irow{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--ink-mid)}
+.irow:last-child{border-bottom:none}
+.irow i{color:var(--navy);font-size:14px;margin-top:2px;flex-shrink:0;width:16px;text-align:center}
+.map-box{height:150px;background:var(--slate);border-radius:var(--radius);border:1.5px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;margin:0 16px 24px;cursor:pointer;transition:background .2s}
+.map-box:hover{background:var(--slate-dark)}
+.map-box i{font-size:28px;color:var(--navy);opacity:.7}
+.map-box span{font-size:13px;font-weight:600;color:var(--navy)}
+
+/* Bottom nav */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--white);border-top:1.5px solid var(--border);z-index:800;box-shadow:0 -4px 16px rgba(0,0,0,.08);padding-bottom:env(safe-area-inset-bottom,0px)}
+.bottom-items{display:flex;justify-content:space-around;height:var(--bbar)}
+.nav-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;flex:1;background:none;border:none;cursor:pointer;color:var(--ink-light);transition:color .2s;padding:0 4px;font-family:var(--font-b)}
+.nav-btn i{font-size:20px;transition:transform .2s}
+.nav-btn span{font-size:10px;font-weight:600}
+.nav-btn.active{color:var(--navy)}
+.nav-btn.active i{transform:translateY(-2px)}
+.nav-btn.center-btn .center-blob{width:50px;height:50px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;margin-bottom:2px;box-shadow:var(--shadow-md);font-size:20px}
+.nav-btn.center-btn .center-blob i{color:var(--white)}
+.nav-btn.center-btn span{color:var(--ink-light)}
+.nav-btn.center-btn.active .center-blob{background:var(--navy-dark)}
+
+/* Modal démarche */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2000;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(3px)}
+.modal-overlay.open{display:flex}
+.modal-sheet{background:var(--white);width:100%;max-width:500px;border-radius:20px 20px 0 0;max-height:88vh;overflow-y:auto;animation:slideUp .28s ease;padding-bottom:env(safe-area-inset-bottom,16px)}
+@keyframes slideUp{from{transform:translateY(40px);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal-handle{width:40px;height:4px;background:var(--border);border-radius:2px;margin:12px auto 0}
+.modal-head{padding:16px 20px;border-bottom:1.5px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.modal-head h3{font-family:var(--font-d);font-size:18px;font-weight:800;color:var(--ink)}
+.modal-close{width:32px;height:32px;border-radius:50%;background:var(--slate);border:none;color:var(--ink-mid);font-size:16px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.modal-body-content{padding:20px}
+.mih{display:flex;align-items:center;gap:14px;margin-bottom:16px;padding-bottom:16px;border-bottom:1.5px solid var(--border)}
+.mbi{width:56px;height:56px;border-radius:var(--radius);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.modal-desc{font-size:14px;color:var(--ink-mid);line-height:1.7;margin-bottom:16px}
+.modal-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.mic{background:var(--slate);border-radius:var(--radius-sm);padding:12px;text-align:center}
+.mic-label{font-size:10px;color:var(--ink-light);font-weight:600;margin-bottom:3px;text-transform:uppercase}
+.mic-val{font-family:var(--font-d);font-size:15px;font-weight:700;color:var(--navy)}
+.modal-docs h4{font-size:13px;font-weight:600;margin-bottom:8px;color:var(--ink)}
+.doc-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--ink-mid)}
+.doc-item:last-child{border-bottom:none}
+.doc-item i{color:var(--navy);width:16px;text-align:center}
+.modal-cta{margin-top:18px;display:flex;flex-direction:column;gap:8px}
+.btn-full{width:100%;padding:14px;border-radius:var(--radius);font-size:15px;font-weight:800;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:var(--font-d);transition:all .2s}
+.btn-full-p{background:var(--navy);color:var(--white)}
+.btn-full-p:hover{background:var(--navy-dark)}
+.btn-full-o{background:none;border:1.5px solid var(--border);color:var(--ink-mid)}
+
+/* Toast */
+.toast{position:fixed;bottom:calc(var(--bbar) + 12px);left:16px;right:16px;background:var(--ink);color:var(--white);border-radius:var(--radius);padding:13px 16px;font-size:14px;font-weight:500;display:flex;align-items:center;gap:10px;z-index:3000;transform:translateY(20px);opacity:0;transition:all .3s ease;pointer-events:none;box-shadow:var(--shadow-lg)}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.success-t i{color:#4ADE80}
+.toast.error-t i{color:#F87171}
+
+/* Dark mode */
+.dark-mode{--white:#1C2333;--slate:#151B27;--slate-dark:#1C2333;--ink:#F0F4FB;--ink-mid:#A8B4C8;--ink-light:#64748B;--border:#2D3748;--navy-light:#2563EB}
+.dark-mode .site-header,.dark-mode .auth-hero{background:linear-gradient(160deg,#0A2D52,#143A6B)}
+.dark-mode .emergency-bar{background:#0A1929}
+.dark-mode .search-field,.dark-mode .f-input{background:#1C2333;color:var(--ink)}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════
+     ÉCRAN AUTH
+══════════════════════════════ -->
+<div id="auth-screen">
+  <div class="auth-hero">
+    <div class="auth-logo">
+      <svg viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="42" height="42" rx="8" fill="#0B3D6B"/>
+        <text x="21" y="29" text-anchor="middle" fill="#C9A84C" font-size="15" font-weight="900" font-family="Nunito,sans-serif">LBV</text>
+      </svg>
+    </div>
+    <h1>Mairie de Libreville</h1>
+    <p>Portail Citoyen · République Gabonaise</p>
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tab-login" onclick="switchAuthTab('login')">Connexion</button>
+      <button class="auth-tab" id="tab-register" onclick="switchAuthTab('register')">Inscription</button>
+    </div>
+  </div>
+
+  <div class="auth-body">
+
+    <!-- ── LOGIN ── -->
+    <div id="login-panel" class="visible">
+      <div class="form-group">
+        <label class="form-label">Adresse e-mail <span>*</span></label>
+        <div class="input-wrap">
+          <i class="fa-solid fa-envelope pre"></i>
+          <input class="f-input" type="email" id="login-email" placeholder="votre@email.com" autocomplete="email">
+        </div>
+        <p class="field-error" id="login-email-err">Adresse e-mail invalide.</p>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Mot de passe <span>*</span></label>
+        <div class="input-wrap">
+          <i class="fa-solid fa-lock pre"></i>
+          <input class="f-input" type="password" id="login-pw" placeholder="Votre mot de passe" autocomplete="current-password">
+          <i class="fa-solid fa-eye suf" onclick="togglePw('login-pw',this)"></i>
+        </div>
+        <p class="field-error" id="login-pw-err">Mot de passe incorrect.</p>
+      </div>
+      <p style="text-align:right;margin-bottom:20px"><button style="background:none;border:none;color:var(--navy);font-size:13px;font-weight:600;cursor:pointer" onclick="forgotPw()">Mot de passe oublié ?</button></p>
+      <button class="btn-main" onclick="doLogin()">
+        <i class="fa-solid fa-right-to-bracket"></i> Se connecter
+      </button>
+      <div class="divider">ou</div>
+      <button class="btn-main gold" onclick="switchAuthTab('register')">
+        <i class="fa-solid fa-user-plus"></i> Créer un compte citoyen
+      </button>
+      <p style="font-size:12px;color:var(--ink-light);text-align:center;margin-top:16px;line-height:1.6">
+        En vous connectant, vous acceptez les <a href="#" style="color:var(--navy)">conditions d'utilisation</a> du portail municipal.
+      </p>
+    </div>
+
+    <!-- ── REGISTER ── -->
+    <div id="register-panel">
+      <!-- Indicateur d'étapes -->
+      <div class="step-indicator" id="step-indicator">
+        <div class="step-dot active" id="sdot-1">1</div>
+        <div class="step-line" id="sline-1"></div>
+        <div class="step-dot" id="sdot-2">2</div>
+        <div class="step-line" id="sline-2"></div>
+        <div class="step-dot" id="sdot-3">3</div>
+        <div class="step-line" id="sline-3"></div>
+        <div class="step-dot" id="sdot-4">4</div>
+      </div>
+
+      <!-- Étape 1 : Identité -->
+      <div class="step-panel visible" id="step-1">
+        <p class="step-title">Votre identité</p>
+        <p class="step-sub">Informations telles qu'elles figurent sur votre acte de naissance.</p>
+        <div class="form-group">
+          <label class="form-label">Nom de famille <span>*</span></label>
+          <div class="input-wrap"><i class="fa-solid fa-user pre"></i>
+            <input class="f-input" type="text" id="r-nom" placeholder="ONDIMBA" autocomplete="family-name">
+          </div>
+          <p class="field-error" id="r-nom-err">Champ obligatoire.</p>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Prénom(s) <span>*</span></label>
+          <div class="input-wrap"><i class="fa-solid fa-user pre"></i>
+            <input class="f-input" type="text" id="r-prenom" placeholder="Ali Bongo" autocomplete="given-name">
+          </div>
+          <p class="field-error" id="r-prenom-err">Champ obligatoire.</p>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Date de naissance <span>*</span></label>
+          <div class="input-wrap"><i class="fa-solid fa-calendar pre"></i>
+            <input class="f-input" type="date" id="r-ddn" max="">
+          </div>
+          <p class="field-error" id="r-ddn-err">Date invalide.</p>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Lieu de naissance <span>*</span></label>
+          <div class="input-wrap"><i class="fa-solid fa-map-pin pre"></i>
+            <input class="f-input" type="text" id="r-lieu" placeholder="Libreville, Gabon">
+          </div>
+          <p class="field-error" id="r-lieu-err">Champ obligatoire.</p>
+        </div>
+        <button class="btn-next" onclick="nextStep(1)">Continuer <i class="fa-solid fa-arrow-right"></i></button>
+      </div>
+
+      <!-- Étape 2 : Résidence -->
+      <div class="step-panel" id="step-2">
+        <p class="step-title">Votre résidence</p>
+        <p class="step-sub">Arrondissement où vous résidez actuellement à Libreville.</p>
+        <div class="form-group">
+          <label class="form-label">Arrondissement de résidence <span>*</span></label>
+          <div class="input-wrap"><i class="fa-solid fa-city pre"></i>
+            <select class="f-input" id="r-arr">
+              <option value="">— Sélectionner —</option>
+              <option value="1er">1er Arrondissement — Mont-Bouët</option>
+              <option value="2e">2e Arrondissement — Nombakélé</option>
+              <option value="3e">3e Arrondissement — Louis</option>
+              <option value="4e">4e Arrondissement — Lalala</option>
+              <option value="5e">5e Arrondissement — Akanda (Nzeng-Ayong)</option>
+              <option value="6e">6e Arrondissement — Akanda (Angondjé)</option>
+              <option value="7e">7e Arrondissement — Komo-Mondah</option>
+              <option value="8e">8e Arrondissement — Owendo</option>
+              <option value="9e">9e Arrondissement — Ntoum</option>
+            </select>
+          </div>
+          <p class="field-error" id="r-arr-err">Sélectionnez un arrondissement.</p>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Adresse postale (optionnel)</label>
+          <div class="input-wrap"><i class="fa-solid fa-house pre"></i>
+            <input class="f-input" type="text" id="r-adresse" placeholder="Rue, quartier…">
+          </div>
+        </div>
+        <div class="step-nav">
+          <button class="btn-back" onclick="prevStep(2)"><i class="fa-solid fa-arrow-left"></i> Retour</button>
+          <button class="btn-next" onclick="nextStep(2)">Continuer <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+      </div>
+
+      <!-- Étape 3 : Photo & Compte -->
+      <div class="step-panel" id="step-3">
+        <p class="step-title">Photo & compte</p>
+        <p class="step-sub">Une photo d'identité et vos identifiants de connexion.</p>
+        <div class="form-group">
+          <label class="form-label">Photo d'identité <span>*</span></label>
+          <div class="photo-upload" id="photo-zone" onclick="document.getElementById('photo-input').click()">
+            <img class="photo-preview" id="photo-preview" alt="Aperçu photo">
+            <div id="photo-placeholder">
+              <div class="photo-icon"><i class="fa-solid fa-camera"></i></div>
+              <p class="photo-label">Appuyer pour choisir une photo</p>
+              <p class="photo-hint">JPG, PNG · Max 5 Mo · Format portrait recommandé</p>
+            </div>
+          </div>
+          <input type="file" id="photo-input" accept="image/*" capture="user" style="display:none" onchange="handlePhoto(this)">
+          <p class="field-error" id="r-photo-err">Veuillez fournir une photo d'identité.</p>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Adresse e-mail <span>*</span></label>
+          <div class="input-wrap"><i class="fa-solid fa-envelope pre"></i>
+            <input class="f-input" type="email" id="r-email" placeholder="votre@email.com" autocomplete="email">
+          </div>
+          <p class="field-error" id="r-email-err">Adresse e-mail invalide.</p>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Mot de passe <span>*</span></label>
+          <div class="input-wrap"><i class="fa-solid fa-lock pre"></i>
+            <input class="f-input" type="password" id="r-pw" placeholder="8 caractères minimum" oninput="checkPwStrength(this.value)">
+            <i class="fa-solid fa-eye suf" onclick="togglePw('r-pw',this)"></i>
+          </div>
+          <div class="pw-strength">
+            <div class="pw-bars"><div class="pw-bar" id="pb1"></div><div class="pw-bar" id="pb2"></div><div class="pw-bar" id="pb3"></div></div>
+            <p class="pw-text" id="pw-txt">Entrez un mot de passe</p>
+          </div>
+          <p class="field-error" id="r-pw-err">Minimum 8 caractères.</p>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Confirmer le mot de passe <span>*</span></label>
+          <div class="input-wrap"><i class="fa-solid fa-lock pre"></i>
+            <input class="f-input" type="password" id="r-pw2" placeholder="Répétez le mot de passe">
+            <i class="fa-solid fa-eye suf" onclick="togglePw('r-pw2',this)"></i>
+          </div>
+          <p class="field-error" id="r-pw2-err">Les mots de passe ne correspondent pas.</p>
+        </div>
+        <div class="step-nav">
+          <button class="btn-back" onclick="prevStep(3)"><i class="fa-solid fa-arrow-left"></i> Retour</button>
+          <button class="btn-next" onclick="nextStep(3)">Vérifier <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+      </div>
+
+      <!-- Étape 4 : Récapitulatif -->
+      <div class="step-panel" id="step-4">
+        <p class="step-title">Récapitulatif</p>
+        <p class="step-sub">Vérifiez vos informations avant de valider l'inscription.</p>
+        <div id="recap-content" style="margin-bottom:20px;display:flex;flex-direction:column;gap:8px"></div>
+        <label style="display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--ink-mid);cursor:pointer;margin-bottom:20px">
+          <input type="checkbox" id="r-cgu" style="margin-top:3px;flex-shrink:0;accent-color:var(--navy)">
+          <span>J'accepte les <a href="#" style="color:var(--navy);font-weight:600">conditions générales d'utilisation</a> du portail municipal de la Mairie de Libreville.</span>
+        </label>
+        <p class="field-error" id="r-cgu-err" style="margin-bottom:10px">Vous devez accepter les CGU pour continuer.</p>
+        <div class="step-nav">
+          <button class="btn-back" onclick="prevStep(4)"><i class="fa-solid fa-arrow-left"></i> Modifier</button>
+          <button class="btn-next" onclick="doRegister()" id="btn-submit">Créer mon compte</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Succès inscription -->
+    <div id="register-success">
+      <div class="success-anim"><i class="fa-solid fa-circle-check"></i></div>
+      <h2 style="font-family:var(--font-d);font-size:22px;font-weight:800;margin-bottom:8px;color:var(--ink)">Compte créé !</h2>
+      <p style="font-size:14px;color:var(--ink-mid);margin-bottom:24px;line-height:1.6">Bienvenue sur le portail citoyen de la Mairie de Libreville. Votre espace personnel est maintenant actif.</p>
+      <button class="btn-main" onclick="goToApp()">
+        <i class="fa-solid fa-right-to-bracket"></i> Accéder à mon espace
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     APPLICATION (connecté)
+══════════════════════════════ -->
+<div id="app-screen">
+
+  <!-- Barre urgences -->
+  <div class="emergency-bar">
+    <div class="emergency-links">
+      <a class="emergency-link" href="tel:1300"><span class="dot dot-red"></span>Urgences — 1300</a>
+      <a class="emergency-link" href="tel:1722"><span class="dot dot-amber"></span>Police — 1722</a>
+    </div>
+    <div class="emergency-actions">
+      <button class="btn-icon" onclick="toggleDark()" title="Mode sombre"><i class="fa-solid fa-moon" id="themeIcon"></i></button>
+      <button class="btn-icon" onclick="logout()" title="Déconnexion"><i class="fa-solid fa-right-from-bracket"></i></button>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-row">
+      <div class="logo-sm">
+        <svg viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="42" height="42" rx="8" fill="#0B3D6B"/>
+          <text x="21" y="29" text-anchor="middle" fill="#C9A84C" font-size="15" font-weight="900" font-family="Nunito,sans-serif">LBV</text>
+        </svg>
+      </div>
+      <div class="header-brand">
+        <h1>Mairie de Libreville</h1>
+        <span>Portail Citoyen · République Gabonaise</span>
+      </div>
+      <div class="header-user" onclick="goTo('profil')">
+        <div class="user-avatar-sm" id="header-avatar-wrap">
+          <span id="header-avatar-initials"></span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Bandeau citoyen -->
+  <div class="citizen-banner" id="citizen-banner">
+    <div class="cb-avatar" id="cb-avatar-wrap"><span id="cb-initials"></span></div>
+    <div class="cb-text">
+      <p>Bonjour,</p>
+      <strong id="cb-name">—</strong>
+    </div>
+    <span class="cb-badge">Citoyen vérifié</span>
+  </div>
+
+  <!-- Recherche -->
+  <div class="search-wrap">
+    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+    <input class="search-field" type="text" id="searchField" placeholder="Rechercher une démarche…" autocomplete="off">
+    <div class="search-results" id="searchResults"></div>
+  </div>
+
+  <!-- Pages -->
+  <main class="main">
+
+    <!-- ACCUEIL -->
+    <section class="page active" id="page-accueil">
+      <div class="section">
+        <div class="section-head">
+          <h2 class="section-title">Démarches fréquentes</h2>
+          <button class="section-link" onclick="goTo('services')">Tout voir <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+        <div class="services-grid">
+          <div class="service-card" onclick="openModal('naissance')">
+            <div class="service-icon-wrap ic-blue"><i class="fa-solid fa-baby"></i></div>
+            <span class="service-name">Naissance</span><span class="service-sub">Acte · déclaration</span>
+          </div>
+          <div class="service-card" onclick="openModal('mariage')">
+            <div class="service-icon-wrap ic-gold"><i class="fa-solid fa-ring"></i></div>
+            <span class="service-name">Mariage</span><span class="service-sub">Dossier civil</span>
+          </div>
+          <div class="service-card" onclick="openModal('cni')">
+            <div class="service-icon-wrap ic-purple"><i class="fa-solid fa-id-card"></i></div>
+            <span class="service-name">CNI</span><span class="service-sub">Prise de RDV</span>
+          </div>
+          <div class="service-card" onclick="openModal('urbanisme')">
+            <div class="service-icon-wrap ic-teal"><i class="fa-solid fa-compass-drafting"></i></div>
+            <span class="service-name">Permis</span><span class="service-sub">Construire · travaux</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <h2 class="section-title">Mon dossier</h2>
+          <button class="section-link" onclick="goTo('profil')">Voir tout <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+        <div class="dossier-section" style="padding:0 16px">
+          <div class="dossier-card">
+            <div class="dossier-head">
+              <h3>Mes demandes en cours</h3>
+              <p>Suivi de vos démarches municipales</p>
+            </div>
+            <div class="dossier-item">
+              <div class="di-icon ic-blue"><i class="fa-solid fa-baby"></i></div>
+              <div class="di-body">
+                <p class="di-title">Acte de naissance</p>
+                <p class="di-date">Déposé le 18 juin 2026</p>
+              </div>
+              <span class="di-status status-progress">En cours</span>
+            </div>
+            <div class="dossier-item">
+              <div class="di-icon ic-purple"><i class="fa-solid fa-id-card"></i></div>
+              <div class="di-body">
+                <p class="di-title">CNI — Renouvellement</p>
+                <p class="di-date">RDV le 02 juillet 2026</p>
+              </div>
+              <span class="di-status status-pending">RDV fixé</span>
+            </div>
+            <div class="dossier-item">
+              <div class="di-icon ic-green"><i class="fa-solid fa-trash-can"></i></div>
+              <div class="di-body">
+                <p class="di-title">Enlèvement encombrants</p>
+                <p class="di-date">Traité le 15 juin 2026</p>
+              </div>
+              <span class="di-status status-ok">Complété</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <h2 class="section-title">À la une</h2>
+          <button class="section-link" onclick="goTo('actualites')">Plus d'actus <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+        <div class="news-scroll" id="homeNews"></div>
+      </div>
+    </section>
+
+    <!-- DÉMARCHES -->
+    <section class="page" id="page-services">
+      <div class="section">
+        <div class="section-head"><h2 class="section-title">Toutes les démarches</h2></div>
+        <div class="tabs-wrap">
+          <button class="tab active" onclick="filterTab('all',this)">Toutes</button>
+          <button class="tab" onclick="filterTab('etat-civil',this)">État civil</button>
+          <button class="tab" onclick="filterTab('urbanisme',this)">Urbanisme</button>
+          <button class="tab" onclick="filterTab('vie-locale',this)">Vie locale</button>
+        </div>
+        <div class="demarches-list" id="demarchesList"></div>
+      </div>
+    </section>
+
+    <!-- ACTUALITÉS -->
+    <section class="page" id="page-actualites">
+      <div class="section">
+        <div class="section-head"><h2 class="section-title">Actualités locales</h2></div>
+        <div id="actualitesList"></div>
+      </div>
+    </section>
+
+    <!-- MAIRIE -->
+    <section class="page" id="page-mairie">
+      <div class="section">
+        <div class="mairie-hero">
+          <p style="font-size:11px;opacity:.7;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:6px">Hôtel de Ville</p>
+          <h2>Votre conseil municipal</h2>
+          <div class="gold-line"></div>
+          <p>Découvrez l'équipe et les grands projets de modernisation urbaine en cours à Libreville.</p>
+        </div>
+        <div class="stats-row">
+          <div class="stat-card"><div class="stat-num">9</div><div class="stat-lbl">Arrondissements</div></div>
+          <div class="stat-card"><div class="stat-num">42</div><div class="stat-lbl">Services munic.</div></div>
+          <div class="stat-card"><div class="stat-num">24/7</div><div class="stat-lbl">Portail en ligne</div></div>
+        </div>
+        <div class="accordion">
+          <div class="acc-item">
+            <div class="acc-head" onclick="toggleAcc(this)">
+              <h4><i class="fa-solid fa-user-tie" style="color:var(--navy);margin-right:8px"></i>Mot du Maire</h4>
+              <i class="fa-solid fa-chevron-down arr"></i>
+            </div>
+            <div class="acc-body"><div class="acc-inner"><p>Chers concitoyens, bienvenue sur votre portail municipal numérique. Notre ambition est de placer Libreville parmi les capitales africaines les plus modernes en matière de services publics digitaux. Ce portail vous permet d'effectuer vos démarches administratives rapidement, en toute sécurité et sans vous déplacer. Ensemble, construisons une ville plus fluide et plus accessible pour tous.</p></div></div>
+          </div>
+          <div class="acc-item">
+            <div class="acc-head" onclick="toggleAcc(this)">
+              <h4><i class="fa-solid fa-clock" style="color:var(--navy);margin-right:8px"></i>Horaires d'ouverture</h4>
+              <i class="fa-solid fa-chevron-down arr"></i>
+            </div>
+            <div class="acc-body"><div class="acc-inner">
+              <div class="horaire-row"><strong>Lun – Ven</strong><span>7h30 – 15h30</span></div>
+              <div class="horaire-row"><strong>Samedi (État civil)</strong><span>9h00 – 12h00</span></div>
+              <div class="horaire-row"><strong>Dimanche & jours fériés</strong><span>Fermé</span></div>
+            </div></div>
+          </div>
+          <div class="acc-item">
+            <div class="acc-head" onclick="toggleAcc(this)">
+              <h4><i class="fa-solid fa-city" style="color:var(--navy);margin-right:8px"></i>Projets urbains 2026</h4>
+              <i class="fa-solid fa-chevron-down arr"></i>
+            </div>
+            <div class="acc-body"><div class="acc-inner">
+              <div style="display:flex;flex-direction:column;gap:10px;margin-top:4px">
+                <div style="display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--ink-mid)"><i class="fa-solid fa-road" style="color:var(--gold);margin-top:2px;width:16px;text-align:center"></i><span>Réhabilitation des axes secondaires et éclairage LED dans 4 arrondissements</span></div>
+                <div style="display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--ink-mid)"><i class="fa-solid fa-leaf" style="color:var(--success);margin-top:2px;width:16px;text-align:center"></i><span>Création de 3 nouveaux parcs urbains et espaces verts</span></div>
+                <div style="display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--ink-mid)"><i class="fa-solid fa-wifi" style="color:var(--navy-light);margin-top:2px;width:16px;text-align:center"></i><span>Déploiement du WiFi public gratuit dans les espaces municipaux</span></div>
+              </div>
+            </div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="page" id="page-contact">
+      <div class="section">
+        <div class="contact-hero">
+          <h2>Contactez-nous</h2>
+          <div class="gold-line"></div>
+          <p>Une question, un signalement ou un problème technique ? Notre équipe est disponible.</p>
+        </div>
+        <div class="contact-actions">
+          <a class="contact-btn" href="mailto:mairie@libreville.gab">
+            <div class="cbi ic-blue"><i class="fa-solid fa-envelope"></i></div>
+            <div class="cbt"><strong>Envoyer un e-mail</strong><span>mairie@libreville.gab</span></div>
+            <i class="fa-solid fa-chevron-right cbar"></i>
+          </a>
+          <a class="contact-btn" href="tel:+24101XXXXXX">
+            <div class="cbi ic-green"><i class="fa-solid fa-phone"></i></div>
+            <div class="cbt"><strong>Appeler le standard</strong><span>+241 01 XX XX XX · Lun–Ven 7h30–15h30</span></div>
+            <i class="fa-solid fa-chevron-right cbar"></i>
+          </a>
+          <div class="contact-btn" onclick="openMaps()">
+            <div class="cbi ic-gold"><i class="fa-solid fa-map-location-dot"></i></div>
+            <div class="cbt"><strong>Itinéraire Google Maps</strong><span>Place de l'Indépendance, Libreville</span></div>
+            <i class="fa-solid fa-chevron-right cbar"></i>
+          </div>
+        </div>
+        <div class="info-card">
+          <h3><i class="fa-solid fa-location-dot" style="color:var(--navy);margin-right:6px"></i>Informations pratiques</h3>
+          <div class="irow"><i class="fa-solid fa-building"></i><span>Hôtel de Ville — Place de l'Indépendance, Libreville, Gabon</span></div>
+          <div class="irow"><i class="fa-solid fa-clock"></i><span>Lun–Ven : 7h30–15h30 · Sam (état civil) : 9h00–12h00</span></div>
+          <div class="irow"><i class="fa-solid fa-circle-info"></i><span>Guichet numérique ouvert 24h/24 via ce portail</span></div>
+        </div>
+        <div class="map-box" onclick="openMaps()">
+          <i class="fa-solid fa-map"></i>
+          <span>Voir sur Google Maps</span>
+          <span style="font-size:11px;color:var(--ink-light)">Place de l'Indépendance · Libreville</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROFIL -->
+    <section class="page" id="page-profil">
+      <div class="section">
+        <div class="profil-header">
+          <div class="profil-avatar" id="profil-avatar-wrap"><span id="profil-initials"></span></div>
+          <p class="profil-name" id="profil-name">—</p>
+          <span class="profil-badge">Citoyen vérifié</span>
+        </div>
+        <div class="profil-info" id="profil-info"></div>
+        <button class="btn-logout" onclick="logout()">
+          <i class="fa-solid fa-right-from-bracket"></i> Se déconnecter
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Bottom nav -->
+  <nav class="bottom-nav">
+    <div class="bottom-items">
+      <button class="nav-btn active" data-page="accueil" onclick="goTo('accueil',this)">
+        <i class="fa-solid fa-house"></i><span>Accueil</span>
+      </button>
+      <button class="nav-btn" data-page="services" onclick="goTo('services',this)">
+        <i class="fa-solid fa-file-lines"></i><span>Démarches</span>
+      </button>
+      <button class="nav-btn center-btn" data-page="actualites" onclick="goTo('actualites',this)">
+        <div class="center-blob"><i class="fa-solid fa-newspaper"></i></div>
+        <span>Actus</span>
+      </button>
+      <button class="nav-btn" data-page="mairie" onclick="goTo('mairie',this)">
+        <i class="fa-solid fa-landmark"></i><span>Mairie</span>
+      </button>
+      <button class="nav-btn" data-page="profil" onclick="goTo('profil',this)">
+        <i class="fa-solid fa-user"></i><span>Mon compte</span>
+      </button>
+    </div>
+  </nav>
+
+</div>
+
+<!-- Modal démarche -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-head">
+      <h3 id="modalTitle">Détail</h3>
+      <button class="modal-close" onclick="closeModal()">×</button>
+    </div>
+    <div class="modal-body-content" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"><i class="fa-solid fa-circle-check"></i><span id="toastMsg"></span></div>
+
+<script>
+// ════════════════════════════════
+// DONNÉES
+// ════════════════════════════════
+const DEMARCHES = [
+  {id:'naissance',cat:'etat-civil',title:'Acte de naissance',icon:'fa-baby',cls:'ic-blue',time:'48 h',cost:'Gratuit',tag:'tag-free',desc:'Demande de copie intégrale ou d\'extrait d\'acte de naissance pour toute personne née à Libreville. La démarche peut être initiée en ligne ; le document est remis sur place ou envoyé par courrier recommandé.',docs:['Pièce d\'identité du demandeur','Référence de l\'acte (si connue)','Justificatif de lien de parenté (si acte d\'un tiers)']},
+  {id:'mariage',cat:'etat-civil',title:'Dossier de mariage',icon:'fa-ring',cls:'ic-gold',time:'4 semaines',cost:'Frais fixes',tag:'tag-paid',desc:'Constitution et dépôt du dossier pour l\'organisation du mariage civil à l\'Hôtel de Ville. Un rendez-vous préalable est obligatoire.',docs:['CNI ou passeport des deux époux','Extrait d\'acte de naissance (moins de 3 mois)','Justificatif de domicile','2 témoins majeurs avec pièces d\'identité']},
+  {id:'cni',cat:'etat-civil',title:'Carte nationale d\'identité',icon:'fa-id-card',cls:'ic-purple',time:'2 semaines',cost:'Tarif national',tag:'tag-paid',desc:'Prise de rendez-vous pour le dépôt biométrique de votre dossier d\'identité. La carte est à retirer en mairie sous présentation du récépissé.',docs:['Extrait d\'acte de naissance','Certificat de nationalité gabonaise','Justificatif de résidence à Libreville','1 photo d\'identité récente']},
+  {id:'urbanisme',cat:'urbanisme',title:'Permis de construire',icon:'fa-compass-drafting',cls:'ic-teal',time:'2 mois',cost:'Sur étude',tag:'tag-paid',desc:'Dépôt de dossier pour toute construction neuve ou extension sur le territoire de Libreville. Le service urbanisme instruit le dossier après inspection du terrain.',docs:['Plans de masse signés par un architecte','Titre foncier ou bail emphytéotique','Étude d\'impact environnemental']},
+  {id:'travaux',cat:'urbanisme',title:'Autorisation de travaux',icon:'fa-trowel-bricks',cls:'ic-teal',time:'15 jours',cost:'Gratuit',tag:'tag-free',desc:'Déclaration préalable pour travaux mineurs : ravalement de façade, clôture, modification d\'ouverture ou extension inférieure à 20 m².',docs:['Formulaire de déclaration préalable','Plan de situation du terrain','Photos de l\'état actuel']},
+  {id:'deces',cat:'etat-civil',title:'Acte de décès',icon:'fa-file-medical',cls:'ic-red',time:'24 h',cost:'Gratuit',tag:'tag-free',desc:'Déclaration de décès ou demande de copie d\'acte. La déclaration doit être effectuée dans les 24 heures suivant le décès.',docs:['Certificat de décès signé par le médecin','Pièce d\'identité du défunt','Livret de famille']},
+  {id:'signalement',cat:'vie-locale',title:'Signalement citoyen',icon:'fa-triangle-exclamation',cls:'ic-gold',time:'5 jours ouvrés',cost:'Gratuit',tag:'tag-free',desc:'Signalez un problème sur l\'espace public : nid-de-poule, éclairage défaillant, dépôt sauvage, espace vert dégradé.',docs:['Photo du problème (recommandé)','Adresse précise du signalement']},
+  {id:'salubrite',cat:'vie-locale',title:'Enlèvement d\'encombrants',icon:'fa-trash-can',cls:'ic-green',time:'3 à 5 jours',cost:'Gratuit',tag:'tag-free',desc:'Demande d\'enlèvement d\'objets encombrants devant votre domicile. Le ramassage est planifié par la brigade de salubrité urbaine.',docs:['Adresse de collecte','Nature des objets','Date souhaitée']}
+];
+
+const ACTUALITES = [
+  {id:1,cat:'Salubrité',title:'Grande campagne de nettoyage urbain — Samedi 28 juin',date:'01 juin 2026',img:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80',desc:'La Mairie de Libreville organise une journée citoyenne de nettoyage dans les 9 arrondissements. Chaque habitant est invité à participer dès 7h du matin. Matériel fourni sur place.'},
+  {id:2,cat:'Numérique',title:'Modernisation de l\'état civil : actes disponibles en ligne',date:'28 mai 2026',img:'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&q=80',desc:'Le nouveau système d\'état civil numérique permet désormais de demander vos actes de naissance, mariage et décès directement depuis ce portail, sans déplacement. Traitement sous 48 heures.'},
+  {id:3,cat:'Travaux',title:'Réhabilitation des voies secondaires : le chantier débute',date:'15 mai 2026',img:'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&q=80',desc:'Quatre arrondissements bénéficieront de la réhabilitation des axes secondaires et du déploiement d\'un éclairage public LED économe en énergie.'},
+  {id:4,cat:'Social',title:'Ouverture du guichet social unique — Arrondissement 3',date:'05 mai 2026',img:'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&q=80',desc:'Un guichet unique pour l\'accès aux aides sociales, logement et emploi ouvre ses portes dans le 3e arrondissement. Accueil du lundi au vendredi de 8h à 14h.'}
+];
+
+// ════════════════════════════════
+// ÉTAT AUTH (localStorage)
+// ════════════════════════════════
+let currentUser = null;
+let photoDataUrl = null;
+let currentStep = 1;
+
+function loadSession() {
+  try {
+    const s = localStorage.getItem('lbv_session');
+    if (s) currentUser = JSON.parse(s);
+  } catch(e) {}
+}
+
+function saveSession(user) {
+  localStorage.setItem('lbv_session', JSON.stringify(user));
+  currentUser = user;
+}
+
+function clearSession() {
+  localStorage.removeItem('lbv_session');
+  currentUser = null;
+}
+
+// ════════════════════════════════
+// INITIALISATION
+// ════════════════════════════════
+window.addEventListener('DOMContentLoaded', () => {
+  // Date max pour naissance
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('r-ddn').max = today;
+
+  loadSession();
+  if (currentUser) {
+    showApp();
+  } else {
+    document.getElementById('auth-screen').style.display = 'flex';
+  }
+});
+
+// ════════════════════════════════
+// AUTH TABS
+// ════════════════════════════════
+function switchAuthTab(tab) {
+  document.getElementById('tab-login').classList.toggle('active', tab === 'login');
+  document.getElementById('tab-register').classList.toggle('active', tab === 'register');
+  document.getElementById('login-panel').classList.toggle('visible', tab === 'login');
+  document.getElementById('register-panel').classList.toggle('visible', tab === 'register');
+  document.getElementById('register-success').style.display = 'none';
+}
+
+// ════════════════════════════════
+// LOGIN
+// ════════════════════════════════
+function doLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const pw = document.getElementById('login-pw').value;
+  let ok = true;
+
+  if (!isValidEmail(email)) {
+    showErr('login-email-err', 'login-email'); ok = false;
+  } else { clearErr('login-email-err', 'login-email'); }
+
+  if (pw.length < 1) {
+    showErr('login-pw-err', 'login-pw'); ok = false;
+  } else { clearErr('login-pw-err', 'login-pw'); }
+
+  if (!ok) return;
+
+  // Cherche dans localStorage
+  const stored = localStorage.getItem('lbv_users');
+  const users = stored ? JSON.parse(stored) : [];
+  const user = users.find(u => u.email === email && u.pw === hashPw(pw));
+
+  if (!user) {
+    document.getElementById('login-pw-err').textContent = 'E-mail ou mot de passe incorrect.';
+    showErr('login-pw-err', 'login-pw');
+    return;
+  }
+
+  saveSession(user);
+  showApp();
+}
+
+function forgotPw() {
+  showToast('Réinitialisation par e-mail — fonctionnalité à venir.', 'info');
+}
+
+// ════════════════════════════════
+// REGISTER : gestion des étapes
+// ════════════════════════════════
+function nextStep(step) {
+  if (!validateStep(step)) return;
+  if (step === 3) buildRecap();
+  goStep(step + 1);
+}
+
+function prevStep(step) {
+  goStep(step - 1);
+}
+
+function goStep(n) {
+  document.getElementById('step-' + currentStep).classList.remove('visible');
+  currentStep = n;
+  document.getElementById('step-' + n).classList.add('visible');
+  updateStepIndicator();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function updateStepIndicator() {
+  for (let i = 1; i <= 4; i++) {
+    const dot = document.getElementById('sdot-' + i);
+    dot.classList.remove('active', 'done');
+    if (i < currentStep) dot.classList.add('done'), dot.innerHTML = '<i class="fa-solid fa-check" style="font-size:10px"></i>';
+    else if (i === currentStep) dot.classList.add('active'), dot.textContent = i;
+    else dot.textContent = i;
+    if (i < 4) {
+      const line = document.getElementById('sline-' + i);
+      line.classList.toggle('done', i < currentStep);
+    }
+  }
+}
+
+function validateStep(step) {
+  let ok = true;
+  if (step === 1) {
+    if (!v('r-nom', 'r-nom-err', 'Champ obligatoire.')) ok = false;
+    if (!v('r-prenom', 'r-prenom-err', 'Champ obligatoire.')) ok = false;
+    if (!v('r-ddn', 'r-ddn-err', 'Date de naissance obligatoire.')) ok = false;
+    if (!v('r-lieu', 'r-lieu-err', 'Champ obligatoire.')) ok = false;
+  } else if (step === 2) {
+    const arr = document.getElementById('r-arr').value;
+    if (!arr) { showErr('r-arr-err', 'r-arr'); ok = false; }
+    else clearErr('r-arr-err', 'r-arr');
+  } else if (step === 3) {
+    if (!photoDataUrl) { showErr('r-photo-err'); ok = false; }
+    else clearErr('r-photo-err');
+    const email = document.getElementById('r-email').value.trim();
+    if (!isValidEmail(email)) { showErr('r-email-err', 'r-email'); ok = false; }
+    else clearErr('r-email-err', 'r-email');
+    const pw = document.getElementById('r-pw').value;
+    if (pw.length < 8) { showErr('r-pw-err', 'r-pw'); ok = false; }
+    else clearErr('r-pw-err', 'r-pw');
+    const pw2 = document.getElementById('r-pw2').value;
+    if (pw !== pw2) { showErr('r-pw2-err', 'r-pw2'); ok = false; }
+    else clearErr('r-pw2-err', 'r-pw2');
+  }
+  return ok;
+}
+
+function v(fieldId, errId, msg) {
+  const val = document.getElementById(fieldId).value.trim();
+  if (!val) { document.getElementById(errId).textContent = msg; showErr(errId, fieldId); return false; }
+  clearErr(errId, fieldId); return true;
+}
+
+function buildRecap() {
+  const nom = document.getElementById('r-nom').value.trim();
+  const prenom = document.getElementById('r-prenom').value.trim();
+  const ddn = document.getElementById('r-ddn').value;
+  const lieu = document.getElementById('r-lieu').value.trim();
+  const arr = document.getElementById('r-arr').value;
+  const email = document.getElementById('r-email').value.trim();
+
+  const rows = [
+    {icon:'fa-user', label:'Nom complet', val: nom.toUpperCase() + ' ' + prenom},
+    {icon:'fa-calendar', label:'Date de naissance', val: formatDate(ddn)},
+    {icon:'fa-map-pin', label:'Lieu de naissance', val: lieu},
+    {icon:'fa-city', label:'Arrondissement', val: arr},
+    {icon:'fa-envelope', label:'E-mail', val: email},
+    {icon:'fa-camera', label:'Photo d\'identité', val: '<span style="color:var(--success);font-weight:600"><i class="fa-solid fa-circle-check"></i> Fournie</span>'}
+  ];
+
+  document.getElementById('recap-content').innerHTML = rows.map(r => `
+    <div style="background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:12px 14px;display:flex;align-items:center;gap:10px">
+      <i class="fa-solid ${r.icon}" style="color:var(--navy);width:16px;text-align:center;flex-shrink:0"></i>
+      <div>
+        <p style="font-size:11px;color:var(--ink-light);margin-bottom:2px">${r.label}</p>
+        <p style="font-size:13px;font-weight:600;color:var(--ink)">${r.val}</p>
+      </div>
+    </div>
+  `).join('');
+}
+
+function doRegister() {
+  const cgu = document.getElementById('r-cgu').checked;
+  if (!cgu) { showErr('r-cgu-err'); return; }
+  clearErr('r-cgu-err');
+
+  const nom = document.getElementById('r-nom').value.trim();
+  const prenom = document.getElementById('r-prenom').value.trim();
+  const ddn = document.getElementById('r-ddn').value;
+  const lieu = document.getElementById('r-lieu').value.trim();
+  const arr = document.getElementById('r-arr').value;
+  const adresse = document.getElementById('r-adresse').value.trim();
+  const email = document.getElementById('r-email').value.trim();
+  const pw = document.getElementById('r-pw').value;
+
+  const newUser = {
+    nom: nom.toUpperCase(),
+    prenom,
+    ddn,
+    lieu,
+    arrondissement: arr,
+    adresse,
+    email,
+    pw: hashPw(pw),
+    photo: photoDataUrl,
+    createdAt: new Date().toISOString()
+  };
+
+  // Sauvegarde
+  const stored = localStorage.getItem('lbv_users');
+  const users = stored ? JSON.parse(stored) : [];
+  // Vérifie unicité email
+  if (users.find(u => u.email === email)) {
+    showToast('Un compte existe déjà avec cet e-mail.', 'error');
+    prevStep(4); prevStep(3);
+    return;
+  }
+  users.push(newUser);
+  localStorage.setItem('lbv_users', JSON.stringify(users));
+
+  // Masque étapes, montre succès
+  document.getElementById('step-4').classList.remove('visible');
+  document.getElementById('step-indicator').style.display = 'none';
+  document.getElementById('register-success').classList.add('visible');
+  document.getElementById('register-success').style.display = 'block';
+
+  saveSession(newUser);
+}
+
+function goToApp() {
+  showApp();
+}
+
+// ════════════════════════════════
+// AFFICHAGE APPLICATION
+// ════════════════════════════════
+function showApp() {
+  document.getElementById('auth-screen').style.display = 'none';
+  document.getElementById('app-screen').style.display = 'block';
+  document.body.classList.add('app-ready');
+
+  const u = currentUser;
+  if (!u) return;
+
+  const initials = (u.nom.charAt(0) + (u.prenom ? u.prenom.charAt(0) : '')).toUpperCase();
+  const fullName = u.prenom + ' ' + u.nom;
+
+  // Header avatar
+  const headerWrap = document.getElementById('header-avatar-wrap');
+  document.getElementById('header-avatar-initials').textContent = initials;
+  if (u.photo) {
+    headerWrap.innerHTML = `<img src="${u.photo}" alt="avatar">`;
+  }
+
+  // Bandeau citoyen
+  document.getElementById('cb-name').textContent = fullName;
+  const cbWrap = document.getElementById('cb-avatar-wrap');
+  document.getElementById('cb-initials').textContent = initials;
+  if (u.photo) cbWrap.innerHTML = `<img src="${u.photo}" alt="">`;
+
+  // Profil
+  document.getElementById('profil-name').textContent = fullName;
+  document.getElementById('profil-initials').textContent = initials;
+  const paWrap = document.getElementById('profil-avatar-wrap');
+  if (u.photo) paWrap.innerHTML = `<img src="${u.photo}" alt="">`;
+
+  document.getElementById('profil-info').innerHTML = [
+    {icon:'fa-user', label:'Nom complet', val: fullName},
+    {icon:'fa-envelope', label:'Adresse e-mail', val: u.email},
+    {icon:'fa-calendar', label:'Date de naissance', val: formatDate(u.ddn)},
+    {icon:'fa-map-pin', label:'Lieu de naissance', val: u.lieu},
+    {icon:'fa-city', label:'Arrondissement', val: u.arrondissement},
+    u.adresse ? {icon:'fa-house', label:'Adresse', val: u.adresse} : null,
+    {icon:'fa-calendar-check', label:'Compte créé le', val: formatDateFr(u.createdAt)}
+  ].filter(Boolean).map(r => `
+    <div class="info-row-p">
+      <i class="fa-solid ${r.icon}"></i>
+      <div>
+        <p class="irp-label">${r.label}</p>
+        <p class="irp-val">${r.val}</p>
+      </div>
+    </div>
+  `).join('');
+
+  renderHomeNews();
+  renderDemarches('all');
+  renderActualites();
+  initSearch();
+}
+
+// ════════════════════════════════
+// NAVIGATION APP
+// ════════════════════════════════
+function goTo(page, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const t = document.getElementById('page-' + page);
+  if (t) t.classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  if (el) el.classList.add('active');
+  else {
+    const btn = document.querySelector(`.nav-btn[data-page="${page}"]`);
+    if (btn) btn.classList.add('active');
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function logout() {
+  if (!confirm('Voulez-vous vraiment vous déconnecter ?')) return;
+  clearSession();
+  document.getElementById('app-screen').style.display = 'none';
+  document.body.classList.remove('app-ready');
+  document.getElementById('auth-screen').style.display = 'flex';
+  // Reset login fields
+  document.getElementById('login-email').value = '';
+  document.getElementById('login-pw').value = '';
+  switchAuthTab('login');
+}
+
+// ════════════════════════════════
+// RENDER
+// ════════════════════════════════
+function renderHomeNews() {
+  const el = document.getElementById('homeNews');
+  if (!el) return;
+  el.innerHTML = ACTUALITES.slice(0, 3).map(n => `
+    <div class="news-slide">
+      <div class="news-img" style="background-image:url('${n.img}')">
+        <div class="news-img-overlay"></div>
+        <span class="news-badge">${n.cat}</span>
+      </div>
+      <div class="news-body">
+        <p class="news-date"><i class="fa-regular fa-calendar"></i> ${n.date}</p>
+        <h3 class="news-title">${n.title}</h3>
+        <p class="news-desc">${n.desc.substring(0, 80)}…</p>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderDemarches(cat) {
+  const el = document.getElementById('demarchesList');
+  if (!el) return;
+  const list = cat === 'all' ? DEMARCHES : DEMARCHES.filter(d => d.cat === cat);
+  el.innerHTML = list.map(d => `
+    <div class="demarche-card" onclick="openModal('${d.id}')">
+      <div class="d-icon ${d.cls}"><i class="fa-solid ${d.icon}"></i></div>
+      <div class="d-body">
+        <p class="d-title">${d.title}</p>
+        <div class="d-meta">
+          <span><i class="fa-regular fa-clock"></i> ${d.time}</span>
+          <span class="d-tag ${d.tag}">${d.cost}</span>
+        </div>
+      </div>
+      <i class="fa-solid fa-chevron-right d-arrow"></i>
+    </div>
+  `).join('');
+}
+
+function filterTab(cat, btn) {
+  document.querySelectorAll('.tabs-wrap .tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  renderDemarches(cat);
+}
+
+function renderActualites() {
+  const el = document.getElementById('actualitesList');
+  if (!el) return;
+  el.innerHTML = ACTUALITES.map(n => `
+    <div class="actu-card">
+      <div class="actu-img" style="background-image:url('${n.img}')">
+        <span class="actu-img-badge">${n.cat}</span>
+      </div>
+      <div class="actu-body">
+        <p class="actu-date"><i class="fa-regular fa-calendar"></i> ${n.date}</p>
+        <h3 class="actu-title">${n.title}</h3>
+        <p class="actu-desc">${n.desc}</p>
+        <div class="actu-actions">
+          <button class="btn-sm btn-primary-sm" onclick="shareActu(${n.id})"><i class="fa-solid fa-share-nodes"></i> Partager</button>
+          <button class="btn-sm btn-outline-sm">En savoir plus</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ════════════════════════════════
+// MODAL DÉMARCHE
+// ════════════════════════════════
+function openModal(id) {
+  const d = DEMARCHES.find(x => x.id === id);
+  if (!d) return;
+  document.getElementById('modalTitle').textContent = d.title;
+  document.getElementById('modalBody').innerHTML = `
+    <div class="mih">
+      <div class="mbi ${d.cls}"><i class="fa-solid ${d.icon}"></i></div>
+      <div>
+        <p style="font-family:var(--font-d);font-weight:800;font-size:16px;margin-bottom:3px">${d.title}</p>
+        <p style="font-size:12px;color:var(--ink-light)">${d.cat === 'etat-civil' ? 'État civil' : d.cat === 'urbanisme' ? 'Urbanisme' : 'Vie locale'}</p>
+      </div>
+    </div>
+    <p class="modal-desc">${d.desc}</p>
+    <div class="modal-info-grid">
+      <div class="mic"><p class="mic-label">Délai</p><p class="mic-val">${d.time}</p></div>
+      <div class="mic"><p class="mic-label">Coût</p><p class="mic-val">${d.cost}</p></div>
+    </div>
+    <div class="modal-docs">
+      <h4><i class="fa-solid fa-paperclip" style="color:var(--navy);margin-right:6px"></i>Pièces à fournir</h4>
+      ${d.docs.map(doc => `<div class="doc-item"><i class="fa-solid fa-circle-check"></i><span>${doc}</span></div>`).join('')}
+    </div>
+    <div class="modal-cta">
+      <button class="btn-full btn-full-p" onclick="startDemarche('${d.id}')">
+        <i class="fa-solid fa-arrow-right-to-bracket"></i> Commencer la démarche en ligne
+      </button>
+      <button class="btn-full btn-full-o" onclick="closeModal()">Retour à la liste</button>
+    </div>
+  `;
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(evt) {
+  if (evt && evt.target !== document.getElementById('modalOverlay')) return;
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function startDemarche(id) {
+  closeModal();
+  showToast('Démarche initialisée — Espace sécurisé en cours d\'ouverture…', 'success');
+}
+
+// ════════════════════════════════
+// ACCORDION
+// ════════════════════════════════
+function toggleAcc(head) {
+  const item = head.closest('.acc-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.acc-item.open').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+// ════════════════════════════════
+// RECHERCHE
+// ════════════════════════════════
+function initSearch() {
+  const field = document.getElementById('searchField');
+  const results = document.getElementById('searchResults');
+  if (!field) return;
+  field.addEventListener('input', () => {
+    const q = field.value.trim().toLowerCase();
+    if (q.length < 2) { results.classList.remove('visible'); return; }
+    const matches = DEMARCHES.filter(d => d.title.toLowerCase().includes(q) || d.desc.toLowerCase().includes(q)).slice(0, 4);
+    if (!matches.length) { results.classList.remove('visible'); return; }
+    results.innerHTML = matches.map(d => `
+      <div class="search-result-item" onclick="goToAndOpen('${d.id}')">
+        <div class="sri-icon ${d.cls}"><i class="fa-solid ${d.icon}"></i></div>
+        <div><p class="sri-text">${d.title}</p><p class="sri-cat">${d.time}</p></div>
+      </div>
+    `).join('');
+    results.classList.add('visible');
+  });
+  document.addEventListener('click', e => {
+    if (!field.contains(e.target) && !results.contains(e.target)) results.classList.remove('visible');
+  });
+}
+
+function goToAndOpen(id) {
+  document.getElementById('searchField').value = '';
+  document.getElementById('searchResults').classList.remove('visible');
+  goTo('services');
+  setTimeout(() => openModal(id), 200);
+}
+
+// ════════════════════════════════
+// PHOTO
+// ════════════════════════════════
+function handlePhoto(input) {
+  const file = input.files[0];
+  if (!file) return;
+  if (file.size > 5 * 1024 * 1024) { showToast('Photo trop volumineuse (max 5 Mo).', 'error'); return; }
+  const reader = new FileReader();
+  reader.onload = e => {
+    photoDataUrl = e.target.result;
+    const preview = document.getElementById('photo-preview');
+    preview.src = photoDataUrl;
+    preview.style.display = 'block';
+    document.getElementById('photo-placeholder').style.display = 'none';
+    clearErr('r-photo-err');
+  };
+  reader.readAsDataURL(file);
+}
+
+// ════════════════════════════════
+// FORCE MOT DE PASSE
+// ════════════════════════════════
+function checkPwStrength(pw) {
+  let score = 0;
+  if (pw.length >= 8) score++;
+  if (/[A-Z]/.test(pw)) score++;
+  if (/[0-9]/.test(pw)) score++;
+  if (/[^A-Za-z0-9]/.test(pw)) score++;
+
+  const bars = [document.getElementById('pb1'), document.getElementById('pb2'), document.getElementById('pb3')];
+  const txt = document.getElementById('pw-txt');
+  bars.forEach(b => b.className = 'pw-bar');
+
+  if (pw.length === 0) { txt.textContent = 'Entrez un mot de passe'; return; }
+  if (score <= 1) {
+    bars[0].classList.add('weak');
+    txt.textContent = 'Faible — ajoutez des majuscules et chiffres';
+    txt.style.color = 'var(--danger)';
+  } else if (score === 2 || score === 3) {
+    bars[0].classList.add('medium'); bars[1].classList.add('medium');
+    txt.textContent = 'Moyen — ajoutez des caractères spéciaux';
+    txt.style.color = 'var(--warning)';
+  } else {
+    bars.forEach(b => b.classList.add('strong'));
+    txt.textContent = 'Fort — excellent mot de passe !';
+    txt.style.color = 'var(--success)';
+  }
+}
+
+// ════════════════════════════════
+// UTILITAIRES
+// ════════════════════════════════
+function togglePw(id, icon) {
+  const input = document.getElementById(id);
+  const isText = input.type === 'text';
+  input.type = isText ? 'password' : 'text';
+  icon.className = isText ? 'fa-solid fa-eye suf' : 'fa-solid fa-eye-slash suf';
+}
+
+function showErr(errId, fieldId) {
+  document.getElementById(errId).classList.add('show');
+  if (fieldId) document.getElementById(fieldId).classList.add('error');
+}
+
+function clearErr(errId, fieldId) {
+  const e = document.getElementById(errId);
+  if (e) e.classList.remove('show');
+  if (fieldId) {
+    const f = document.getElementById(fieldId);
+    if (f) f.classList.remove('error');
+  }
+}
+
+function isValidEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
+
+function hashPw(pw) {
+  // Simple hash côté client (maquette - pas pour production)
+  let h = 0;
+  for (let i = 0; i < pw.length; i++) { h = ((h << 5) - h) + pw.charCodeAt(i); h |= 0; }
+  return 'h' + Math.abs(h).toString(36);
+}
+
+function formatDate(dateStr) {
+  if (!dateStr) return '—';
+  const [y, m, d] = dateStr.split('-');
+  const months = ['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];
+  return `${d} ${months[parseInt(m, 10) - 1]} ${y}`;
+}
+
+function formatDateFr(iso) {
+  if (!iso) return '—';
+  return formatDate(iso.split('T')[0]);
+}
+
+function toggleDark() {
+  document.body.classList.toggle('dark-mode');
+  document.getElementById('themeIcon').className =
+    document.body.classList.contains('dark-mode') ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+}
+
+function showToast(msg, type = 'success') {
+  const t = document.getElementById('toast');
+  const m = document.getElementById('toastMsg');
+  m.textContent = msg;
+  t.className = 'toast show ' + type + '-t';
+  t.querySelector('i').className = type === 'error' ? 'fa-solid fa-circle-xmark' : 'fa-solid fa-circle-check';
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+function shareActu(id) {
+  const n = ACTUALITES.find(x => x.id === id);
+  if (!n) return;
+  if (navigator.share) navigator.share({ title: n.title, text: n.desc, url: window.location.href }).catch(() => {});
+  else showToast('Lien copié !', 'success');
+}
+
+function openMaps() {
+  window.open('https://maps.google.com/?q=' + encodeURIComponent('Place de l\'Indépendance, Libreville, Gabon'), '_blank');
+}
+
+</script>
+
+<!-- ═══════════════════ ADMIN CSS ═══════════════════ -->
+<style>
+/* Admin screen */
+#admin-screen{display:none;min-height:100vh;background:#0F172A;flex-direction:column}
+#admin-screen.adm-vis{display:flex}
+#admin-login{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;background:linear-gradient(160deg,#0F172A,#1E3A5F)}
+.adm-login-card{background:#1E2A3A;border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:28px 24px;width:100%;max-width:380px;box-shadow:0 12px 32px rgba(0,0,0,.4)}
+.adm-login-card h2{font-family:'Nunito',sans-serif;font-size:20px;font-weight:800;color:#F1F5F9;text-align:center;margin-bottom:4px}
+.adm-login-card p{font-size:13px;color:#64748B;text-align:center;margin-bottom:20px}
+.adm-logo{width:54px;height:54px;background:#0B3D6B;border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
+.adm-hint{background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.2);border-radius:8px;padding:10px 12px;margin-bottom:16px;font-size:12px;color:#93C5FD;display:flex;align-items:flex-start;gap:8px;line-height:1.5}
+.adm-hint i{flex-shrink:0;margin-top:2px}
+.adm-fi{width:100%;padding:11px 14px 11px 40px;background:#0F172A;border:1px solid rgba(255,255,255,.12);border-radius:10px;color:#F1F5F9;font-family:'Inter',sans-serif;font-size:14px;outline:none;transition:border-color .2s}
+.adm-fi:focus{border-color:#3B82F6}
+.adm-fi::placeholder{color:#475569}
+.adm-topbar{background:#1E2A3A;border-bottom:1px solid rgba(255,255,255,.07);padding:11px 16px;display:flex;align-items:center;gap:12px;flex-shrink:0}
+.adm-topbar h1{font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;color:#F1F5F9}
+.adm-topbar span{font-size:11px;color:#64748B}
+.adm-tbar-act{margin-left:auto;display:flex;gap:8px}
+.adm-ib{background:rgba(255,255,255,.07);border:none;color:#94A3B8;width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;transition:background .2s}
+.adm-ib:hover{background:rgba(255,255,255,.13);color:#F1F5F9}
+.adm-body{display:flex;flex:1;overflow:hidden;min-height:0}
+.adm-sidebar{width:196px;background:#1E2A3A;border-right:1px solid rgba(255,255,255,.06);padding:10px 8px;flex-shrink:0;overflow-y:auto}
+.adm-content{flex:1;overflow-y:auto;padding:16px}
+.adm-nav{display:flex;align-items:center;gap:9px;padding:10px 11px;border-radius:8px;cursor:pointer;transition:background .15s;color:#94A3B8;font-size:13px;font-weight:600;margin-bottom:2px;border:none;background:none;width:100%;font-family:'Inter',sans-serif;text-align:left}
+.adm-nav i{width:15px;text-align:center;font-size:13px}
+.adm-nav:hover{background:rgba(255,255,255,.06);color:#F1F5F9}
+.adm-nav.active{background:rgba(59,130,246,.14);color:#60A5FA}
+.adm-mob-nav{display:none;gap:4px;padding:8px;background:#1E2A3A;border-bottom:1px solid rgba(255,255,255,.06);overflow-x:auto}
+.amn{display:flex;flex-direction:column;align-items:center;gap:2px;padding:7px 11px;border-radius:8px;cursor:pointer;color:#64748B;font-size:10px;font-weight:600;border:none;background:none;white-space:nowrap;font-family:'Inter',sans-serif}
+.amn i{font-size:15px}
+.amn.active{color:#60A5FA;background:rgba(59,130,246,.1)}
+.nbadge{margin-left:auto;background:#EF4444;color:#fff;font-size:10px;font-weight:700;padding:1px 7px;border-radius:999px}
+.a-page{display:none;animation:fadeIn .2s ease}
+.a-page.active{display:block}
+.a-pg-title{font-family:'Nunito',sans-serif;font-size:19px;font-weight:800;color:#F1F5F9;margin-bottom:14px}
+.ac{background:#1E2A3A;border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:14px;margin-bottom:10px}
+.ac h3{font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;color:#CBD5E1;margin-bottom:10px}
+.dstats{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-bottom:14px}
+.ds{background:#1E2A3A;border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:13px}
+.ds-n{font-family:'Nunito',sans-serif;font-size:25px;font-weight:800;line-height:1;margin-bottom:2px}
+.ds-l{font-size:12px;color:#64748B}
+.ds-blue .ds-n{color:#60A5FA}.ds-green .ds-n{color:#34D399}.ds-amber .ds-n{color:#FBBF24}.ds-red .ds-n{color:#F87171}
+.at{width:100%;border-collapse:collapse}
+.at th{font-size:11px;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:.4px;padding:7px 9px;text-align:left;border-bottom:1px solid rgba(255,255,255,.05)}
+.at td{font-size:13px;color:#CBD5E1;padding:9px;border-bottom:1px solid rgba(255,255,255,.03);vertical-align:middle}
+.at tr:last-child td{border-bottom:none}
+.at tr:hover td{background:rgba(255,255,255,.02)}
+.aav{width:28px;height:28px;border-radius:50%;background:#1A3A5E;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#60A5FA;overflow:hidden;font-family:'Nunito',sans-serif;flex-shrink:0}
+.aav img{width:100%;height:100%;object-fit:cover}
+.abtns{display:flex;gap:4px;flex-wrap:wrap}
+.ab{font-size:11px;font-weight:600;padding:4px 8px;border-radius:6px;border:none;cursor:pointer;font-family:'Inter',sans-serif;white-space:nowrap;transition:opacity .2s}
+.ab:hover{opacity:.8}
+.ab-bl{background:rgba(59,130,246,.15);color:#60A5FA}
+.ab-gn{background:rgba(52,211,153,.15);color:#34D399}
+.ab-am{background:rgba(251,191,36,.15);color:#FBBF24}
+.ab-rd{background:rgba(248,113,113,.15);color:#F87171}
+.af{margin-bottom:13px}
+.al{display:block;font-size:12px;font-weight:600;color:#94A3B8;margin-bottom:4px}
+.ai{width:100%;padding:9px 11px;background:#0F172A;border:1px solid rgba(255,255,255,.1);border-radius:8px;color:#F1F5F9;font-family:'Inter',sans-serif;font-size:13px;outline:none;transition:border-color .2s}
+.ai:focus{border-color:#3B82F6}
+select.ai{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px}
+textarea.ai{resize:vertical;min-height:76px}
+.abr{display:flex;gap:8px;margin-top:14px}
+.asub{flex:1;padding:10px;border-radius:8px;background:#3B82F6;color:#fff;border:none;font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;cursor:pointer}
+.asub:hover{background:#2563EB}
+.acan{flex:.5;padding:10px;border-radius:8px;background:rgba(255,255,255,.07);color:#94A3B8;border:none;font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;cursor:pointer}
+.adm-badge{display:inline-flex;align-items:center;font-size:10px;font-weight:700;padding:3px 8px;border-radius:999px}
+.ab-ok{background:rgba(52,211,153,.15);color:#34D399}
+.ab-warn{background:rgba(251,191,36,.15);color:#FBBF24}
+.ab-info{background:rgba(59,130,246,.15);color:#60A5FA}
+.ab-err{background:rgba(248,113,113,.15);color:#F87171}
+.ab-gray{background:rgba(100,116,139,.15);color:#94A3B8}
+.adm-toast{position:fixed;bottom:16px;left:16px;right:16px;background:#1E293B;color:#F1F5F9;border-radius:12px;padding:13px 16px;font-size:14px;font-weight:500;display:flex;align-items:center;gap:10px;z-index:9999;transform:translateY(20px);opacity:0;transition:all .3s ease;pointer-events:none;border:1px solid rgba(255,255,255,.08)}
+.adm-toast.show{transform:translateY(0);opacity:1}
+.adm-modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:8000;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(3px)}
+.adm-modal-ov.open{display:flex}
+.adm-modal{background:#1E2A3A;width:100%;max-width:520px;border-radius:20px 20px 0 0;max-height:90vh;overflow-y:auto;animation:slideUp .25s ease;padding-bottom:env(safe-area-inset-bottom,16px)}
+.adm-modal-handle{width:38px;height:4px;background:rgba(255,255,255,.12);border-radius:2px;margin:11px auto 0}
+.adm-modal-head{padding:14px 18px;border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between}
+.adm-modal-head h3{font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;color:#F1F5F9}
+.adm-modal-close{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.08);border:none;color:#94A3B8;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.adm-modal-body{padding:18px}
+.adm-modal-foot{padding:0 18px 18px;display:flex;flex-direction:column;gap:7px}
+@media(max-width:600px){.adm-sidebar{display:none!important}.adm-mob-nav{display:flex!important}}
+</style>
+
+<!-- ═══════════════════ ADMIN HTML ═══════════════════ -->
+<div id="admin-screen">
+  <div id="admin-login">
+    <div class="adm-login-card">
+      <div class="adm-logo"><svg viewBox="0 0 42 42" fill="none"><rect width="42" height="42" rx="8" fill="#0B3D6B"/><text x="21" y="29" text-anchor="middle" fill="#C9A84C" font-size="15" font-weight="900" font-family="Nunito,sans-serif">LBV</text></svg></div>
+      <h2>Espace Administration</h2>
+      <p>Mairie de Libreville — Accès restreint</p>
+      <div class="adm-hint"><i class="fa-solid fa-circle-info"></i><span>Email : <strong>admin@mairie-lbv.ga</strong><br>Mot de passe : <strong>Admin2026!</strong></span></div>
+      <div class="form-group"><label class="form-label" style="color:#94A3B8">E-mail</label>
+        <div class="input-wrap"><i class="fa-solid fa-envelope pre" style="color:#475569"></i><input class="adm-fi" type="email" id="ai-em" placeholder="admin@mairie-lbv.ga"></div></div>
+      <div class="form-group"><label class="form-label" style="color:#94A3B8">Mot de passe</label>
+        <div class="input-wrap"><i class="fa-solid fa-lock pre" style="color:#475569"></i>
+          <input class="adm-fi" type="password" id="ai-pw" placeholder="••••••••" onkeydown="if(event.key==='Enter')doAdminLogin()">
+          <i class="fa-solid fa-eye suf" style="color:#475569" onclick="toggleAdmPw(this)"></i></div></div>
+      <p class="field-error" id="ai-err" style="margin-bottom:8px;font-size:13px">Identifiants incorrects.</p>
+      <button class="btn-main" onclick="doAdminLogin()" style="margin-top:2px"><i class="fa-solid fa-shield-halved"></i> Accéder au panneau</button>
+      <button onclick="goToPublic()" style="width:100%;margin-top:10px;padding:10px;border-radius:12px;background:none;border:1px solid rgba(255,255,255,.1);color:#64748B;font-family:'Inter',sans-serif;font-size:13px;cursor:pointer">← Portail citoyen</button>
+    </div>
+  </div>
+  <div id="admin-app" style="display:none;flex-direction:column;flex:1;min-height:100vh">
+    <div class="adm-topbar">
+      <div class="adm-logo" style="margin:0;width:34px;height:34px;border-radius:8px"><svg viewBox="0 0 42 42" fill="none"><rect width="42" height="42" rx="8" fill="#0B3D6B"/><text x="21" y="29" text-anchor="middle" fill="#C9A84C" font-size="15" font-weight="900" font-family="Nunito,sans-serif">LBV</text></svg></div>
+      <div><h1>Admin Panel</h1><span>Mairie de Libreville</span></div>
+      <div class="adm-tbar-act">
+        <button class="adm-ib" onclick="refreshAdmin()" title="Actualiser"><i class="fa-solid fa-arrows-rotate"></i></button>
+        <button class="adm-ib" onclick="doAdminLogout()" title="Déconnexion"><i class="fa-solid fa-right-from-bracket"></i></button>
+      </div>
+    </div>
+    <div class="adm-mob-nav">
+      <button class="amn active" data-ap="dashboard" onclick="gA('dashboard',this)"><i class="fa-solid fa-chart-pie"></i>Dashboard</button>
+      <button class="amn" data-ap="citoyens" onclick="gA('citoyens',this)"><i class="fa-solid fa-users"></i>Citoyens</button>
+      <button class="amn" data-ap="demandes" onclick="gA('demandes',this)"><i class="fa-solid fa-file-lines"></i>Demandes</button>
+      <button class="amn" data-ap="actu" onclick="gA('actu',this)"><i class="fa-solid fa-newspaper"></i>Actus</button>
+    </div>
+    <div class="adm-body">
+      <aside class="adm-sidebar">
+        <button class="adm-nav active" data-ap="dashboard" onclick="gA('dashboard',this)"><i class="fa-solid fa-chart-pie"></i>Dashboard</button>
+        <button class="adm-nav" data-ap="citoyens" onclick="gA('citoyens',this)"><i class="fa-solid fa-users"></i>Citoyens</button>
+        <button class="adm-nav" data-ap="demandes" onclick="gA('demandes',this)"><i class="fa-solid fa-file-lines"></i>Demandes <span class="nbadge" id="nb-dem">0</span></button>
+        <button class="adm-nav" data-ap="actu" onclick="gA('actu',this)"><i class="fa-solid fa-newspaper"></i>Actualités</button>
+        <div style="height:1px;background:rgba(255,255,255,.06);margin:10px 4px"></div>
+        <button class="adm-nav" onclick="goToPublic()"><i class="fa-solid fa-arrow-left"></i>Portail citoyen</button>
+      </aside>
+      <div class="adm-content">
+        <div class="a-page active" id="ap-dashboard">
+          <p class="a-pg-title">Tableau de bord</p>
+          <div class="dstats" id="ds-grid"></div>
+          <div class="ac"><h3>Demandes récentes</h3><div style="overflow-x:auto" id="ds-dems"></div></div>
+          <div class="ac"><h3>Nouveaux citoyens</h3><div style="overflow-x:auto" id="ds-users"></div></div>
+        </div>
+        <div class="a-page" id="ap-citoyens">
+          <p class="a-pg-title">Gestion des citoyens</p>
+          <div class="ac"><div style="overflow-x:auto"><table class="at" id="cit-table"></table></div></div>
+        </div>
+        <div class="a-page" id="ap-demandes">
+          <p class="a-pg-title">Gestion des demandes</p>
+          <div style="display:flex;gap:6px;margin-bottom:10px;overflow-x:auto">
+            <button class="adm-badge ab-info" style="cursor:pointer;font-size:12px;padding:6px 12px" onclick="fDA('all',this)">Toutes</button>
+            <button class="adm-badge ab-gray" style="cursor:pointer;font-size:12px;padding:6px 12px" onclick="fDA('pending',this)">En attente</button>
+            <button class="adm-badge ab-gray" style="cursor:pointer;font-size:12px;padding:6px 12px" onclick="fDA('progress',this)">En cours</button>
+            <button class="adm-badge ab-gray" style="cursor:pointer;font-size:12px;padding:6px 12px" onclick="fDA('done',this)">Complétées</button>
+          </div>
+          <div class="ac"><div style="overflow-x:auto"><table class="at" id="dem-table"></table></div></div>
+        </div>
+        <div class="a-page" id="ap-actu">
+          <p class="a-pg-title">Gestion des actualités</p>
+          <button onclick="openAF()" style="display:inline-flex;align-items:center;gap:7px;padding:9px 15px;background:#3B82F6;color:#fff;border:none;border-radius:8px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;cursor:pointer;margin-bottom:12px"><i class="fa-solid fa-plus"></i>Nouvelle actualité</button>
+          <div id="adm-actus"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal admin actualité -->
+<div class="adm-modal-ov" id="mActu" onclick="cAM('mActu',event)">
+  <div class="adm-modal"><div class="adm-modal-handle"></div>
+    <div class="adm-modal-head"><h3 id="mA-title">Actualité</h3><button class="adm-modal-close" onclick="cAM('mActu')">×</button></div>
+    <div class="adm-modal-body" id="mA-body"></div>
+  </div>
+</div>
+<!-- Modal admin citoyen -->
+<div class="adm-modal-ov" id="mUser" onclick="cAM('mUser',event)">
+  <div class="adm-modal"><div class="adm-modal-handle"></div>
+    <div class="adm-modal-head"><h3 id="mU-title">Citoyen</h3><button class="adm-modal-close" onclick="cAM('mUser')">×</button></div>
+    <div class="adm-modal-body" id="mU-body"></div>
+    <div class="adm-modal-foot" id="mU-foot"></div>
+  </div>
+</div>
+<!-- Admin toast -->
+<div class="adm-toast" id="adm-toast"><i id="at-ic" class="fa-solid fa-circle-check"></i><span id="at-msg"></span></div>
+
+<script>
+// ════════════════════════════
+// ADMIN CONSTANTS & HELPERS
+// ════════════════════════════
+const ADM_EM='admin@mairie-lbv.ga', ADM_PW='Admin2026!';
+const DREF=[
+  {id:'naissance',title:'Acte de naissance',icon:'fa-baby',cls:'ic-blue'},
+  {id:'mariage',title:'Dossier de mariage',icon:'fa-ring',cls:'ic-gold'},
+  {id:'cni',title:'Carte nationale d\'identité',icon:'fa-id-card',cls:'ic-purple'},
+  {id:'urbanisme',title:'Permis de construire',icon:'fa-compass-drafting',cls:'ic-teal'},
+  {id:'travaux',title:'Autorisation de travaux',icon:'fa-trowel-bricks',cls:'ic-teal'},
+  {id:'deces',title:'Acte de décès',icon:'fa-file-medical',cls:'ic-red'},
+  {id:'signalement',title:'Signalement citoyen',icon:'fa-triangle-exclamation',cls:'ic-gold'},
+  {id:'salubrite',title:'Enlèvement encombrants',icon:'fa-trash-can',cls:'ic-green'}
+];
+const DEFAULT_ACTUS_ADM=[
+  {id:'a1',cat:'Salubrité',title:'Grande campagne de nettoyage urbain — Samedi 28 juin',date:'01 juin 2026',img:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80',desc:'La Mairie de Libreville organise une journée citoyenne de nettoyage dans les 9 arrondissements. Matériel fourni sur place.',published:true},
+  {id:'a2',cat:'Numérique',title:'Modernisation de l\'état civil : actes disponibles en ligne',date:'28 mai 2026',img:'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&q=80',desc:'Le nouveau système permet de demander vos actes directement depuis ce portail, sans déplacement. Traitement sous 48h.',published:true},
+  {id:'a3',cat:'Travaux',title:'Réhabilitation des voies secondaires : le chantier débute',date:'15 mai 2026',img:'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&q=80',desc:'Quatre arrondissements bénéficieront de la réhabilitation des axes secondaires et d\'un éclairage LED économe.',published:true},
+  {id:'a4',cat:'Social',title:'Ouverture du guichet social unique — Arrondissement 3',date:'05 mai 2026',img:'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&q=80',desc:'Un guichet unique pour l\'accès aux aides sociales, logement et emploi ouvre dans le 3e arrondissement.',published:true}
+];
+
+const gLS=k=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):null;}catch{return null;}};
+const sLS=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const gUsers=()=>gLS('lbv_users')||[];
+const sUsers=u=>sLS('lbv_users',u);
+const gActus=()=>gLS('lbv_actus')||DEFAULT_ACTUS_ADM;
+const sActus=a=>sLS('lbv_actus',a);
+const gDems=()=>gLS('lbv_demandes')||[];
+const sDems=d=>sLS('lbv_demandes',d);
+const gAdmS=()=>gLS('lbv_adm_s');
+const sAdmS=()=>sLS('lbv_adm_s','1');
+const cAdmS=()=>localStorage.removeItem('lbv_adm_s');
+const Q=id=>document.getElementById(id);
+const dref=id=>DREF.find(d=>d.id===id);
+let admDemFilter='all';
+
+function aSB(s){const m={pending:['ab-warn','En attente'],progress:['ab-info','En cours'],done:['ab-ok','Complétée'],rejected:['ab-err','Refusée']};const[c,l]=m[s]||['ab-gray',s];return`<span class="adm-badge ${c}">${l}</span>`;}
+function fmtD(d){if(!d)return'—';const[y,m,dy]=d.split('-');const M=['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];return`${dy} ${M[+m-1]} ${y}`;}
+function fmtISO(iso){if(!iso)return'—';return fmtD(iso.split('T')[0]);}
+function dToISO(str){try{const p=str.split(' ');const M=['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];const mi=M.indexOf(p[1]);if(mi<0)return'';return`${p[2]}-${String(mi+1).padStart(2,'0')}-${p[0].padStart(2,'0')}`;}catch{return '';}}
+function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
+
+function aToast(msg,type='ok'){
+  const t=Q('adm-toast'),m=Q('at-msg'),ic=Q('at-ic');
+  m.textContent=msg;
+  ic.className=type==='error'?'fa-solid fa-circle-xmark':type==='info'?'fa-solid fa-circle-info':'fa-solid fa-circle-check';
+  ic.style.color=type==='error'?'#F87171':type==='info'?'#60A5FA':'#34D399';
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+function toggleAdmPw(icon){const inp=Q('ai-pw');const t=inp.type==='text';inp.type=t?'password':'text';icon.className=t?'fa-solid fa-eye suf':'fa-solid fa-eye-slash suf';icon.style.color='#475569';}
+function oAM(id){Q(id).classList.add('open');document.body.style.overflow='hidden';}
+function cAM(id,evt){if(evt&&evt.target!==Q(id))return;Q(id).classList.remove('open');document.body.style.overflow='';}
+
+// ════════════════════════════
+// INIT ADMIN (au chargement)
+// ════════════════════════════
+(function initAdmin(){
+  if(!location.search.includes('admin')) return;
+  // Cache les autres écrans, montre admin
+  document.getElementById('auth-screen').style.display='none';
+  document.getElementById('app-screen').style.display='none';
+  Q('admin-screen').classList.add('adm-vis');
+  if(gAdmS()) showAdmApp();
+})();
+
+// ════════════════════════════
+// AUTH ADMIN
+// ════════════════════════════
+function doAdminLogin(){
+  const em=Q('ai-em').value.trim(), pw=Q('ai-pw').value;
+  if(em===ADM_EM && pw===ADM_PW){Q('ai-err').classList.remove('show');sAdmS();showAdmApp();}
+  else Q('ai-err').classList.add('show');
+}
+function showAdmApp(){
+  Q('admin-login').style.display='none';
+  Q('admin-app').style.display='flex';
+  Q('admin-app').style.flexDirection='column';
+  refreshAdmin();
+}
+function doAdminLogout(){cAdmS();Q('admin-app').style.display='none';Q('admin-login').style.display='flex';}
+function goToPublic(){location.href=location.pathname;}
+
+// ════════════════════════════
+// NAVIGATION ADMIN
+// ════════════════════════════
+function gA(page,el){
+  document.querySelectorAll('.a-page').forEach(p=>p.classList.remove('active'));
+  const t=Q('ap-'+page); if(t) t.classList.add('active');
+  document.querySelectorAll('.adm-nav,.amn').forEach(b=>b.classList.remove('active'));
+  if(el) el.classList.add('active');
+  else document.querySelectorAll(`[data-ap="${page}"]`).forEach(b=>b.classList.add('active'));
+  if(page==='dashboard') renderDash();
+  if(page==='citoyens') renderCit();
+  if(page==='demandes') renderDems(admDemFilter);
+  if(page==='actu') renderAdmActus();
+}
+function refreshAdmin(){updateNBadge(); gA(document.querySelector('.a-page.active')?.id?.replace('ap-','')||'dashboard');}
+function updateNBadge(){const n=gDems().filter(d=>d.status==='pending').length;const b=Q('nb-dem');b.textContent=n;b.style.display=n?'':'none';}
+
+// ════════════════════════════
+// DASHBOARD
+// ════════════════════════════
+function renderDash(){
+  const U=gUsers(),D=gDems(),A=gActus();
+  const pend=D.filter(d=>d.status==='pending').length;
+  const done=D.filter(d=>d.status==='done').length;
+  const susp=U.filter(u=>u.status==='suspended').length;
+  Q('ds-grid').innerHTML=`
+    <div class="ds ds-blue"><div class="ds-n">${U.length}</div><div class="ds-l">Citoyens inscrits</div></div>
+    <div class="ds ds-amber"><div class="ds-n">${pend}</div><div class="ds-l">Demandes en attente</div></div>
+    <div class="ds ds-green"><div class="ds-n">${done}</div><div class="ds-l">Demandes traitées</div></div>
+    <div class="ds ds-red"><div class="ds-n">${susp}</div><div class="ds-l">Comptes suspendus</div></div>`;
+  const rD=D.slice(-5).reverse();
+  Q('ds-dems').innerHTML=rD.length?`<table class="at"><thead><tr><th>Citoyen</th><th>Type</th><th>Statut</th><th>Date</th></tr></thead><tbody>${rD.map(d=>`<tr><td>${d.userName}</td><td>${dref(d.type)?.title||d.type}</td><td>${aSB(d.status)}</td><td>${fmtISO(d.createdAt)}</td></tr>`).join('')}</tbody></table>`:'<p style="color:#475569;font-size:13px;padding:6px">Aucune demande.</p>';
+  const rU=U.slice(-4).reverse();
+  Q('ds-users').innerHTML=rU.length?`<table class="at"><thead><tr><th>Nom</th><th>E-mail</th><th>Arrond.</th><th>Statut</th></tr></thead><tbody>${rU.map(u=>`<tr><td><div style="display:flex;align-items:center;gap:7px"><div class="aav">${u.photo?`<img src="${u.photo}" alt="">`:u.nom[0]}</div>${u.prenom} ${u.nom}</div></td><td style="font-size:12px;color:#94A3B8">${u.email}</td><td>${u.arrondissement}</td><td>${u.status==='suspended'?'<span class="adm-badge ab-err">Suspendu</span>':'<span class="adm-badge ab-ok">Actif</span>'}</td></tr>`).join('')}</tbody></table>`:'<p style="color:#475569;font-size:13px;padding:6px">Aucun citoyen.</p>';
+}
+
+// ════════════════════════════
+// CITOYENS
+// ════════════════════════════
+function renderCit(){
+  const U=gUsers();
+  Q('cit-table').innerHTML=U.length?`
+    <thead><tr><th>Citoyen</th><th>E-mail</th><th>Arrond.</th><th>Inscrit</th><th>Statut</th><th>Actions</th></tr></thead>
+    <tbody>${U.map(u=>`<tr>
+      <td><div style="display:flex;align-items:center;gap:8px"><div class="aav">${u.photo?`<img src="${u.photo}" alt="">`:u.nom[0]}</div><div><span style="font-weight:600;color:#F1F5F9">${u.prenom} ${u.nom}</span><br><span style="font-size:11px;color:#64748B">${fmtD(u.ddn)}</span></div></div></td>
+      <td style="font-size:12px;color:#94A3B8">${u.email}</td><td>${u.arrondissement}</td><td>${fmtISO(u.createdAt)}</td>
+      <td>${u.status==='suspended'?'<span class="adm-badge ab-err">Suspendu</span>':'<span class="adm-badge ab-ok">Actif</span>'}</td>
+      <td><div class="abtns">
+        <button class="ab ab-bl" onclick="openUM('${u.id}')"><i class="fa-solid fa-eye"></i> Voir</button>
+        ${u.status==='suspended'?`<button class="ab ab-gn" onclick="tUS('${u.id}','active')"><i class="fa-solid fa-unlock"></i> Activer</button>`:`<button class="ab ab-rd" onclick="tUS('${u.id}','suspended')"><i class="fa-solid fa-lock"></i> Suspendre</button>`}
+      </div></td></tr>`).join('')}</tbody>`
+    :`<thead></thead><tbody><tr><td colspan="6" style="text-align:center;padding:24px;color:#475569">Aucun citoyen inscrit.</td></tr></tbody>`;
+}
+function tUS(uid,ns){
+  const U=gUsers(),i=U.findIndex(u=>u.id===uid);if(i===-1)return;
+  U[i].status=ns;sUsers(U);
+  const s=gLS('lbv_session');if(s&&s.id===uid){s.status=ns;sLS('lbv_session',s);}
+  renderCit();updateNBadge();
+  aToast(ns==='suspended'?'Compte suspendu.':'Compte réactivé.',ns==='suspended'?'error':'ok');
+}
+function openUM(uid){
+  const u=gUsers().find(x=>x.id===uid);if(!u)return;
+  const myD=gDems().filter(d=>d.userId===uid);
+  Q('mU-title').textContent=u.prenom+' '+u.nom;
+  Q('mU-body').innerHTML=`
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.08)">
+      <div style="width:56px;height:56px;border-radius:50%;border:2px solid #1A5494;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#1A3A5E;font-size:20px;font-weight:800;color:#60A5FA;font-family:'Nunito',sans-serif;flex-shrink:0">${u.photo?`<img src="${u.photo}" style="width:100%;height:100%;object-fit:cover" alt="">`:u.nom[0]}</div>
+      <div><p style="font-family:'Nunito',sans-serif;font-weight:800;font-size:16px;color:#F1F5F9">${u.prenom} ${u.nom}</p>
+        <p style="font-size:12px;color:#64748B">${u.email}</p>
+        ${u.status==='suspended'?'<span class="adm-badge ab-err" style="margin-top:4px">Suspendu</span>':'<span class="adm-badge ab-ok" style="margin-top:4px">Actif</span>'}</div>
+    </div>
+    ${[{l:'Date de naissance',v:fmtD(u.ddn)},{l:'Lieu de naissance',v:u.lieu},{l:'Arrondissement',v:u.arrondissement},u.adresse?{l:'Adresse',v:u.adresse}:null,{l:'Inscrit le',v:fmtISO(u.createdAt)}].filter(Boolean).map(r=>`<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:13px"><span style="color:#64748B">${r.l}</span><span style="font-weight:600;color:#CBD5E1">${r.v}</span></div>`).join('')}
+    <p style="font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;margin:13px 0 7px;color:#F1F5F9">Demandes (${myD.length})</p>
+    ${myD.length?myD.map(d=>`<div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:13px"><i class="fa-solid ${dref(d.type)?.icon||'fa-file'}" style="color:#60A5FA;width:14px;text-align:center"></i><span style="flex:1;color:#CBD5E1">${dref(d.type)?.title||d.type}</span>${aSB(d.status)}</div>`).join(''):'<p style="font-size:13px;color:#475569">Aucune demande.</p>'}`;
+  Q('mU-foot').innerHTML=u.status==='suspended'
+    ?`<button class="btn-full btn-full-success" onclick="tUS('${u.id}','active');cAM('mUser')"><i class="fa-solid fa-unlock"></i> Réactiver le compte</button>`
+    :`<button class="btn-full btn-full-danger" onclick="tUS('${u.id}','suspended');cAM('mUser')"><i class="fa-solid fa-lock"></i> Suspendre le compte</button>`;
+  oAM('mUser');
+}
+
+// ════════════════════════════
+// DEMANDES
+// ════════════════════════════
+function renderDems(f){
+  admDemFilter=f;
+  let D=gDems();if(f!=='all')D=D.filter(d=>d.status===f);D=D.slice().reverse();
+  Q('dem-table').innerHTML=D.length?`
+    <thead><tr><th>Citoyen</th><th>Démarche</th><th>Date</th><th>Statut</th><th>Actions</th></tr></thead>
+    <tbody>${D.map(d=>`<tr>
+      <td style="color:#F1F5F9;font-weight:600">${d.userName}</td>
+      <td style="color:#94A3B8;font-size:12px">${dref(d.type)?.title||d.type}</td>
+      <td style="color:#64748B;font-size:12px">${fmtISO(d.createdAt)}</td>
+      <td>${aSB(d.status)}</td>
+      <td><div class="abtns">
+        ${d.status==='pending'?`<button class="ab ab-bl" onclick="sDS('${d.id}','progress')"><i class="fa-solid fa-play"></i> Traiter</button>`:''}
+        ${d.status==='progress'?`<button class="ab ab-gn" onclick="sDS('${d.id}','done')"><i class="fa-solid fa-check"></i> Valider</button>`:''}
+        ${d.status!=='done'&&d.status!=='rejected'?`<button class="ab ab-rd" onclick="sDS('${d.id}','rejected')"><i class="fa-solid fa-xmark"></i> Refuser</button>`:''}
+        ${d.status==='done'||d.status==='rejected'?`<span style="font-size:11px;color:#475569">Traité</span>`:''}
+      </div></td></tr>`).join('')}</tbody>`
+    :`<thead></thead><tbody><tr><td colspan="5" style="text-align:center;padding:22px;color:#475569">Aucune demande.</td></tr></tbody>`;
+}
+function fDA(f,btn){
+  document.querySelectorAll('#ap-demandes .adm-badge').forEach(b=>{b.classList.remove('ab-info');b.classList.add('ab-gray');});
+  btn.classList.remove('ab-gray');btn.classList.add('ab-info');
+  renderDems(f);
+}
+function sDS(did,ns){
+  const D=gDems(),i=D.findIndex(d=>d.id===did);if(i===-1)return;
+  D[i].status=ns;sDems(D);renderDems(admDemFilter);updateNBadge();
+  const L={pending:'En attente',progress:'En cours',done:'Validée',rejected:'Refusée'};
+  aToast(`Demande : ${L[ns]}`,ns==='done'?'ok':ns==='rejected'?'error':'info');
+}
+
+// ════════════════════════════
+// ACTUALITÉS
+// ════════════════════════════
+function renderAdmActus(){
+  const A=gActus();
+  Q('adm-actus').innerHTML=A.length?A.map(n=>`
+    <div class="ac" style="display:flex;gap:12px;align-items:flex-start">
+      <div style="width:72px;height:54px;background-image:url('${n.img}');background-size:cover;background-position:center;border-radius:7px;flex-shrink:0"></div>
+      <div style="flex:1;min-width:0">
+        <div style="display:flex;align-items:flex-start;gap:7px;margin-bottom:4px">
+          <p style="font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;color:#F1F5F9;line-height:1.3;flex:1">${esc(n.title)}</p>
+          <span class="adm-badge ${n.published?'ab-ok':'ab-err'}" style="white-space:nowrap">${n.published?'Publié':'Brouillon'}</span>
+        </div>
+        <p style="font-size:11px;color:#64748B;margin-bottom:7px">${n.cat} · ${n.date}</p>
+        <div class="abtns">
+          <button class="ab ab-bl" onclick="openAF('${n.id}')"><i class="fa-solid fa-pen"></i> Modifier</button>
+          <button class="ab ${n.published?'ab-am':'ab-gn'}" onclick="tAP('${n.id}')"><i class="fa-solid ${n.published?'fa-eye-slash':'fa-eye'}"></i> ${n.published?'Dépublier':'Publier'}</button>
+          <button class="ab ab-rd" onclick="delA('${n.id}')"><i class="fa-solid fa-trash"></i></button>
+        </div>
+      </div>
+    </div>`).join(''):`<div style="text-align:center;padding:28px;color:#475569"><i class="fa-solid fa-newspaper" style="font-size:30px;margin-bottom:10px;display:block;opacity:.4"></i><p style="font-size:13px">Aucune actualité.</p></div>`;
+}
+function openAF(id){
+  const A=gActus(),n=id?A.find(a=>a.id===id):null;
+  Q('mA-title').textContent=n?'Modifier l\'actualité':'Nouvelle actualité';
+  Q('mA-body').innerHTML=`
+    <div class="af"><label class="al">Titre <span style="color:#F87171">*</span></label><input class="ai" type="text" id="af-t" value="${esc(n?.title||'')}"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div class="af"><label class="al">Catégorie</label><select class="ai" id="af-c">${['Salubrité','Numérique','Travaux','Social','Culture','Sécurité'].map(c=>`<option value="${c}"${n?.cat===c?' selected':''}>${c}</option>`).join('')}</select></div>
+      <div class="af"><label class="al">Date</label><input class="ai" type="date" id="af-d" value="${n?.date?dToISO(n.date):new Date().toISOString().split('T')[0]}"></div>
+    </div>
+    <div class="af"><label class="al">URL image</label><input class="ai" type="url" id="af-i" placeholder="https://…" value="${esc(n?.img||'')}"></div>
+    <div class="af"><label class="al">Description <span style="color:#F87171">*</span></label><textarea class="ai" id="af-de">${esc(n?.desc||'')}</textarea></div>
+    <div class="af" style="display:flex;align-items:center;gap:8px"><input type="checkbox" id="af-p" style="accent-color:#3B82F6" ${n?.published||!id?'checked':''}><label for="af-p" style="color:#94A3B8;font-size:13px;cursor:pointer">Publier immédiatement</label></div>
+    <div class="abr">
+      <button class="acan" onclick="cAM('mActu')">Annuler</button>
+      <button class="asub" onclick="saveA('${id||''}')"><i class="fa-solid fa-floppy-disk"></i> Enregistrer</button>
+    </div>`;
+  oAM('mActu');
+}
+function saveA(id){
+  const t=Q('af-t').value.trim(),de=Q('af-de').value.trim();
+  if(!t||!de){aToast('Titre et description requis.','error');return;}
+  const A=gActus(),dv=Q('af-d').value,ds=fmtD(dv);
+  if(id){const i=A.findIndex(a=>a.id===id);if(i===-1)return;A[i]={...A[i],title:t,cat:Q('af-c').value,date:ds,img:Q('af-i').value.trim(),desc:de,published:Q('af-p').checked};}
+  else A.push({id:'a'+Date.now(),title:t,cat:Q('af-c').value,date:ds,img:Q('af-i').value.trim()||'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&q=80',desc:de,published:Q('af-p').checked});
+  sActus(A);cAM('mActu');renderAdmActus();
+  aToast(id?'Actualité modifiée.':'Actualité créée !','ok');
+}
+function tAP(id){const A=gActus(),i=A.findIndex(a=>a.id===id);if(i===-1)return;A[i].published=!A[i].published;sActus(A);renderAdmActus();aToast(A[i].published?'Publiée.':'Dépubliée.','info');}
+function delA(id){if(!confirm('Supprimer cette actualité ?'))return;sActus(gActus().filter(a=>a.id!==id));renderAdmActus();aToast('Supprimée.','error');}
+</script>
+
+</body>
+</html>
